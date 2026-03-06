@@ -1,12 +1,14 @@
+import { Button } from "#/components/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({ component: App });
 
 function App() {
   return (
-    <main className="bg-amber-600">
+    <main>
       <div>
         <h1>Welcome to My Blog</h1>
+        <Button variant="default">Submit</Button>
       </div>
     </main>
   );
