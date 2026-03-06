@@ -128,4 +128,8 @@
   html {
     @apply font-sans;
   }
+
+  .max-container {
+    @apply w-[90%] max-w-[1280px] mx-auto;
+  }
 }
