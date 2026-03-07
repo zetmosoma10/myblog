@@ -3,11 +3,11 @@ import { Link } from "@tanstack/react-router";
 const links = [
   {
     label: "Articles",
-    to: "/",
+    to: "/articles",
   },
   {
     label: "About",
-    to: "/",
+    to: "/about",
   },
 ];
 

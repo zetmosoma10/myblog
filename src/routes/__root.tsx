@@ -55,7 +55,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className="">
         <TanStackQueryProvider>
           <Navbar />
-          {children}
+          <div className="max-container">{children}</div>
           <TanStackDevtools
             config={{
               position: "bottom-right",
