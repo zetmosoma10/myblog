@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Calendar } from "lucide-react";
+import { Calendar, Clock4 } from "lucide-react";
 
 type Post = {
   title: string;
@@ -62,7 +62,7 @@ export function ArticleCard({ post }: Props) {
 
         {/* Footer */}
         <CardFooter className="flex items-center justify-between border-t border-border px-5 py-3">
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <div className="flex items-center gap-5 text-xs text-muted-foreground">
             <div className="flex items-center gap-x-1">
               <Calendar size={13} />
               <span>
@@ -74,7 +74,10 @@ export function ArticleCard({ post }: Props) {
               </span>
             </div>
             {/* <span className="h-1 w-1 rounded-full bg-muted-foreground/40" /> */}
-            <span>{post.readingTime} min read</span>
+            <div className="flex items-center gap-x-1">
+              <Clock4 size={13} />
+              <span>{post.readingTime} min read</span>
+            </div>
           </div>
           <Link
             to="/"
