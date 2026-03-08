@@ -13,7 +13,7 @@ const links = [
 
 const Navbar = () => {
   return (
-    <header className="border-b ">
+    <header className="border-b bg-accent">
       <nav className="max-container flex items-center justify-between py-4">
         <Link to="/" className="font-bold text-2xl">
           Dev<span className="text-primary">Blog</span>

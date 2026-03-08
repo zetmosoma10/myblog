@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArticleCard } from "#/components/ArticleCard";
+import ArticleCard from "@/components/ArticleCard";
 import img from "@/assets/cloud-2.png";
 
 export const Route = createFileRoute("/")({ component: App });

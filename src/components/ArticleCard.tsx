@@ -18,7 +18,7 @@ type Props = {
   post: Post;
 };
 
-export function ArticleCard({ post }: Props) {
+const ArticleCard = ({ post }: Props) => {
   return (
     <Link to="/" className="block">
       <Card className="group overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg">
@@ -93,4 +93,6 @@ export function ArticleCard({ post }: Props) {
       </Card>
     </Link>
   );
-}
+};
+
+export default ArticleCard;

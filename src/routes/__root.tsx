@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 
 import type { QueryClient } from "@tanstack/react-query";
 import Navbar from "#/components/layouts/Navbar";
+import Footer from "#/components/layouts/Footer";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -32,7 +33,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "Web Developer Blog - Tips, Tutorials, and Insights",
       },
     ],
     links: [
@@ -47,15 +48,16 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="light" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
       </head>
-      <body className="">
+      <body className="flex min-h-screen flex-col justify-between">
         <TanStackQueryProvider>
           <Navbar />
           <div className="max-container">{children}</div>
+          <Footer />
           <TanStackDevtools
             config={{
               position: "bottom-right",
