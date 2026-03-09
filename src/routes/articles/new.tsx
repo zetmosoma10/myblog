@@ -13,14 +13,13 @@ import {
   useComboboxAnchor,
 } from "#/components/ui/combobox";
 import { Field, FieldDescription, FieldLabel } from "#/components/ui/field";
-import { Input } from "#/components/ui/input";
-import { Textarea } from "#/components/ui/textarea";
 import { createFileRoute } from "@tanstack/react-router";
 import { Controller, useForm } from "react-hook-form";
 import { articleSchema } from "#/schemas/articleSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { ArticleType } from "#/types/ArticleType";
 import clsx from "clsx";
+import InputElement from "#/components/InputElement";
 
 export const Route = createFileRoute("/articles/new")({
   component: RouteComponent,
@@ -59,58 +58,28 @@ function RouteComponent() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-8 border p-6 rounded-xl bg-accent"
       >
-        <Field>
-          <FieldLabel
-            htmlFor="title"
-            className={clsx("text-base", errors.title && "text-destructive")}
-          >
-            Title
-          </FieldLabel>
-          <Input
-            id="title"
-            placeholder="e.g React Performance Optimization"
-            className={clsx(
-              "py-5 bg-background",
-              errors.title &&
-                "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
-            )}
-            {...register("title")}
-          />
-          {errors.title && (
-            <FieldDescription className="text-destructive">
-              {errors.title.message}
-            </FieldDescription>
-          )}
-        </Field>
+        <InputElement
+          id="title"
+          label="Title"
+          placeholder="e.g React Performance Optimization"
+          type="input"
+          register={register("title")}
+          error={errors.title?.message}
+        />
 
-        <Field>
-          <FieldLabel
-            htmlFor="excerpt"
-            className={clsx("text-base", errors.title && "text-destructive")}
-          >
-            Excerpt
-          </FieldLabel>
-          <Textarea
-            id="excerpt"
-            placeholder="Short description"
-            className={clsx(
-              "min-h-20  bg-background",
-              errors.excerpt &&
-                "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
-            )}
-            {...register("excerpt")}
-          />
-          {errors.excerpt && (
-            <FieldDescription className="text-destructive">
-              {errors.excerpt.message}
-            </FieldDescription>
-          )}
-        </Field>
+        <InputElement
+          id="excerpt"
+          label="Excerpt"
+          placeholder="Short description"
+          type="textarea"
+          register={register("excerpt")}
+          error={errors.excerpt?.message}
+        />
 
         <Field>
           <FieldLabel
             htmlFor="tags"
-            className={clsx("text-base", errors.title && "text-destructive")}
+            className={clsx("text-base", errors.tags && "text-destructive")}
           >
             Tags
           </FieldLabel>
@@ -166,29 +135,14 @@ function RouteComponent() {
           )}
         </Field>
 
-        <Field>
-          <FieldLabel
-            htmlFor="content"
-            className={clsx("text-base", errors.title && "text-destructive")}
-          >
-            Content
-          </FieldLabel>
-          <Textarea
-            id="content"
-            placeholder="Write your article content here..."
-            className={clsx(
-              "min-h-80  bg-background",
-              errors.content &&
-                "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
-            )}
-            {...register("content")}
-          />
-          {errors.content && (
-            <FieldDescription className="text-destructive">
-              {errors.content.message}
-            </FieldDescription>
-          )}
-        </Field>
+        <InputElement
+          id="content"
+          label="Content"
+          placeholder="Write your article content here..."
+          type="textarea"
+          register={register("content")}
+          error={errors.content?.message}
+        />
 
         <Button
           variant="default"
