@@ -15,9 +15,9 @@ import {
 import { Field, FieldDescription, FieldLabel } from "#/components/ui/field";
 import { createFileRoute } from "@tanstack/react-router";
 import { Controller, useForm } from "react-hook-form";
-import { articleSchema } from "#/schemas/articleSchema";
+import { articleSchema } from "#/schemas/article.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { ArticleType } from "#/types/ArticleType";
+import type { ArticleType } from "#/types/article.type";
 import clsx from "clsx";
 import InputElement from "#/components/InputElement";
 
@@ -56,7 +56,7 @@ function RouteComponent() {
       <h1 className="font-bold text-2xl mb-6">Create Article</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-8 border p-6 rounded-xl bg-accent"
+        className="flex flex-col gap-8 border p-6 rounded-xl bg-"
       >
         <InputElement
           id="title"
