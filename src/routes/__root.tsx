@@ -53,7 +53,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
       </head>
-      <body>
+      <body className="bg-background">
         <TanStackQueryProvider>
           <Navbar />
           <div className="max-container">{children}</div>
