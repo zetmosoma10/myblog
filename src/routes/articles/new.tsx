@@ -15,6 +15,7 @@ import { Field, FieldLabel } from "#/components/ui/field";
 import { Input } from "#/components/ui/input";
 import { Textarea } from "#/components/ui/textarea";
 import { createFileRoute } from "@tanstack/react-router";
+import { Controller, useForm } from "react-hook-form";
 import React from "react";
 
 export const Route = createFileRoute("/articles/new")({
@@ -32,10 +33,16 @@ const frameworks = [
 function RouteComponent() {
   const anchor = useComboboxAnchor();
 
+  const { register, handleSubmit, control } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
   return (
     <section>
-      <h1 className="font-bold text-4xl mb-6 ">Create Article</h1>
-      <div className="flex flex-col gap-8">
+      <h1 className="font-bold text-2xl mb-6">Create Article</h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
         <Field>
           <FieldLabel htmlFor="title" className="text-base">
             Title
@@ -43,7 +50,8 @@ function RouteComponent() {
           <Input
             id="title"
             placeholder="e.g React Performance Optimization"
-            className="py-5 text-xl"
+            className="py-5 "
+            {...register("title")}
           />
         </Field>
 
@@ -54,7 +62,8 @@ function RouteComponent() {
           <Textarea
             id="excerpt"
             placeholder="Short description"
-            className="min-h-20 text-xl"
+            className="min-h-20 "
+            {...register("excerpt")}
           />
         </Field>
 
@@ -62,30 +71,43 @@ function RouteComponent() {
           <FieldLabel htmlFor="tags" className="text-base">
             Tags
           </FieldLabel>
-          <Combobox multiple autoHighlight items={frameworks} defaultValue={[]}>
-            <ComboboxChips ref={anchor} className="w-full max-w-xs">
-              <ComboboxValue>
-                {(values) => (
-                  <React.Fragment>
-                    {values.map((value: string) => (
-                      <ComboboxChip key={value}>{value}</ComboboxChip>
-                    ))}
-                    <ComboboxChipsInput className="py-1 " />
-                  </React.Fragment>
-                )}
-              </ComboboxValue>
-            </ComboboxChips>
-            <ComboboxContent anchor={anchor}>
-              <ComboboxEmpty>No items found.</ComboboxEmpty>
-              <ComboboxList>
-                {(item) => (
-                  <ComboboxItem key={item} value={item}>
-                    {item}
-                  </ComboboxItem>
-                )}
-              </ComboboxList>
-            </ComboboxContent>
-          </Combobox>
+          <Controller
+            name="tags"
+            defaultValue={[]}
+            control={control}
+            render={({ field }) => (
+              <Combobox
+                multiple
+                autoHighlight
+                items={frameworks}
+                value={field.value}
+                onValueChange={field.onChange}
+              >
+                <ComboboxChips ref={anchor} className="w-full max-w-xs">
+                  <ComboboxValue>
+                    {(values) => (
+                      <React.Fragment>
+                        {values.map((value: string) => (
+                          <ComboboxChip key={value}>{value}</ComboboxChip>
+                        ))}
+                        <ComboboxChipsInput className="py-1 " />
+                      </React.Fragment>
+                    )}
+                  </ComboboxValue>
+                </ComboboxChips>
+                <ComboboxContent anchor={anchor}>
+                  <ComboboxEmpty>No items found.</ComboboxEmpty>
+                  <ComboboxList>
+                    {(item) => (
+                      <ComboboxItem key={item} value={item}>
+                        {item}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
+            )}
+          />
         </Field>
 
         <Field>
@@ -95,18 +117,19 @@ function RouteComponent() {
           <Textarea
             id="content"
             placeholder="Write your article content here..."
-            className="min-h-80 text-xl"
+            className="min-h-80 "
+            {...register("content")}
           />
         </Field>
 
         <Button
           variant="default"
           size="lg"
-          className="py-4 cursor-pointer hover:bg-primary/90"
+          className="py-4 self-start cursor-pointer hover:bg-primary/90"
         >
-          Submit
+          Submit New Article
         </Button>
-      </div>
+      </form>
     </section>
   );
 }
