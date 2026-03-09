@@ -15,13 +15,13 @@ import {
 import { Field, FieldDescription, FieldLabel } from "#/components/ui/field";
 import { createFileRoute } from "@tanstack/react-router";
 import { Controller, useForm } from "react-hook-form";
-import { articleSchema } from "#/schemas/article.schema";
+import { articleSchema } from "#/schemas/post.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { ArticleType } from "#/types/article.type";
+import type { ArticleType } from "#/types/post.type";
 import clsx from "clsx";
 import InputElement from "#/components/InputElement";
 
-export const Route = createFileRoute("/articles/new")({
+export const Route = createFileRoute("/posts/new")({
   component: RouteComponent,
 });
 
@@ -53,7 +53,7 @@ function RouteComponent() {
 
   return (
     <section>
-      <h1 className="font-bold text-2xl mb-6">Create Article</h1>
+      <h1 className="font-bold text-2xl mb-6">Create Post</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-8 border p-6 rounded-xl bg-"
@@ -149,7 +149,7 @@ function RouteComponent() {
           size="lg"
           className="py-4 self-start cursor-pointer hover:bg-primary/90"
         >
-          Submit New Article
+          Submit New Post
         </Button>
       </form>
     </section>
