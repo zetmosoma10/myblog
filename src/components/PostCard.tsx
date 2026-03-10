@@ -3,30 +3,23 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Calendar, Clock4 } from "lucide-react";
 
-type Post = {
+type Props = {
   title: string;
-  slug: string;
   excerpt: string;
   tags: string[];
   coverImage?: string;
-  publishedAt: string;
-  readingTime: number;
-  featured?: boolean;
+  createdAt: Date;
 };
 
-type Props = {
-  post: Post;
-};
-
-const ArticleCard = ({ post }: Props) => {
+const PostCard = ({ title, coverImage, excerpt, tags, createdAt }: Props) => {
   return (
     <Link to="/" className="block">
       <Card className="group overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg">
         {/* Cover image */}
-        {post.coverImage ? (
+        {coverImage ? (
           <img
-            src={post.coverImage}
-            alt={post.title}
+            src={coverImage}
+            alt={title}
             className="h-45 w-full border-b border-border object-cover"
           />
         ) : (
@@ -38,7 +31,7 @@ const ArticleCard = ({ post }: Props) => {
         <CardContent>
           {/* Tags */}
           <div className="mb-3 flex flex-wrap gap-1.5">
-            {post.tags.map((tag) => (
+            {tags.map((tag) => (
               <Badge
                 key={tag}
                 variant="outline"
@@ -51,12 +44,12 @@ const ArticleCard = ({ post }: Props) => {
 
           {/* Title */}
           <h2 className="mb-2 text-lg font-semibold leading-snug tracking-tight text-card-foreground transition-colors group-hover:text-primary">
-            {post.title}
+            {title}
           </h2>
 
           {/* Excerpt */}
           <p className="text-sm leading-relaxed text-muted-foreground line-clamp-2">
-            {post.excerpt}
+            {excerpt}
           </p>
         </CardContent>
 
@@ -66,7 +59,7 @@ const ArticleCard = ({ post }: Props) => {
             <div className="flex items-center gap-x-1">
               <Calendar size={13} />
               <span>
-                {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                {new Date(createdAt).toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
                   year: "numeric",
@@ -74,10 +67,10 @@ const ArticleCard = ({ post }: Props) => {
               </span>
             </div>
             {/* <span className="h-1 w-1 rounded-full bg-muted-foreground/40" /> */}
-            <div className="flex items-center gap-x-1">
+            {/* <div className="flex items-center gap-x-1">
               <Clock4 size={13} />
-              <span>{post.readingTime} min read</span>
-            </div>
+              <span>{readingTime} min read</span>
+            </div> */}
           </div>
           <Link
             to="/"
@@ -95,4 +88,4 @@ const ArticleCard = ({ post }: Props) => {
   );
 };
 
-export default ArticleCard;
+export default PostCard;
