@@ -67,105 +67,109 @@ function RouteComponent() {
 
   return (
     <section>
-      <h1 className="font-bold text-2xl mb-6">Create Post</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Card className="flex flex-col gap-8  p-6 rounded-xl">
-          <InputElement
-            id="title"
-            label="Title"
-            placeholder="e.g React Performance Optimization"
-            type="input"
-            register={register("title")}
-            error={errors.title?.message}
-          />
-
-          <InputElement
-            id="excerpt"
-            label="Excerpt"
-            placeholder="Short description"
-            type="textarea"
-            register={register("excerpt")}
-            error={errors.excerpt?.message}
-          />
-
-          <Field>
-            <FieldLabel
-              htmlFor="tags"
-              className={clsx("text-base", errors.tags && "text-destructive")}
-            >
-              Tags
-            </FieldLabel>
-            <Controller
-              name="tags"
-              defaultValue={[]}
-              control={control}
-              render={({ field }) => (
-                <Combobox
-                  multiple
-                  autoHighlight
-                  items={frameworks}
-                  value={field.value}
-                  onValueChange={field.onChange}
-                >
-                  <ComboboxChips
-                    ref={anchor}
-                    className={clsx(
-                      "group w-full bg-background max-w-xs",
-                      errors.tags &&
-                        "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
-                    )}
-                  >
-                    <ComboboxValue>
-                      {(values) => (
-                        <React.Fragment>
-                          {values.map((value: string) => (
-                            <ComboboxChip key={value}>{value}</ComboboxChip>
-                          ))}
-
-                          <ComboboxChipsInput className="py-1" />
-                        </React.Fragment>
-                      )}
-                    </ComboboxValue>
-                  </ComboboxChips>
-                  <ComboboxContent anchor={anchor}>
-                    <ComboboxEmpty>No items found.</ComboboxEmpty>
-                    <ComboboxList>
-                      {(item) => (
-                        <ComboboxItem key={item} value={item}>
-                          {item}
-                        </ComboboxItem>
-                      )}
-                    </ComboboxList>
-                  </ComboboxContent>
-                </Combobox>
-              )}
+      <div className="py-12">
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-2 text-foreground">
+          Create Post
+        </h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Card className="flex flex-col gap-8  p-6 rounded-xl">
+            <InputElement
+              id="title"
+              label="Title"
+              placeholder="e.g React Performance Optimization"
+              type="input"
+              register={register("title")}
+              error={errors.title?.message}
             />
-            {errors.tags && (
-              <FieldDescription className="text-destructive">
-                {errors.tags.message}
-              </FieldDescription>
-            )}
-          </Field>
 
-          <InputElement
-            id="content"
-            label="Content"
-            placeholder="Write your article content here..."
-            type="textarea"
-            register={register("content")}
-            error={errors.content?.message}
-          />
+            <InputElement
+              id="excerpt"
+              label="Excerpt"
+              placeholder="Short description"
+              type="textarea"
+              register={register("excerpt")}
+              error={errors.excerpt?.message}
+            />
 
-          <Button
-            variant="default"
-            size="lg"
-            disabled={isPending}
-            className="py-4 self-start cursor-pointer hover:bg-primary/90"
-          >
-            Submit New Post
-          </Button>
-        </Card>
-      </form>
+            <Field>
+              <FieldLabel
+                htmlFor="tags"
+                className={clsx("text-base", errors.tags && "text-destructive")}
+              >
+                Tags
+              </FieldLabel>
+              <Controller
+                name="tags"
+                defaultValue={[]}
+                control={control}
+                render={({ field }) => (
+                  <Combobox
+                    multiple
+                    autoHighlight
+                    items={frameworks}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <ComboboxChips
+                      ref={anchor}
+                      className={clsx(
+                        "group w-full bg-background max-w-xs",
+                        errors.tags &&
+                          "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
+                      )}
+                    >
+                      <ComboboxValue>
+                        {(values) => (
+                          <React.Fragment>
+                            {values.map((value: string) => (
+                              <ComboboxChip key={value}>{value}</ComboboxChip>
+                            ))}
+
+                            <ComboboxChipsInput className="py-1" />
+                          </React.Fragment>
+                        )}
+                      </ComboboxValue>
+                    </ComboboxChips>
+                    <ComboboxContent anchor={anchor}>
+                      <ComboboxEmpty>No items found.</ComboboxEmpty>
+                      <ComboboxList>
+                        {(item) => (
+                          <ComboboxItem key={item} value={item}>
+                            {item}
+                          </ComboboxItem>
+                        )}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
+                )}
+              />
+              {errors.tags && (
+                <FieldDescription className="text-destructive">
+                  {errors.tags.message}
+                </FieldDescription>
+              )}
+            </Field>
+
+            <InputElement
+              id="content"
+              label="Content"
+              placeholder="Write your article content here..."
+              type="textarea"
+              register={register("content")}
+              error={errors.content?.message}
+            />
+
+            <Button
+              variant="default"
+              size="lg"
+              disabled={isPending}
+              className="py-4 self-start cursor-pointer hover:bg-primary/90"
+            >
+              Submit New Post
+            </Button>
+          </Card>
+        </form>
+      </div>
     </section>
   );
 }
