@@ -5,6 +5,7 @@ export interface PostDocument extends Document {
   excerpt: string;
   tags: string[];
   content: string;
+  readingTime: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -31,6 +32,21 @@ const postSchema = new Schema<PostDocument>({
     type: String,
     required: true,
   },
+  readingTime: {
+    type: Number,
+    required: true,
+  },
+});
+
+// * Average reading speed 200 word per minute
+postSchema.pre("save", function () {
+  console.log("Pre Middleware");
+  console.log("content", this.content);
+
+  const wordCount = this.content.trim().split("/\s+/").length;
+  this.readingTime = Math.ceil(wordCount / 200);
+
+  console.log("WordCount", wordCount);
 });
 
 export const Post: Model<PostDocument> =

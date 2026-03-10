@@ -29,6 +29,7 @@ function RouteComponent() {
               createdAt={post.createdAt}
               excerpt={post.excerpt}
               tags={post.tags}
+              readingTime={post.readingTime}
             />
           ))}
         </div>

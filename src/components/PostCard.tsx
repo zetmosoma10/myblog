@@ -10,9 +10,17 @@ type Props = {
   tags: string[];
   coverImage?: string;
   createdAt: Date;
+  readingTime: number;
 };
 
-const PostCard = ({ title, coverImage, excerpt, tags, createdAt }: Props) => {
+const PostCard = ({
+  title,
+  coverImage,
+  excerpt,
+  tags,
+  createdAt,
+  readingTime,
+}: Props) => {
   return (
     <Link to="/" className="block">
       <Card className="group overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg">
@@ -62,10 +70,10 @@ const PostCard = ({ title, coverImage, excerpt, tags, createdAt }: Props) => {
               <span>{dayjs(createdAt).format("MMM D, YYYY")}</span>
             </div>
             {/* <span className="h-1 w-1 rounded-full bg-muted-foreground/40" /> */}
-            {/* <div className="flex items-center gap-x-1">
+            <div className="flex items-center gap-x-1">
               <Clock4 size={13} />
               <span>{readingTime} min read</span>
-            </div> */}
+            </div>
           </div>
           <Link
             to="/"

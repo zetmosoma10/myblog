@@ -3,6 +3,8 @@ export type PostType = {
   title: string;
   excerpt: string;
   tags: string[];
+  content: string;
+  readingTime: number;
   createdAt: Date;
   updatedAt: Date;
 };

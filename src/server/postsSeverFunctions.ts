@@ -18,10 +18,7 @@ export const addPost = createServerFn({ method: "POST" })
         content: data.content,
       });
 
-      console.log("Database: ", post);
-
       setResponseStatus(201);
-
       return JSON.parse(JSON.stringify(post));
     } catch (error: any) {
       if (error.code === 11000) {
