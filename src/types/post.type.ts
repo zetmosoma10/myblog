@@ -1,4 +1,8 @@
-import type { postSchema } from "#/schemas/post.schema";
-import { z } from "zod";
-
-export type PostType = z.infer<typeof postSchema>;
+export type PostType = {
+  _id: string;
+  title: string;
+  excerpt: string;
+  tags: string[];
+  createdAt: Date;
+  updatedAt: Date;
+};

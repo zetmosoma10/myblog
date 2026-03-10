@@ -1,11 +1,17 @@
 import PostCard from "#/components/PostCard";
+import useGetPosts, { postQueryOptions } from "#/hooks/useGetPosts";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
+  loader: async ({ context: { queryClient } }) => {
+    await queryClient.ensureQueryData(postQueryOptions);
+  },
 });
 
 function RouteComponent() {
+  const { data: posts } = useGetPosts();
+
   return (
     <div>
       <section className="py-12">
@@ -16,13 +22,13 @@ function RouteComponent() {
           Explore the latest thoughts on technology, design and programming.
         </p>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+          {posts?.map((post) => (
             <PostCard
-              key={item}
-              title="React Perfomance"
-              createdAt={new Date("23-03-2026")}
-              excerpt="lo sdas dasd safg a jdkl na hbhbdas hsbda sdb  sbdha "
-              tags={["react", "typescript"]}
+              key={post._id}
+              title={post.title}
+              createdAt={post.createdAt}
+              excerpt={post.excerpt}
+              tags={post.tags}
             />
           ))}
         </div>

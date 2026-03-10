@@ -3,6 +3,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { connectDB } from "./db.server";
 import { Post } from "./models/Post";
 import { setResponseStatus } from "@tanstack/react-start/server";
+import type { PostType } from "#/types/post.type";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
@@ -33,17 +34,19 @@ export const addPost = createServerFn({ method: "POST" })
     }
   });
 
-export const getPosts = createServerFn().handler(async () => {
-  await connectDB();
+export const getPosts = createServerFn().handler(
+  async (): Promise<PostType[]> => {
+    await connectDB();
 
-  try {
-    const post = await Post.find().lean();
+    try {
+      const post = await Post.find().lean();
 
-    setResponseStatus(200);
-    return JSON.parse(JSON.stringify(post));
-  } catch (error) {
-    console.log(error);
-    setResponseStatus(500);
-    throw new Error("Unexpected error occured.");
-  }
-});
+      setResponseStatus(200);
+      return JSON.parse(JSON.stringify(post));
+    } catch (error) {
+      console.log(error);
+      setResponseStatus(500);
+      throw new Error("Unexpected error occurred.");
+    }
+  },
+);
