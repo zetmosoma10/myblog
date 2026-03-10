@@ -32,3 +32,18 @@ export const addPost = createServerFn({ method: "POST" })
       throw new Error("Server error");
     }
   });
+
+export const getPosts = createServerFn().handler(async () => {
+  await connectDB();
+
+  try {
+    const post = await Post.find().lean();
+
+    setResponseStatus(200);
+    return JSON.parse(JSON.stringify(post));
+  } catch (error) {
+    console.log(error);
+    setResponseStatus(500);
+    throw new Error("Unexpected error occured.");
+  }
+});

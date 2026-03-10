@@ -1,6 +1,5 @@
 import PostCard from "#/components/PostCard";
-import { Button } from "#/components/ui/button";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
