@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Calendar, Clock4 } from "lucide-react";
+import dayjs from "dayjs";
 
 type Props = {
   title: string;
@@ -58,13 +59,7 @@ const PostCard = ({ title, coverImage, excerpt, tags, createdAt }: Props) => {
           <div className="flex items-center gap-5 text-xs text-muted-foreground">
             <div className="flex items-center gap-x-1">
               <Calendar size={13} />
-              <span>
-                {new Date(createdAt).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </span>
+              <span>{dayjs(createdAt).format("MMM D, YYYY")}</span>
             </div>
             {/* <span className="h-1 w-1 rounded-full bg-muted-foreground/40" /> */}
             {/* <div className="flex items-center gap-x-1">
