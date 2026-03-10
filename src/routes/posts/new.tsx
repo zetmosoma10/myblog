@@ -20,7 +20,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { PostType } from "#/types/post.type";
 import clsx from "clsx";
 import InputElement from "#/components/InputElement";
-import { addPost } from "#/server/postsSeverFunctions";
+import useAddPost from "#/hooks/useAddPost";
+import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/posts/new")({
   component: RouteComponent,
@@ -47,13 +48,19 @@ function RouteComponent() {
     resolver: zodResolver(postSchema),
   });
 
+  const { mutateAsync, isPending } = useAddPost();
+
   const onSubmit = async (data: PostType) => {
     try {
-      const res = await addPost({ data });
+      const res = await mutateAsync(data);
       console.log("Response: ", res);
       reset();
+      // * TOAST
+      toast.success("Post added successfully");
+      // * REDIRECT
     } catch (error) {
       console.log(error);
+      // * TOAST
     }
   };
 
@@ -153,6 +160,7 @@ function RouteComponent() {
         <Button
           variant="default"
           size="lg"
+          disabled={isPending}
           className="py-4 self-start cursor-pointer hover:bg-primary/90"
         >
           Submit New Post

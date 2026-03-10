@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import type { QueryClient } from "@tanstack/react-query";
 import Navbar from "#/components/layouts/Navbar";
 import Footer from "#/components/layouts/Footer";
+import { Toaster } from "react-hot-toast";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -56,6 +57,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body className="bg-background">
         <TanStackQueryProvider>
           <Navbar />
+          <Toaster />
           <div className="max-container">{children}</div>
           <Footer />
           <TanStackDevtools
