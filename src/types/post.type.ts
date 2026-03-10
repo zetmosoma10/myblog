@@ -1,4 +1,4 @@
-import type { articleSchema } from "#/schemas/post.schema";
+import type { postSchema } from "#/schemas/post.schema";
 import { z } from "zod";
 
-export type ArticleType = z.infer<typeof articleSchema>;
+export type PostType = z.infer<typeof postSchema>;

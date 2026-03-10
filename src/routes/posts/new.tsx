@@ -15,11 +15,12 @@ import {
 import { Field, FieldDescription, FieldLabel } from "#/components/ui/field";
 import { createFileRoute } from "@tanstack/react-router";
 import { Controller, useForm } from "react-hook-form";
-import { articleSchema } from "#/schemas/post.schema";
+import { postSchema } from "#/schemas/post.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { ArticleType } from "#/types/post.type";
+import type { PostType } from "#/types/post.type";
 import clsx from "clsx";
 import InputElement from "#/components/InputElement";
+import { addPost } from "#/server/postsSeverFunctions";
 
 export const Route = createFileRoute("/posts/new")({
   component: RouteComponent,
@@ -42,13 +43,18 @@ function RouteComponent() {
     control,
     reset,
     formState: { errors },
-  } = useForm<ArticleType>({
-    resolver: zodResolver(articleSchema),
+  } = useForm<PostType>({
+    resolver: zodResolver(postSchema),
   });
 
-  const onSubmit = (data: ArticleType) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data: PostType) => {
+    try {
+      const res = await addPost({ data });
+      console.log("Response: ", res);
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

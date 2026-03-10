@@ -1,4 +1,4 @@
-import { Document, Model, model, models, Schema } from "mongoose";
+import mongoose, { Document, Model, model, Schema } from "mongoose";
 
 export interface PostDocument extends Document {
   title: string;
@@ -34,4 +34,4 @@ const postSchema = new Schema<PostDocument>({
 });
 
 export const Post: Model<PostDocument> =
-  models.Post || model<PostDocument>("Post", postSchema);
+  mongoose.models.Post || model<PostDocument>("Post", postSchema);

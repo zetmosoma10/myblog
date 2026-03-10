@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const articleSchema = z.object({
+export const postSchema = z.object({
   title: z
     .string()
     .min(1, { error: "Title is required" })
