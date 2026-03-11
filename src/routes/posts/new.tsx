@@ -26,6 +26,7 @@ import type { PostType } from "#/types/post.type";
 import SimpleMDE from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
+import BackLink from "#/components/BackLink";
 
 export const Route = createFileRoute("/posts/new")({
   ssr: false,
@@ -76,6 +77,7 @@ function RouteComponent() {
   return (
     <section>
       <div className="max-container py-12">
+        <BackLink />
         <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-foreground">
           Create Post
         </h2>

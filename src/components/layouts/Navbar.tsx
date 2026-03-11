@@ -9,10 +9,6 @@ const links = [
     label: "About",
     to: "/about",
   },
-  {
-    label: "Admin",
-    to: "/admin",
-  },
 ];
 
 const Navbar = () => {

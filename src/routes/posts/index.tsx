@@ -1,6 +1,6 @@
 import PostCard from "#/components/PostCard";
 import useGetPosts, { postsQueryOptions } from "#/hooks/useGetPosts";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   InputGroup,
   InputGroupAddon,
@@ -31,18 +31,31 @@ function RouteComponent() {
   return (
     <div>
       <section className="max-container py-12">
-        <h2 className="text-3xl md:text-4xl font-extrabold mb-2 text-foreground">
-          Posts
-        </h2>
-        <p className="text-muted-foreground">
-          Explore the latest thoughts on technology, design and programming.
-        </p>
-        <InputGroup className="mt-6 py-5 mb-8 w-full md:w-[35%]">
-          <InputGroupInput placeholder="Search..." />
-          <InputGroupAddon align="inline-start">
-            <SearchIcon className="text-muted-foreground" />
-          </InputGroupAddon>
-        </InputGroup>
+        <div className="flex justify-between">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-2 text-foreground">
+              Posts
+            </h2>
+            <p className="text-muted-foreground">
+              Explore the latest thoughts on technology, design and programming.
+            </p>
+            <InputGroup className="mt-6 py-5 mb-8 w-full md:w-[35%]">
+              <InputGroupInput placeholder="Search..." />
+              <InputGroupAddon align="inline-start">
+                <SearchIcon className="text-muted-foreground" />
+              </InputGroupAddon>
+            </InputGroup>
+          </div>
+
+          <Link to="/posts/new">
+            <Button
+              size="lg"
+              className="cursor-pointer hover:bg-primary/90 transition-colors"
+            >
+              New Post
+            </Button>
+          </Link>
+        </div>
 
         <div className="flex items-center pt-4 mb-8 gap-4 flex-wrap">
           {queries.map((item) => (
