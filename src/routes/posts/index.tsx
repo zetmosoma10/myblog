@@ -7,6 +7,7 @@ import {
   InputGroupInput,
 } from "#/components/ui/input-group";
 import { SearchIcon } from "lucide-react";
+import { Button } from "#/components/ui/button";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
@@ -14,6 +15,15 @@ export const Route = createFileRoute("/posts/")({
     await queryClient.ensureQueryData(postsQueryOptions);
   },
 });
+
+const queries = [
+  "All",
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const;
 
 function RouteComponent() {
   const { data: posts } = useGetPosts();
@@ -33,6 +43,18 @@ function RouteComponent() {
             <SearchIcon className="text-muted-foreground" />
           </InputGroupAddon>
         </InputGroup>
+
+        <div className="flex items-center pt-4 mb-8 gap-4 flex-wrap">
+          {queries.map((item) => (
+            <Button
+              key={item}
+              className="cursor-pointer bg-primary/10 border border-primary/50 text-primary hover:text-primary hover:bg-primary/20"
+            >
+              {item}
+            </Button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
           {posts?.map((post) => (
             <PostCard
