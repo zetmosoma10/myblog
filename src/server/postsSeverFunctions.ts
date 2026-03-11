@@ -1,3 +1,4 @@
+import { notFound } from "@tanstack/react-router";
 import { postSchema } from "#/schemas/post.schema";
 import { createServerFn } from "@tanstack/react-start";
 import { connectDB } from "./db.server";
@@ -67,7 +68,7 @@ export const getPost = createServerFn()
 
       if (!post) {
         setResponseStatus(404);
-        throw new Error("Post not found");
+        throw notFound();
       }
 
       setResponseStatus(200);

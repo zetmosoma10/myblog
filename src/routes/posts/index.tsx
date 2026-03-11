@@ -1,11 +1,11 @@
 import PostCard from "#/components/PostCard";
-import useGetPosts, { postQueryOptions } from "#/hooks/useGetPosts";
+import useGetPosts, { postsQueryOptions } from "#/hooks/useGetPosts";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
   loader: async ({ context: { queryClient } }) => {
-    await queryClient.ensureQueryData(postQueryOptions);
+    await queryClient.ensureQueryData(postsQueryOptions);
   },
 });
 
