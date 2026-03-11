@@ -75,7 +75,7 @@ function RouteComponent() {
 
   return (
     <section>
-      <div className="py-12">
+      <div className="max-container py-12">
         <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-foreground">
           Create Post
         </h2>

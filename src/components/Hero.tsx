@@ -1,10 +1,22 @@
 import { Button } from "./ui/button";
 import { Link } from "@tanstack/react-router";
+import heroImg from "#/assets/code-1.png";
 
 const Hero = () => {
   return (
-    <section className="hero-img py-20">
-      <div className="text-center md:text-left ">
+    <section
+      className="w-full min-h-120 relative flex items-center justify-center "
+      style={{
+        backgroundImage: `url(${heroImg})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/70"></div>
+
+      <div className="max-container z-10  text-center md:text-left ">
         <h1 className="font-extrabold text-5xl md:text-6xl tracking-tight text-foreground">
           Hi, I'm Zet Mosoma
         </h1>

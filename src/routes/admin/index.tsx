@@ -7,7 +7,7 @@ export const Route = createFileRoute("/admin/")({
 
 function RouteComponent() {
   return (
-    <section>
+    <section className="max-container">
       <Link to="/posts/new">
         <Button
           variant="default"

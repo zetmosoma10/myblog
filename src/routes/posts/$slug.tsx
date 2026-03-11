@@ -20,7 +20,7 @@ function RouteComponent() {
   const { data: post } = useGetPost(slug);
 
   return (
-    <section>
+    <section className="max-container">
       <article className="py-12 prose dark:prose-invert max-w-none">
         <div className="mb-6">
           <Link

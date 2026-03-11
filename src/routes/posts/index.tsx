@@ -30,7 +30,7 @@ function RouteComponent() {
 
   return (
     <div>
-      <section className="py-12">
+      <section className="max-container py-12">
         <h2 className="text-3xl md:text-4xl font-extrabold mb-2 text-foreground">
           Posts
         </h2>

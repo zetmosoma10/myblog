@@ -13,13 +13,13 @@ export const Route = createFileRoute("/")({
 
 function App() {
   const posts = Route.useLoaderData();
-  const features = posts.slice(0, 3);
+  const features = posts.slice(0, 4);
 
   return (
     <main className="bg-background">
       <Hero />
 
-      <div>
+      <div className="max-container  my-20">
         <h2 className="text-foreground text-3xl md:text-4xl mb-7">Features</h2>
         <section className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
           {features.map((post) => (
