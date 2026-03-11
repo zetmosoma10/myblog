@@ -5,6 +5,7 @@ import { Post } from "./models/Post";
 import { setResponseStatus } from "@tanstack/react-start/server";
 import type { PostType } from "#/types/post.type";
 import generateSlug from "#/utils/generateSlug";
+import { isObject } from "node_modules/zod/v4/core/util.d.cts";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
@@ -56,3 +57,26 @@ export const getPosts = createServerFn().handler(
     }
   },
 );
+
+export const getPost = createServerFn()
+  .inputValidator((slug: string) => slug)
+  .handler(async ({ data: slug }): Promise<PostType> => {
+    await connectDB();
+
+    try {
+      const post = await Post.findOne({ slug }).lean();
+
+      if (!post) {
+        setResponseStatus(404);
+        throw new Error("Post not found");
+      }
+
+      setResponseStatus(200);
+      return JSON.parse(JSON.stringify(post));
+    } catch (error) {
+      console.log(error);
+
+      setResponseStatus(500);
+      throw new Error("Unexpected error");
+    }
+  });
