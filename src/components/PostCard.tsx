@@ -72,15 +72,14 @@ const PostCard = ({
               <Calendar size={13} />
               <span>{dayjs(createdAt).format("MMM D, YYYY")}</span>
             </div>
-            {/* <span className="h-1 w-1 rounded-full bg-muted-foreground/40" /> */}
             <div className="flex items-center gap-x-1">
               <Clock4 size={13} />
               <span>{readingTime} min read</span>
             </div>
           </div>
           <Link
-            to="/"
-            // params={{ slug: post.slug }}
+            to="/posts/$slug"
+            params={{ slug: slug as string }}
             className="flex items-center  gap-1  text-xs lg:hidden tracking-wide text-primary transition-all group-hover:gap-2"
           >
             read post{" "}

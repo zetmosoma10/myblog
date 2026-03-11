@@ -5,6 +5,8 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
 import useGetPost, { postQueryOptions } from "#/hooks/useGetPost";
 import dayjs from "dayjs";
+import { Badge } from "#/components/ui/badge";
+import { Calendar, Clock4 } from "lucide-react";
 
 export const Route = createFileRoute("/posts/$slug")({
   component: RouteComponent,
@@ -32,27 +34,31 @@ function RouteComponent() {
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
           {post?.tags.map((tag) => (
-            <span
+            <Badge
+              variant="outline"
               key={tag}
-              className="font-mono text-[10px] tracking-wide px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20"
+              className="text-xs tracking-wide bg-primary/10 text-primary border border-primary/20"
             >
               {tag}
-            </span>
+            </Badge>
           ))}
         </div>
 
         {/* Title */}
-        <h1 className="font-mono text-4xl font-bold text-foreground leading-tight mb-4">
+        <h1 className="text-4xl font-bold text-foreground leading-tight mb-4">
           {post?.title}
         </h1>
 
         {/* Meta */}
-        <div className="flex items-center gap-3 font-mono text-sm text-muted-foreground mb-10 pb-6 border-b border-border">
-          <span>{dayjs(post?.createdAt).format("MMM D, YYYY")}</span>
-          <span className="h-1 w-1 rounded-full bg-muted-foreground/40" />
-          <span>{post?.readingTime} min read</span>
-          <span className="h-1 w-1 rounded-full bg-muted-foreground/40" />
-          {/* <span>{post.views} views</span> */}
+        <div className="flex items-center gap-5 text-sm text-muted-foreground">
+          <div className="flex items-center gap-x-1">
+            <Calendar size={13} />
+            <span>{dayjs(post?.createdAt).format("MMM D, YYYY")}</span>
+          </div>
+          <div className="flex items-center gap-x-1">
+            <Clock4 size={13} />
+            <span>{post?.readingTime} min read</span>
+          </div>
         </div>
 
         <ReactMarkdown

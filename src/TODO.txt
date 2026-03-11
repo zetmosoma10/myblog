@@ -1,2 +1,1 @@
-TODO: fix zodResolver datatype
 TODO: markdown editor text are white in light mode
