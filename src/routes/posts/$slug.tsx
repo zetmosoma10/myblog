@@ -1,12 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Badge } from "#/components/ui/badge";
+import { Calendar, Clock4 } from "lucide-react";
+import useGetPost, { postQueryOptions } from "#/hooks/useGetPost";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
-import useGetPost, { postQueryOptions } from "#/hooks/useGetPost";
 import dayjs from "dayjs";
-import { Badge } from "#/components/ui/badge";
-import { Calendar, Clock4 } from "lucide-react";
 
 export const Route = createFileRoute("/posts/$slug")({
   component: RouteComponent,
@@ -22,6 +22,15 @@ function RouteComponent() {
   return (
     <section>
       <article className="py-12 prose dark:prose-invert max-w-none">
+        <div className="mb-6">
+          <Link
+            to=".."
+            className=" text-muted-foreground  hover:text-white transition-all duration-75 w text-base"
+          >
+            {"<- "}
+            Back to post{" "}
+          </Link>
+        </div>
         {/* Cover image */}
         {/* {post.coverImage && (
           <img
