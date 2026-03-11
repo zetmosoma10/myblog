@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 
 type Props = {
   title: string;
+  slug?: string;
   excerpt: string;
   tags: string[];
   coverImage?: string;
@@ -15,14 +16,16 @@ type Props = {
 
 const PostCard = ({
   title,
+  slug,
   coverImage,
   excerpt,
   tags,
   createdAt,
   readingTime,
 }: Props) => {
+  //
   return (
-    <Link to="/" className="block">
+    <Link to="/posts/$slug" params={{ slug: slug as string }} className="block">
       <Card className="group overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg">
         {/* Cover image */}
         {coverImage ? (

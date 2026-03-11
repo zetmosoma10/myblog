@@ -24,6 +24,8 @@ import useAddPost from "#/hooks/useAddPost";
 import toast from "react-hot-toast";
 import type { PostType } from "#/types/post.type";
 import SimpleMDE from "@uiw/react-md-editor";
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
 
 export const Route = createFileRoute("/posts/new")({
   ssr: false,
@@ -78,7 +80,7 @@ function RouteComponent() {
           Create Post
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Card className="flex flex-col gap-8  p-6 rounded-xl">
+          <Card className="flex flex-col  gap-8  p-6 rounded-xl">
             <InputElement
               id="title"
               label="Title"
@@ -120,7 +122,7 @@ function RouteComponent() {
                     <ComboboxChips
                       ref={anchor}
                       className={clsx(
-                        "group w-full bg-background max-w-xs",
+                        "group w-full  max-w-xs",
                         errors.tags &&
                           "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
                       )}
@@ -160,6 +162,7 @@ function RouteComponent() {
 
             <Field>
               <FieldLabel
+                htmlFor="content"
                 className={clsx(
                   "text-base",
                   errors.content && "text-destructive",
@@ -177,7 +180,11 @@ function RouteComponent() {
                     value={field.value}
                     onChange={field.onChange}
                     height={400}
-                    className="bg-background"
+                    textareaProps={{
+                      id: "content",
+                      placeholder: "Write your post...",
+                      className: "bg-card h-full",
+                    }}
                   />
                 )}
               />

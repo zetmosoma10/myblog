@@ -25,6 +25,7 @@ function RouteComponent() {
           {posts?.map((post) => (
             <PostCard
               key={post._id}
+              slug={post.slug}
               title={post.title}
               createdAt={post.createdAt}
               excerpt={post.excerpt}
