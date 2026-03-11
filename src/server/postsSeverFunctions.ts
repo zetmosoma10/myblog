@@ -5,7 +5,6 @@ import { Post } from "./models/Post";
 import { setResponseStatus } from "@tanstack/react-start/server";
 import type { PostType } from "#/types/post.type";
 import generateSlug from "#/utils/generateSlug";
-import { isObject } from "node_modules/zod/v4/core/util.d.cts";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
