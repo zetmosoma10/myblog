@@ -12,13 +12,13 @@ const Hero = () => {
           Fullstack developer writing about React, TypeScript, and building
           better software. I share practical insights from real-world projects.
         </p>
-        <Link to="/posts/new">
+        <Link to="/posts">
           <Button
             variant="default"
             size="lg"
             className="py-6 px-5 cursor-pointer hover:bg-primary/90 transition-colors"
           >
-            Read the Articles
+            Read the Posts
           </Button>
         </Link>
       </div>
