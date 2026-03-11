@@ -23,8 +23,10 @@ import InputElement from "#/components/InputElement";
 import useAddPost from "#/hooks/useAddPost";
 import toast from "react-hot-toast";
 import type { PostType } from "#/types/post.type";
+import SimpleMDE from "@uiw/react-md-editor";
 
 export const Route = createFileRoute("/posts/new")({
+  ssr: false,
   component: RouteComponent,
 });
 
@@ -102,6 +104,7 @@ function RouteComponent() {
               >
                 Tags
               </FieldLabel>
+
               <Controller
                 name="tags"
                 defaultValue={[]}
@@ -147,6 +150,7 @@ function RouteComponent() {
                   </Combobox>
                 )}
               />
+
               {errors.tags && (
                 <FieldDescription className="text-destructive">
                   {errors.tags.message}
@@ -154,14 +158,36 @@ function RouteComponent() {
               )}
             </Field>
 
-            <InputElement
-              id="content"
-              label="Content"
-              placeholder="Write your article content here..."
-              type="textarea"
-              register={register("content")}
-              error={errors.content?.message}
-            />
+            <Field>
+              <FieldLabel
+                className={clsx(
+                  "text-base",
+                  errors.content && "text-destructive",
+                )}
+              >
+                Content
+              </FieldLabel>
+
+              <Controller
+                name="content"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <SimpleMDE
+                    value={field.value}
+                    onChange={field.onChange}
+                    height={400}
+                    className="bg-background"
+                  />
+                )}
+              />
+
+              {errors.content && (
+                <FieldDescription className="text-destructive">
+                  {errors.content.message}
+                </FieldDescription>
+              )}
+            </Field>
 
             <Button
               variant="default"

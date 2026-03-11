@@ -13,9 +13,7 @@ export const addPost = createServerFn({ method: "POST" })
 
     // * Average reading speed 200 word per minute
     const wordCount = data.content.trim().split(" ").length;
-    console.log("WordCount--", wordCount);
     const readingTime = Math.ceil(wordCount / 200);
-    console.log("readingTime--", readingTime);
 
     try {
       const post = await Post.create({
@@ -27,12 +25,11 @@ export const addPost = createServerFn({ method: "POST" })
         readingTime,
       });
 
-      console.log("Server Post", post);
-
       setResponseStatus(201);
       return JSON.parse(JSON.stringify(post));
     } catch (error: any) {
       console.error(error);
+
       if (error.code === 11000) {
         setResponseStatus(409);
         throw new Error("Post with this title already exist");
