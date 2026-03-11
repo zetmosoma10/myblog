@@ -18,11 +18,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Controller, useForm } from "react-hook-form";
 import { postSchema } from "#/schemas/post.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { PostType } from "#/types/post.type";
 import clsx from "clsx";
 import InputElement from "#/components/InputElement";
 import useAddPost from "#/hooks/useAddPost";
 import toast from "react-hot-toast";
+import type { PostType } from "#/types/post.type";
 
 export const Route = createFileRoute("/posts/new")({
   component: RouteComponent,
@@ -36,6 +36,11 @@ const frameworks = [
   "Astro",
 ] as const;
 
+type FormData = Omit<
+  PostType,
+  "_id" | "createdAt" | "updatedAt" | "readingTime"
+>;
+
 function RouteComponent() {
   const anchor = useComboboxAnchor();
 
@@ -45,16 +50,15 @@ function RouteComponent() {
     control,
     reset,
     formState: { errors },
-  } = useForm<PostType>({
+  } = useForm<FormData>({
     resolver: zodResolver(postSchema),
   });
 
   const { mutateAsync, isPending } = useAddPost();
 
-  const onSubmit = async (data: PostType) => {
+  const onSubmit = async (data: FormData) => {
     try {
-      const res = await mutateAsync(data);
-      console.log("Response: ", res);
+      await mutateAsync(data);
       reset();
       // * TOAST
       toast.success("Post added successfully");

@@ -2,6 +2,7 @@ import mongoose, { Document, Model, model, Schema } from "mongoose";
 
 export interface PostDocument extends Document {
   title: string;
+  slug: string;
   excerpt: string;
   tags: string[];
   content: string;
@@ -16,6 +17,12 @@ const postSchema = new Schema<PostDocument>({
     required: true,
     trim: true,
     maxLength: [255, "Title must be less than 255 characters"],
+  },
+  slug: {
+    type: String,
+    required: true,
+    trim: true,
+    maxLength: [255, "Slug must be less than 255 characters"],
   },
   excerpt: {
     type: String,
@@ -36,17 +43,6 @@ const postSchema = new Schema<PostDocument>({
     type: Number,
     required: true,
   },
-});
-
-// * Average reading speed 200 word per minute
-postSchema.pre("save", function () {
-  console.log("Pre Middleware");
-  console.log("content", this.content);
-
-  const wordCount = this.content.trim().split("/\s+/").length;
-  this.readingTime = Math.ceil(wordCount / 200);
-
-  console.log("WordCount", wordCount);
 });
 
 export const Post: Model<PostDocument> =

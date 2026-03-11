@@ -5,6 +5,10 @@ export const postSchema = z.object({
     .string()
     .min(1, { error: "Title is required" })
     .max(255, { error: "Title must be less than 255 characters" }),
+  slug: z
+    .string()
+    .max(255, { error: "Slug must be less than 255 characters" })
+    .optional(),
   excerpt: z
     .string()
     .min(1, { error: "Excerpt is required" })

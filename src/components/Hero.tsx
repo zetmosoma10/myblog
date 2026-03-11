@@ -12,7 +12,7 @@ const Hero = () => {
           Fullstack developer writing about React, TypeScript, and building
           better software. I share practical insights from real-world projects.
         </p>
-        <Link to="/articles">
+        <Link to="/posts/new">
           <Button
             variant="default"
             size="lg"
