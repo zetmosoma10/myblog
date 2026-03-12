@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "#/components/ui/button";
 import {
   Combobox,
@@ -68,9 +68,12 @@ function RouteComponent() {
   });
 
   const { mutateAsync, isPending } = useAddPost();
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
   const onSubmit = async (data: FormData) => {
     console.log("FormData", data);
+    console.log("Image State: ", uploadedImage);
+
     try {
       // await mutateAsync(data);
       reset();
@@ -183,6 +186,7 @@ function RouteComponent() {
                 render={({ field }) => (
                   <ImageUpload
                     value={field.value}
+                    setUploadedImage={(img: File) => setUploadedImage(img)}
                     onChange={(url: string) => field.onChange(url)}
                   />
                 )}

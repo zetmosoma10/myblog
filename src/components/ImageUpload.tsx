@@ -1,17 +1,16 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Button } from "./ui/button";
 import { ImagePlus, Loader2, X } from "lucide-react";
 
 type Props = {
   value?: string; // * current image URL (from form state)
+  setUploadedImage: (file: File) => void; // * called to save image to state
   onChange: (url: string) => void; // * called after upload with Cloudinary URL
 };
 
-const ImageUpload = ({ value, onChange }: Props) => {
+const ImageUpload = ({ value, onChange, setUploadedImage }: Props) => {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  console.log("Value:", value);
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -23,10 +22,8 @@ const ImageUpload = ({ value, onChange }: Props) => {
 
       // * Upload the image to cloudinary
       try {
-        //   const url = await uploadImage({ data: file });
-        //   onChange(url);
-        const previewUrl = URL.createObjectURL(file);
-        onChange(previewUrl);
+        setUploadedImage(file);
+        onChange(URL.createObjectURL(file));
       } catch (error: any) {
         setError(error.message ?? "Upload failed.");
       } finally {
