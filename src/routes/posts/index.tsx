@@ -39,7 +39,7 @@ function RouteComponent() {
             <p className="text-muted-foreground">
               Explore the latest thoughts on technology, design and programming.
             </p>
-            <InputGroup className="mt-6 py-5 mb-8 w-full md:w-[35%]">
+            <InputGroup className="mt-6 py-5 mb-8 w-full md:w-[70%]">
               <InputGroupInput placeholder="Search..." />
               <InputGroupAddon align="inline-start">
                 <SearchIcon className="text-muted-foreground" />
