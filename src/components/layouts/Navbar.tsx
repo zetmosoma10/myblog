@@ -16,7 +16,7 @@ const Navbar = () => {
     <header className="border-b sticky top-0 z-50 bg-card/96 ">
       <nav className="max-container flex items-center justify-between py-4">
         <Link to="/" className="font-bold text-2xl">
-          Dev<span className="text-primary">Blog</span>
+          Dev<span className="text-primary">blog</span>
         </Link>
         <ul className="flex gap-6">
           {links.map((link) => (

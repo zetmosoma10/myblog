@@ -4,6 +4,7 @@ export type PostType = {
   slug?: string;
   excerpt: string;
   tags: string[];
+  coverImage?: string;
   content: string;
   readingTime: number;
   createdAt: Date;

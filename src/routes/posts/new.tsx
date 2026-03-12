@@ -27,6 +27,7 @@ import SimpleMDE from "@uiw/react-md-editor";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import BackLink from "#/components/BackLink";
+import ImageUpload from "#/components/ImageUpload";
 
 export const Route = createFileRoute("/posts/new")({
   ssr: false,
@@ -57,13 +58,21 @@ function RouteComponent() {
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(postSchema),
+    defaultValues: {
+      title: "",
+      excerpt: "",
+      tags: [],
+      coverImage: "",
+      content: "",
+    },
   });
 
   const { mutateAsync, isPending } = useAddPost();
 
   const onSubmit = async (data: FormData) => {
+    console.log("FormData", data);
     try {
-      await mutateAsync(data);
+      // await mutateAsync(data);
       reset();
       // * TOAST
       toast.success("Post added successfully");
@@ -101,6 +110,7 @@ function RouteComponent() {
               error={errors.excerpt?.message}
             />
 
+            {/* Tags */}
             <Field>
               <FieldLabel
                 htmlFor="tags"
@@ -162,6 +172,24 @@ function RouteComponent() {
               )}
             </Field>
 
+            {/* Cover Image */}
+            <Field>
+              <FieldLabel htmlFor="coverImage" className="text-base">
+                CoverImage
+              </FieldLabel>
+              <Controller
+                name="coverImage"
+                control={control}
+                render={({ field }) => (
+                  <ImageUpload
+                    value={field.value}
+                    onChange={(url: string) => field.onChange(url)}
+                  />
+                )}
+              />
+            </Field>
+
+            {/* Content */}
             <Field>
               <FieldLabel
                 htmlFor="content"
