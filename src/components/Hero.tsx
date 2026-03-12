@@ -5,7 +5,7 @@ import heroImg from "#/assets/code-1.png";
 const Hero = () => {
   return (
     <section
-      className="w-full min-h-120 relative flex items-center justify-center "
+      className="w-full min-h-120 relative flex  items-center justify-center "
       style={{
         backgroundImage: `url(${heroImg})`,
         backgroundPosition: "center",
@@ -14,7 +14,7 @@ const Hero = () => {
       }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/70"></div>
+      <div className="absolute inset-0 bg-black/70 bg-linear-to-t from-black/70 to-primary/5"></div>
 
       <div className="max-container z-10  text-center md:text-left ">
         <h1 className="font-extrabold text-5xl md:text-6xl tracking-tight text-foreground">
