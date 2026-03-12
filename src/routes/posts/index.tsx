@@ -70,15 +70,7 @@ function RouteComponent() {
 
         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
           {posts?.map((post) => (
-            <PostCard
-              key={post._id}
-              slug={post.slug}
-              title={post.title}
-              createdAt={post.createdAt}
-              excerpt={post.excerpt}
-              tags={post.tags}
-              readingTime={post.readingTime}
-            />
+            <PostCard key={post._id} {...post} />
           ))}
         </div>
       </section>

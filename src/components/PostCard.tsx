@@ -26,7 +26,7 @@ const PostCard = ({
   //
   return (
     <Link to="/posts/$slug" params={{ slug: slug as string }} className="block">
-      <Card className="group overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg">
+      <Card className="group overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg pt-0">
         {/* Cover image */}
         {coverImage ? (
           <img

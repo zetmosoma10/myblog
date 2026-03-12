@@ -25,15 +25,6 @@ function RouteComponent() {
       <article className="py-12 ">
         <BackLink />
         <div className="prose dark:prose-invert max-w-none">
-          {/* Cover image */}
-          {post?.coverImage && (
-            <img
-              src={post.coverImage}
-              alt={post.title}
-              className="w-full rounded-md border border-border mb-8 object-cover max-h-100"
-            />
-          )}
-
           {/* Tags */}
           <div className="flex flex-wrap gap-2 mb-4">
             {post?.tags.map((tag) => (
@@ -63,6 +54,15 @@ function RouteComponent() {
               <span>{post?.readingTime} min read</span>
             </div>
           </div>
+
+          {/* Cover image */}
+          {post?.coverImage && (
+            <img
+              src={post.coverImage}
+              alt={post.title}
+              className="w-full rounded-md border border-border mb-8 object-cover max-h-100"
+            />
+          )}
 
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
