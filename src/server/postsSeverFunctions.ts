@@ -1,4 +1,4 @@
-import { notFound } from "@tanstack/react-router";
+import { isNotFound, notFound } from "@tanstack/react-router";
 import { postSchema } from "#/schemas/post.schema";
 import { createServerFn } from "@tanstack/react-start";
 import { connectDB } from "./db.server";
@@ -7,6 +7,7 @@ import { setResponseStatus } from "@tanstack/react-start/server";
 import type { PostType } from "#/types/post.type";
 import generateSlug from "#/utils/generateSlug";
 import cloudinary from "#/lib/cloudinaryConfigs.server";
+import mongoose from "mongoose";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
@@ -15,6 +16,7 @@ export const addPost = createServerFn({ method: "POST" })
 
     try {
       let coverImage: string | undefined;
+      let coverImagePublicId: string | undefined;
 
       // * Upload image to cloudinary if exist
       if (data.imageBase64) {
@@ -26,6 +28,7 @@ export const addPost = createServerFn({ method: "POST" })
         });
 
         coverImage = results.secure_url;
+        coverImagePublicId = results.public_id;
       }
 
       // * Average reading speed 200 word per minute
@@ -38,8 +41,9 @@ export const addPost = createServerFn({ method: "POST" })
         excerpt: data.excerpt,
         tags: data.tags,
         content: data.content,
-        coverImage,
         readingTime,
+        coverImage,
+        coverImagePublicId,
       });
 
       setResponseStatus(201);
@@ -92,7 +96,43 @@ export const getPost = createServerFn()
     } catch (error) {
       console.log(error);
 
+      if (isNotFound(error)) throw error;
+
       setResponseStatus(500);
       throw new Error("Unexpected error");
+    }
+  });
+
+export const deletePost = createServerFn({ method: "POST" })
+  .inputValidator((id: string) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      setResponseStatus(400);
+      throw new Error("Invalid objectId");
+    }
+    return id;
+  })
+  .handler(async ({ data: id }) => {
+    await connectDB();
+
+    try {
+      const post = await Post.findById(id);
+      if (!post) throw notFound();
+
+      // * Delete Image from cloudinary
+      if (post.coverImagePublicId) {
+        await cloudinary.uploader.destroy(post.coverImagePublicId);
+      }
+
+      await post.deleteOne();
+
+      setResponseStatus(200);
+      return { success: true };
+    } catch (error) {
+      console.log(error);
+
+      if (isNotFound(error)) throw error;
+
+      setResponseStatus(500);
+      throw new Error("Unexpected error occurred.");
     }
   });
