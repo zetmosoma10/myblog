@@ -28,6 +28,7 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import BackLink from "#/components/BackLink";
 import ImageUpload from "#/components/ImageUpload";
+import imageCompression from "browser-image-compression";
 
 export const Route = createFileRoute("/posts/new")({
   ssr: false,
@@ -71,13 +72,28 @@ function RouteComponent() {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
   const onSubmit = async (data: FormData) => {
-    console.log("FormData", data);
-    console.log("Image State: ", uploadedImage);
+    let imageBase64: string | undefined;
 
     try {
-      // await mutateAsync(data);
+      if (uploadedImage) {
+        // * Compress the image
+        const compressedImage = await imageCompression(uploadedImage, {
+          maxSizeMB: 0.5, // * Compress to 500KB
+          maxWidthOrHeight: 1200, // * resize to max 1200px
+          useWebWorker: true, // * Non-blocking
+        });
+
+        // * Convert it to Base64
+        imageBase64 = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader(); // * Read the image file
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(compressedImage);
+        });
+      }
+
+      await mutateAsync({ ...data, imageBase64 });
       reset();
-      // * TOAST
       toast.success("Post added successfully");
       // * REDIRECT
     } catch (error) {

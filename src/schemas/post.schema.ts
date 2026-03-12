@@ -17,6 +17,7 @@ export const postSchema = z.object({
     .array(z.string())
     .min(1, { error: "At least one tag is required" })
     .max(5, { error: "You can select up to 5 tags" }),
-  coverImage: z.string().optional(),
   content: z.string().min(1, { error: "Content is required" }),
+  coverImage: z.string().optional(),
+  imageBase64: z.string().optional(),
 });
