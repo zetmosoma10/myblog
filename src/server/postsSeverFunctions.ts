@@ -104,8 +104,8 @@ export const getPost = createServerFn()
   });
 
 export const deletePost = createServerFn({ method: "POST" })
-  .inputValidator((id: string) => {
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+  .inputValidator((id?: string) => {
+    if (!mongoose.Types.ObjectId.isValid(id as string)) {
       setResponseStatus(400);
       throw new Error("Invalid objectId");
     }
