@@ -16,6 +16,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import Navbar from "#/components/layouts/Navbar";
 import Footer from "#/components/layouts/Footer";
 import { Toaster } from "react-hot-toast";
+import NotFound from "#/components/NotFound";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -45,6 +46,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
   }),
   shellComponent: RootDocument,
+  notFoundComponent: () => <NotFound />,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
