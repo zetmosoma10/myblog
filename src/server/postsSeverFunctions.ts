@@ -6,23 +6,39 @@ import { Post } from "./models/Post";
 import { setResponseStatus } from "@tanstack/react-start/server";
 import type { PostType } from "#/types/post.type";
 import generateSlug from "#/utils/generateSlug";
+import cloudinary from "#/lib/cloudinaryConfigs.server";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
   .handler(async ({ data }) => {
     await connectDB();
 
-    // * Average reading speed 200 word per minute
-    const wordCount = data.content.trim().split(" ").length;
-    const readingTime = Math.ceil(wordCount / 200);
-
     try {
+      let coverImage: string | undefined;
+
+      // * Upload image to cloudinary if exist
+      if (data.imageBase64) {
+        const results = await cloudinary.uploader.upload(data.imageBase64, {
+          folder: "myblog/posts",
+          transformation: [
+            { width: 1200, height: 630, crop: "fill" }, // * Consistent cover size
+          ],
+        });
+
+        coverImage = results.secure_url;
+      }
+
+      // * Average reading speed 200 word per minute
+      const wordCount = data.content.trim().split(" ").length;
+      const readingTime = Math.ceil(wordCount / 200);
+
       const post = await Post.create({
         title: data.title,
         slug: generateSlug(data.title),
         excerpt: data.excerpt,
         tags: data.tags,
         content: data.content,
+        coverImage,
         readingTime,
       });
 

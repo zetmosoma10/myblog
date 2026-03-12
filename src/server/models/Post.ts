@@ -7,6 +7,7 @@ export interface PostDocument extends Document {
   tags: string[];
   content: string;
   readingTime: number;
+  coverImage?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -43,6 +44,7 @@ const postSchema = new Schema<PostDocument>({
     type: Number,
     required: true,
   },
+  coverImage: String,
 });
 
 export const Post: Model<PostDocument> =
