@@ -10,6 +10,7 @@ import rehypeSlug from "rehype-slug";
 import dayjs from "dayjs";
 import BackLink from "#/components/BackLink";
 import useDeletePost from "#/hooks/useDeletePost";
+import PostModal from "#/components/PostModal";
 
 export const Route = createFileRoute("/posts/$slug")({
   component: RouteComponent,
@@ -21,12 +22,12 @@ export const Route = createFileRoute("/posts/$slug")({
 function RouteComponent() {
   const { slug } = Route.useParams();
   const { data: post } = useGetPost(slug);
-  const { mutateAsync, isPending } = useDeletePost();
 
   return (
     <section className="max-container">
       <article className="py-12 ">
         <BackLink />
+
         <div className="flex">
           <div className="grow prose dark:prose-invert max-w-none">
             {/* Tags */}
@@ -76,15 +77,7 @@ function RouteComponent() {
             </ReactMarkdown>
           </div>
           <div>
-            <Button
-              variant="destructive"
-              size="lg"
-              disabled={isPending}
-              className="cursor-pointer"
-              onClick={async () => await mutateAsync(post?._id)}
-            >
-              {isPending ? "Deleting..." : "Delete Post"}
-            </Button>
+            <PostModal post={post} />
           </div>
         </div>
       </article>
