@@ -1,16 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Badge } from "#/components/ui/badge";
 import { Calendar, Clock4 } from "lucide-react";
 import useGetPost, { postQueryOptions } from "#/hooks/useGetPost";
-import { Button } from "#/components/ui/button";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
 import dayjs from "dayjs";
 import BackLink from "#/components/BackLink";
-import useDeletePost from "#/hooks/useDeletePost";
 import PostModal from "#/components/PostModal";
+import { Button } from "#/components/ui/button";
 
 export const Route = createFileRoute("/posts/$slug")({
   component: RouteComponent,
@@ -78,6 +77,16 @@ function RouteComponent() {
           </div>
           <div>
             <PostModal post={post} />
+
+            <Button size="lg" className="cursor-pointer">
+              <Link
+                to="/posts/$slug/edit"
+                params={{ slug: post?.slug! }}
+                className="w-full"
+              >
+                Edit
+              </Link>
+            </Button>
           </div>
         </div>
       </article>
