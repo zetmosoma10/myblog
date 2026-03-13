@@ -8,6 +8,7 @@ import type { PostType } from "#/types/post.type";
 import generateSlug from "#/utils/generateSlug";
 import cloudinary from "#/lib/cloudinaryConfigs.server";
 import mongoose from "mongoose";
+import isObjectId from "#/lib/isObjectId.server";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
@@ -104,13 +105,7 @@ export const getPost = createServerFn()
   });
 
 export const deletePost = createServerFn({ method: "POST" })
-  .inputValidator((id?: string) => {
-    if (!mongoose.Types.ObjectId.isValid(id as string)) {
-      setResponseStatus(400);
-      throw new Error("Invalid objectId");
-    }
-    return id;
-  })
+  .inputValidator((id: string) => isObjectId(id))
   .handler(async ({ data: id }) => {
     await connectDB();
 
