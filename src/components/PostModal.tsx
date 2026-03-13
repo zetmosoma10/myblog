@@ -22,7 +22,11 @@ const PostModal = ({ post }: { post?: PostType }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <Button variant="destructive" size="lg" className="cursor-pointer">
+        <Button
+          variant="destructive"
+          size="lg"
+          className="cursor-pointer md:w-30"
+        >
           Delete
         </Button>
       </AlertDialogTrigger>
