@@ -21,3 +21,7 @@ export const postSchema = z.object({
   coverImage: z.string().optional(),
   imageBase64: z.string().optional(),
 });
+
+export const updatePostSchema = postSchema.partial().extend({
+  _id: z.string().min(1, { error: "_id is required" }),
+});

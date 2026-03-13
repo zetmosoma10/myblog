@@ -1,5 +1,5 @@
 import { isNotFound, notFound } from "@tanstack/react-router";
-import { postSchema } from "#/schemas/post.schema";
+import { postSchema, updatePostSchema } from "#/schemas/post.schema";
 import { createServerFn } from "@tanstack/react-start";
 import { connectDB } from "./db.server";
 import { Post } from "./models/Post";
@@ -7,7 +7,6 @@ import { setResponseStatus } from "@tanstack/react-start/server";
 import type { PostType } from "#/types/post.type";
 import generateSlug from "#/utils/generateSlug";
 import cloudinary from "#/lib/cloudinaryConfigs.server";
-import mongoose from "mongoose";
 import isObjectId from "#/lib/isObjectId.server";
 
 export const addPost = createServerFn({ method: "POST" })
@@ -126,6 +125,36 @@ export const deletePost = createServerFn({ method: "POST" })
       console.log(error);
 
       if (isNotFound(error)) throw error;
+
+      setResponseStatus(500);
+      throw new Error("Unexpected error occurred.");
+    }
+  });
+
+export const updatePost = createServerFn({ method: "POST" })
+  .inputValidator(updatePostSchema)
+  .handler(async ({ data: post }) => {
+    await connectDB();
+
+    try {
+      const updatedPost = await Post.findByIdAndUpdate(post?._id, post, {
+        new: true,
+        runValidators: true,
+      });
+
+      if (!updatePost) {
+        setResponseStatus(404);
+        throw notFound();
+      }
+
+      setResponseStatus(200);
+      return JSON.parse(JSON.stringify(updatedPost));
+    } catch (error) {
+      console.log(error);
+
+      if (isNotFound(error)) {
+        throw notFound();
+      }
 
       setResponseStatus(500);
       throw new Error("Unexpected error occurred.");
