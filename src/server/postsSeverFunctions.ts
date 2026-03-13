@@ -8,6 +8,7 @@ import type { PostType } from "#/types/post.type";
 import generateSlug from "#/utils/generateSlug";
 import cloudinary from "#/lib/cloudinaryConfigs.server";
 import isObjectId from "#/lib/isObjectId.server";
+import uploadImage from "#/lib/uploadImage.server";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
@@ -15,21 +16,10 @@ export const addPost = createServerFn({ method: "POST" })
     await connectDB();
 
     try {
-      let coverImage: string | undefined;
-      let coverImagePublicId: string | undefined;
-
-      // * Upload image to cloudinary if exist
-      if (data.imageBase64) {
-        const results = await cloudinary.uploader.upload(data.imageBase64, {
-          folder: "myblog/posts",
-          transformation: [
-            { width: 1200, height: 630, crop: "fill" }, // * Consistent cover size
-          ],
-        });
-
-        coverImage = results.secure_url;
-        coverImagePublicId = results.public_id;
-      }
+      const { coverImage, coverImagePublicId } = await uploadImage(
+        data.imageBase64,
+        "myblog/posts",
+      );
 
       // * Average reading speed 200 word per minute
       const wordCount = data.content.trim().split(" ").length;
@@ -137,10 +127,19 @@ export const updatePost = createServerFn({ method: "POST" })
     await connectDB();
 
     try {
-      const updatedPost = await Post.findByIdAndUpdate(post?._id, post, {
-        new: true,
-        runValidators: true,
-      });
+      const { coverImage, coverImagePublicId } = await uploadImage(
+        post.imageBase64,
+        "myblog/posts",
+      );
+
+      const updatedPost = await Post.findByIdAndUpdate(
+        post?._id,
+        { ...post, coverImage, coverImagePublicId },
+        {
+          new: true,
+          runValidators: true,
+        },
+      );
 
       if (!updatePost) {
         setResponseStatus(404);
