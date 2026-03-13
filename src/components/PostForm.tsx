@@ -18,14 +18,17 @@ import { Field, FieldDescription, FieldLabel } from "./ui/field";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import type { PostType } from "#/types/post.type";
+import { Spinner } from "./ui/spinner";
+import { useQueryClient } from "@tanstack/react-query";
 import InputElement from "./InputElement";
 import useAddPost from "#/hooks/useAddPost";
+import useUpdatePost from "#/hooks/useUpdatePost";
 import ImageUpload from "./ImageUpload";
 import imageCompression from "browser-image-compression";
 import clsx from "clsx";
 import toast from "react-hot-toast";
 import SimpleMDE from "@uiw/react-md-editor";
-import { Spinner } from "./ui/spinner";
+import { useNavigate } from "@tanstack/react-router";
 
 const frameworks = [
   "Next.js",
@@ -63,8 +66,12 @@ const PostForm = ({ type, post }: Props) => {
     },
   });
 
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const anchor = useComboboxAnchor();
   const { mutateAsync, isPending } = useAddPost();
+  const { mutateAsync: updateMutateAsync, isPending: isUpdatePending } =
+    useUpdatePost();
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
   const onSubmit = async (data: FormData) => {
@@ -88,13 +95,24 @@ const PostForm = ({ type, post }: Props) => {
         });
       }
 
-      await mutateAsync({ ...data, imageBase64 });
-      reset();
-      toast.success("Post added successfully");
-      // * REDIRECT
-    } catch (error) {
+      if (type === "Post") {
+        await mutateAsync({ ...data, imageBase64 });
+        reset();
+        toast.success("Post added successfully");
+        queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
+        navigate({ to: "/posts" });
+        //
+      } else if (type === "Edit") {
+        //
+        await updateMutateAsync({ _id: post?._id!, imageBase64, ...data });
+        toast.success("Post updated successfully");
+        queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
+        queryClient.invalidateQueries({ queryKey: ["post"] }); //* re-fetch post data
+        navigate({ to: "/posts/$slug", params: { slug: post?.slug! } });
+      }
+    } catch (error: any) {
       console.log(error);
-      // * TOAST
+      toast.error(error.message);
     }
   };
 
@@ -236,10 +254,10 @@ const PostForm = ({ type, post }: Props) => {
         <Button
           variant="default"
           size="lg"
-          disabled={isPending}
+          disabled={isPending || isUpdatePending}
           className="py-4 self-start cursor-pointer hover:bg-primary/90 w-30"
         >
-          {isPending ? <Spinner /> : "Submit"}
+          {isPending || isUpdatePending ? <Spinner /> : "Submit"}
         </Button>
       </Card>
     </form>
