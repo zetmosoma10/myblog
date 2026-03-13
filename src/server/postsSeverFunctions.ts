@@ -9,6 +9,7 @@ import generateSlug from "#/utils/generateSlug";
 import cloudinary from "#/lib/cloudinaryConfigs.server";
 import isObjectId from "#/lib/isObjectId.server";
 import uploadImage from "#/lib/uploadImage.server";
+import getWordCount from "#/utils/getWordCount";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
@@ -21,17 +22,13 @@ export const addPost = createServerFn({ method: "POST" })
         "myblog/posts",
       );
 
-      // * Average reading speed 200 word per minute
-      const wordCount = data.content.trim().split(" ").length;
-      const readingTime = Math.ceil(wordCount / 200);
-
       const post = await Post.create({
         title: data.title,
         slug: generateSlug(data.title),
         excerpt: data.excerpt,
         tags: data.tags,
         content: data.content,
-        readingTime,
+        readingTime: getWordCount(data.content),
         coverImage,
         coverImagePublicId,
       });
@@ -134,7 +131,12 @@ export const updatePost = createServerFn({ method: "POST" })
 
       const updatedPost = await Post.findByIdAndUpdate(
         post?._id,
-        { ...post, coverImage, coverImagePublicId },
+        {
+          ...post,
+          coverImage,
+          coverImagePublicId,
+          readingTime: getWordCount(post?.content),
+        },
         {
           new: true,
           runValidators: true,
