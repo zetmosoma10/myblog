@@ -1,3 +1,6 @@
+import type { updatePostSchema } from "#/schemas/post.schema";
+import { z } from "zod";
+
 export type PostType = {
   _id: string;
   title: string;
@@ -11,3 +14,5 @@ export type PostType = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type UpdatePostType = z.infer<typeof updatePostSchema>;
