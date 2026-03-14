@@ -20,7 +20,7 @@ import { Button } from "./ui/button";
 import type { PostType } from "#/types/post.type";
 import { Spinner } from "./ui/spinner";
 import { useQueryClient } from "@tanstack/react-query";
-import InputElement from "./InputElement";
+import InputText from "./InputElement";
 import useAddPost from "#/hooks/useAddPost";
 import useUpdatePost from "#/hooks/useUpdatePost";
 import ImageUpload from "./ImageUpload";
@@ -119,16 +119,16 @@ const PostForm = ({ type, post }: Props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card className="flex flex-col  gap-8  p-6 rounded-xl">
-        <InputElement
+        <InputText
           id="title"
           label="Title"
           placeholder="e.g React Performance Optimization"
-          type="input"
+          type="text"
           register={register("title")}
           error={errors.title?.message}
         />
 
-        <InputElement
+        <InputText
           id="excerpt"
           label="Excerpt"
           placeholder="Short description"

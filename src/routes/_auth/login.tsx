@@ -1,4 +1,4 @@
-import InputElement from "#/components/InputElement";
+import InputText from "#/components/InputElement";
 import { Button } from "#/components/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
@@ -35,10 +35,10 @@ function RouteComponent() {
           )} */}
 
           <div>
-            <InputElement
+            <InputText
               id="email"
               label="Email"
-              type="input"
+              type="email"
               register={register("email")}
               error=""
               placeholder="admin@example.com"

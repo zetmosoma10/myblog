@@ -8,13 +8,13 @@ type Props = {
   id: string;
   label: string;
   register: UseFormRegisterReturn;
-  type: "input" | "textarea";
+  type: "text" | "email" | "textarea";
   error?: string;
   autoFocus?: boolean;
   placeholder: string;
 };
 
-const InputElement = ({
+const InputText = ({
   id,
   label,
   type,
@@ -67,4 +67,4 @@ const InputElement = ({
   );
 };
 
-export default InputElement;
+export default InputText;
