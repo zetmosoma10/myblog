@@ -20,7 +20,7 @@ import { Button } from "./ui/button";
 import type { PostType } from "#/types/post.type";
 import { Spinner } from "./ui/spinner";
 import { useQueryClient } from "@tanstack/react-query";
-import InputText from "./InputElement";
+import InputText from "./InputText";
 import useAddPost from "#/hooks/useAddPost";
 import useUpdatePost from "#/hooks/useUpdatePost";
 import ImageUpload from "./ImageUpload";

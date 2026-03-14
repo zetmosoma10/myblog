@@ -1,4 +1,4 @@
-import InputText from "#/components/InputElement";
+import InputText from "#/components/InputText";
 import { Button } from "#/components/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
