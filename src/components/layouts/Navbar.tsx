@@ -5,6 +5,10 @@ const links = [
     label: "Posts",
     to: "/posts",
   },
+  {
+    label: "Login",
+    to: "/login",
+  },
 ];
 
 const Navbar = () => {

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as PostsNewRouteImport } from './routes/posts/new'
 import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
+import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as PostsSlugEditRouteImport } from './routes/posts/$slug_.edit'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const PostsSlugRoute = PostsSlugRouteImport.update({
   path: '/posts/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/_auth/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsSlugEditRoute = PostsSlugEditRouteImport.update({
   id: '/posts/$slug_/edit',
   path: '/posts/$slug/edit',
@@ -43,6 +49,7 @@ const PostsSlugEditRoute = PostsSlugEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof AuthLoginRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/posts/new': typeof PostsNewRoute
   '/posts/': typeof PostsIndexRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof AuthLoginRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/posts/new': typeof PostsNewRoute
   '/posts': typeof PostsIndexRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_auth/login': typeof AuthLoginRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/posts/new': typeof PostsNewRoute
   '/posts/': typeof PostsIndexRoute
@@ -67,15 +76,23 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/login'
     | '/posts/$slug'
     | '/posts/new'
     | '/posts/'
     | '/posts/$slug/edit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/posts/$slug' | '/posts/new' | '/posts' | '/posts/$slug/edit'
+  to:
+    | '/'
+    | '/login'
+    | '/posts/$slug'
+    | '/posts/new'
+    | '/posts'
+    | '/posts/$slug/edit'
   id:
     | '__root__'
     | '/'
+    | '/_auth/login'
     | '/posts/$slug'
     | '/posts/new'
     | '/posts/'
@@ -84,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthLoginRoute: typeof AuthLoginRoute
   PostsSlugRoute: typeof PostsSlugRoute
   PostsNewRoute: typeof PostsNewRoute
   PostsIndexRoute: typeof PostsIndexRoute
@@ -120,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/login': {
+      id: '/_auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/posts/$slug_/edit': {
       id: '/posts/$slug_/edit'
       path: '/posts/$slug/edit'
@@ -132,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthLoginRoute: AuthLoginRoute,
   PostsSlugRoute: PostsSlugRoute,
   PostsNewRoute: PostsNewRoute,
   PostsIndexRoute: PostsIndexRoute,
