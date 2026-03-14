@@ -1,19 +1,29 @@
 import InputPassword from "#/components/InputPassword";
 import InputText from "#/components/InputText";
 import { Button } from "#/components/ui/button";
+import { registerSchema } from "#/schemas/auth.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export const Route = createFileRoute("/_auth/register")({
   component: RouteComponent,
 });
+
+type FormData = z.infer<typeof registerSchema>;
 
 function RouteComponent() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>({ resolver: zodResolver(registerSchema) });
+
+  const onSubmit = (data: FormData) => {
+    console.log(data);
+  };
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-lg">
@@ -24,7 +34,10 @@ function RouteComponent() {
           </p>
         </div>
 
-        <form className="rounded-xl border border-border bg-card p-6">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="rounded-xl border border-border bg-card p-6"
+        >
           {/* {error && (
             <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
               {error}
@@ -38,7 +51,7 @@ function RouteComponent() {
                 label="First Name"
                 type="text"
                 register={register("firstName")}
-                error=""
+                error={errors.firstName?.message}
                 placeholder="e.g John"
               />
               <InputText
@@ -46,7 +59,7 @@ function RouteComponent() {
                 label="Last Name"
                 type="text"
                 register={register("lastName")}
-                error=""
+                error={errors.lastName?.message}
                 placeholder="e.g Doe"
               />
             </div>
@@ -56,7 +69,7 @@ function RouteComponent() {
               label="Email"
               type="email"
               register={register("email")}
-              error=""
+              error={errors.email?.message}
               placeholder="admin@example.com"
             />
 
@@ -64,14 +77,14 @@ function RouteComponent() {
               id="password"
               label="Password"
               register={register("password")}
-              error=""
+              error={errors.password?.message}
             />
 
             <InputPassword
               id="confirmPassword"
               label="Confirm Password"
               register={register("confirmPassword")}
-              error=""
+              error={errors.confirmPassword?.message}
             />
           </div>
 

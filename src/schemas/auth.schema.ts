@@ -1,9 +1,51 @@
 import { z } from "zod";
 
+export const registerSchema = z
+  .object({
+    firstName: z
+      .string()
+      .nonempty({ error: "firstName required" })
+      .max(100, { error: "max length must be 100 characters." }),
+    lastName: z
+      .string()
+      .nonempty({ error: "lastName required" })
+      .nonempty({ error: "lastName required" })
+      .max(100, { error: "max length must be 100 characters." }),
+    email: z
+      .string()
+      .nonempty({ error: "email required" })
+      .email()
+      .max(100, { error: "max length must be 100 characters" }),
+    password: z
+      .string()
+      .nonempty({ error: "password required" })
+      .min(4, { error: "min password must be 4" })
+      .max(255, { error: "max length must be 255" }),
+    confirmPassword: z
+      .string()
+      .nonempty({ error: "ConfirmPassword required" })
+      .min(4, { error: "min confirmPassword must be 4" })
+      .max(255, { error: "max length must be 255" }),
+  })
+  .superRefine((data, ctx) => {
+    if (data.password !== data.confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });
+
 export const loginSchema = z.object({
-  email: z.email().max(100, { error: "max length must be 100 characters" }),
+  email: z
+    .string()
+    .nonempty({ error: "email required" })
+    .email()
+    .max(100, { error: "max length must be 100 characters" }),
   password: z
     .string()
-    .min(4, { error: "Password required" })
+    .nonempty({ error: "password required" })
+    .min(4, { error: "min password must be 4" })
     .max(255, { error: "max length must be 255" }),
 });
