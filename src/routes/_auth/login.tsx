@@ -36,7 +36,7 @@ function RouteComponent() {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="rounded-xl border border-border bg-card p-6 space-y-5"
+          className="rounded-xl border border-border bg-card p-6"
         >
           {/* {error && (
             <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
@@ -44,23 +44,25 @@ function RouteComponent() {
             </div>
           )} */}
 
-          <div>
-            <InputText
-              id="email"
-              label="Email"
-              type="email"
-              register={register("email")}
-              error={errors.email?.message}
-              placeholder="admin@example.com"
+          <div className="space-y-5 mb-7">
+            <div>
+              <InputText
+                id="email"
+                label="Email"
+                type="email"
+                register={register("email")}
+                error={errors.email?.message}
+                placeholder="admin@example.com"
+              />
+            </div>
+
+            <InputPassword
+              id="password"
+              label="Password"
+              register={register("password")}
+              error={errors.password?.message}
             />
           </div>
-
-          <InputPassword
-            id="password"
-            label="Password"
-            register={register("password")}
-            error={errors.password?.message}
-          />
 
           <Button
             type="submit"
