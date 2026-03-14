@@ -37,7 +37,7 @@ const InputElement = ({
           id={id}
           placeholder={placeholder}
           className={clsx(
-            "py-5",
+            "py-5 focus-visible:ring-primary/50 focus-visible:border-primary",
             error &&
               "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
           )}
@@ -49,6 +49,7 @@ const InputElement = ({
           id={id}
           placeholder={placeholder}
           className={clsx(
+            "focus-visible:ring-primary/50 focus-visible:border-primary",
             id === "excerpt" ? "min-h-20" : "min-h-80",
             error &&
               "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",

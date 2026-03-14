@@ -161,7 +161,7 @@ const PostForm = ({ type, post }: Props) => {
                 <ComboboxChips
                   ref={anchor}
                   className={clsx(
-                    "group w-full  max-w-xs",
+                    "group w-full max-w-xs focus-within:ring-primary/50 focus-within:border-primary",
                     errors.tags &&
                       "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
                   )}

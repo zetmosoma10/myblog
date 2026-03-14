@@ -32,7 +32,7 @@ const PostCard = ({
           <img
             src={coverImage}
             alt={title}
-            className="h-45 w-full border-b border-border object-cover"
+            className="h-45 w-full border-b border-border object-cover group-hover:scale-105 transition-all duration-300"
           />
         ) : (
           <div className="flex h-45 items-center justify-center border-b border-border bg-linear-to-br from-muted to-primary/5 font-mono text-[11px] tracking-widest text-muted-foreground">
