@@ -1,10 +1,13 @@
+/*
+ * This function create a slug using a Regex algorithm
+ */
 function generateSlug(title: string): string {
   return title
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9\s-]/g, "") // * remove special chars
-    .replace(/\s+/g, "-") // * spaces → hyphens
-    .replace(/-+/g, "-"); // * collapse multiple hyphens
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 }
 
 export default generateSlug;

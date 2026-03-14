@@ -2,6 +2,10 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { ImagePlus, Loader2, X } from "lucide-react";
 
+/*
+ * This component uses "react-dropzone" for image upload logic. The state is manage in the parent component(PostForm)
+ */
+
 type Props = {
   value?: string; // * current image URL (from form state)
   setUploadedImage: (file: File) => void; // * called to save image to state
@@ -12,6 +16,7 @@ const ImageUpload = ({ value, onChange, setUploadedImage }: Props) => {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // * We use "useCallback" to avoid running this function whenever the other inputs changes, we basically cached it. We only run it when onChange function run.
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];

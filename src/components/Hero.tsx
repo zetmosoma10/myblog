@@ -1,4 +1,3 @@
-import { Button } from "./ui/button";
 import { Link } from "@tanstack/react-router";
 import heroImg from "#/assets/code-1.png";
 
@@ -13,7 +12,7 @@ const Hero = () => {
         backgroundSize: "cover",
       }}
     >
-      {/* Overlay */}
+      {/* This Overlay add grafient from bottom to up */}
       <div className="absolute inset-0 bg-black/70 bg-linear-to-t from-black/70 to-primary/5"></div>
 
       <div className="max-container z-10  text-center md:text-left ">

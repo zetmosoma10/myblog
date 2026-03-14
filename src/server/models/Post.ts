@@ -49,5 +49,6 @@ const postSchema = new Schema<PostDocument>({
   coverImagePublicId: String,
 });
 
+// * Check if the model already exist before creating it
 export const Post: Model<PostDocument> =
   mongoose.models.Post || model<PostDocument>("Post", postSchema);

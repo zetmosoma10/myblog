@@ -1,7 +1,3 @@
 TODO: markdown editor text are white in light mode
 TODO: add selete box for published/draft
-TODO: add upload image on post form
-TODO: add bottom-up gradient in hero image
 TODO: Add Comments to the application
-TODO: Fix Link and Button nested problem
-TODO: Fix accesebility using tab key mostly (posts, posts-details) pages and all

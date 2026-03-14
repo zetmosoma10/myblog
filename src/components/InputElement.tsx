@@ -8,7 +8,7 @@ type Props = {
   id: string;
   label: string;
   register: UseFormRegisterReturn;
-  type: "input" | "textarea" | "password";
+  type: "input" | "textarea";
   error?: string;
   autoFocus?: boolean;
   placeholder: string;
