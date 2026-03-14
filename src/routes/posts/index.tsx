@@ -31,7 +31,7 @@ function RouteComponent() {
   return (
     <div>
       <section className="max-container py-12">
-        <div className="flex justify-between">
+        <div className="flex items-start justify-between">
           <div>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-2 text-foreground">
               Posts
@@ -47,13 +47,11 @@ function RouteComponent() {
             </InputGroup>
           </div>
 
-          <Link to="/posts/new">
-            <Button
-              size="lg"
-              className="cursor-pointer hover:bg-primary/90 transition-colors"
-            >
-              New Post
-            </Button>
+          <Link
+            to="/posts/new"
+            className="bg-primary px-3 text-nowrap text-primary-foreground py-1 rounded-md text-base text-center no-underline hover:bg-primary/90 focus:outline-0 focus:ring-2 focus:ring-primary/50"
+          >
+            New Post
           </Link>
         </div>
 
@@ -61,7 +59,7 @@ function RouteComponent() {
           {queries.map((item) => (
             <Button
               key={item}
-              className="cursor-pointer bg-primary/10 border border-primary/50 text-primary hover:text-primary hover:bg-primary/20"
+              className="cursor-pointer bg-primary/10 border border-primary/50 text-primary hover:text-primary hover:bg-primary/20 focus:ring-primary/50! focus:border-primary! focus:bg-primary/20"
             >
               {item}
             </Button>

@@ -25,7 +25,11 @@ const PostCard = ({
 }: Props) => {
   //
   return (
-    <Link to="/posts/$slug" params={{ slug: slug as string }} className="block">
+    <Link
+      to="/posts/$slug"
+      params={{ slug: slug as string }}
+      className="block focus:outline-0 focus:scale-105"
+    >
       <Card className="group overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg pt-0">
         {/* Cover image */}
         {coverImage ? (
@@ -80,7 +84,7 @@ const PostCard = ({
           <Link
             to="/posts/$slug"
             params={{ slug: slug as string }}
-            className="flex items-center  gap-1  text-xs lg:hidden tracking-wide text-primary transition-all group-hover:gap-2"
+            className="flex items-center  gap-1  text-xs lg:hidden tracking-wide text-primary transition-all group-hover:gap-2 focus:font-bold focus:outline-0"
           >
             read post{" "}
             <span className="transition-transform group-hover:translate-x-1">

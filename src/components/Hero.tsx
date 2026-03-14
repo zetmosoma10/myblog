@@ -24,14 +24,11 @@ const Hero = () => {
           Fullstack developer writing about React, TypeScript, and building
           better software. I share practical insights from real-world projects.
         </p>
-        <Link to="/posts">
-          <Button
-            variant="default"
-            size="lg"
-            className="py-6 px-5 cursor-pointer hover:bg-primary/90 transition-colors"
-          >
-            Read the Posts
-          </Button>
+        <Link
+          to="/posts"
+          className="bg-primary py-3  px-5 rounded-md cursor-pointer hover:bg-primary/90 transition-colors focus:outline-0 focus:ring-2 focus:ring-primary/50"
+        >
+          Read the Posts
         </Link>
       </div>
     </section>

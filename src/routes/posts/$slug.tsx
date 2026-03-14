@@ -64,15 +64,15 @@ function RouteComponent() {
             {/* Action Buttons */}
             <div className="flex md:flex-col gap-3">
               <PostModal post={post} />
-              <Button size="lg" className="cursor-pointer md:w-30">
-                <Link
-                  to="/posts/$slug/edit"
-                  params={{ slug: post?.slug! }}
-                  className="w-full"
-                >
-                  Edit
-                </Link>
-              </Button>
+              {/* <Button size="lg" className="cursor-pointer md:w-30"> */}
+              <Link
+                to="/posts/$slug/edit"
+                params={{ slug: post?.slug! }}
+                className="w-full bg-primary text-primary-foreground py-1 rounded-md text-base text-center no-underline hover:bg-primary/90 focus:outline-0 focus:ring-2 focus:ring-primary/50"
+              >
+                Edit
+              </Link>
+              {/* </Button> */}
             </div>
           </header>
 
