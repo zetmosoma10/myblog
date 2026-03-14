@@ -1,7 +1,7 @@
+import InputPassword from "#/components/InputPassword";
 import InputText from "#/components/InputText";
 import { Button } from "#/components/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
-import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -10,12 +10,15 @@ export const Route = createFileRoute("/_auth/login")({
 });
 
 function RouteComponent() {
-  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
@@ -27,7 +30,10 @@ function RouteComponent() {
           </p>
         </div>
 
-        <form className="rounded-xl border border-border bg-card p-6 space-y-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="rounded-xl border border-border bg-card p-6 space-y-5"
+        >
           {/* {error && (
             <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
               {error}
@@ -45,31 +51,18 @@ function RouteComponent() {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-1.5">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                className="w-full rounded-lg border border-input bg-background px-3 py-2.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
-              </button>
-            </div>
-          </div>
+          <InputPassword
+            id="password"
+            label="Password"
+            register={register("password")}
+            error=""
+          />
 
-          <Button type="submit" size="lg" className="w-full cursor-pointer">
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full cursor-pointer hover:bg-primary/90"
+          >
             Sign In
           </Button>
         </form>
