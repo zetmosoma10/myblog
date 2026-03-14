@@ -1,22 +1,26 @@
 import InputPassword from "#/components/InputPassword";
 import InputText from "#/components/InputText";
 import { Button } from "#/components/ui/button";
+import { loginSchema } from "#/schemas/auth.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export const Route = createFileRoute("/_auth/login")({
   component: RouteComponent,
 });
+
+type FormData = z.infer<typeof loginSchema>;
 
 function RouteComponent() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>({ resolver: zodResolver(loginSchema) });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FormData) => {
     console.log(data);
   };
 
@@ -46,7 +50,7 @@ function RouteComponent() {
               label="Email"
               type="email"
               register={register("email")}
-              error=""
+              error={errors.email?.message}
               placeholder="admin@example.com"
             />
           </div>
@@ -55,7 +59,7 @@ function RouteComponent() {
             id="password"
             label="Password"
             register={register("password")}
-            error=""
+            error={errors.password?.message}
           />
 
           <Button

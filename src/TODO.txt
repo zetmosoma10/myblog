@@ -1,3 +1,4 @@
 TODO: markdown editor text are white in light mode
 TODO: add selete box for published/draft
 TODO: Add Comments to the application
+TODO: Admin should be able to add Categories, to its collection
