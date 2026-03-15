@@ -1,24 +1,25 @@
 import InputPassword from "#/components/InputPassword";
 import InputText from "#/components/InputText";
 import { Button } from "#/components/ui/button";
-import { loginSchema } from "#/schemas/auth.schema";
+import { registerSchema } from "#/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export const Route = createFileRoute("/_auth/login")({
+export const Route = createFileRoute("/register")({
+  ssr: false,
   component: RouteComponent,
 });
 
-type FormData = z.infer<typeof loginSchema>;
+type FormData = z.infer<typeof registerSchema>;
 
 function RouteComponent() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(loginSchema) });
+  } = useForm<FormData>({ resolver: zodResolver(registerSchema) });
 
   const onSubmit = (data: FormData) => {
     console.log(data);
@@ -26,11 +27,11 @@ function RouteComponent() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-lg">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-foreground">Admin Login</h1>
+          <h1 className="text-2xl font-bold text-foreground">Admin Signup</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Sign in to manage your blog
+            Sign up to manage your blog
           </p>
         </div>
 
@@ -45,22 +46,36 @@ function RouteComponent() {
           )} */}
 
           <div className="space-y-5 mb-7">
-            <div>
-              <InputText
-                id="email"
-                label="Email"
-                type="email"
-                register={register("email")}
-                error={errors.email?.message}
-                placeholder="admin@example.com"
-              />
-            </div>
+            <InputText
+              id="name"
+              label="FullName"
+              type="text"
+              register={register("name")}
+              error={errors.name?.message}
+              placeholder="e.g John Doe"
+            />
+
+            <InputText
+              id="email"
+              label="Email"
+              type="email"
+              register={register("email")}
+              error={errors.email?.message}
+              placeholder="admin@example.com"
+            />
 
             <InputPassword
               id="password"
               label="Password"
               register={register("password")}
               error={errors.password?.message}
+            />
+
+            <InputPassword
+              id="confirmPassword"
+              label="Confirm Password"
+              register={register("confirmPassword")}
+              error={errors.confirmPassword?.message}
             />
           </div>
 
@@ -74,9 +89,9 @@ function RouteComponent() {
         </form>
 
         <p className="text-foreground text-center mt-5">
-          Don't have account?{" "}
-          <Link to="/register" className="text-primary hover:underline">
-            Sign up
+          Already have account?{" "}
+          <Link to="/login" className="text-primary hover:underline">
+            Sign in
           </Link>{" "}
         </p>
       </div>

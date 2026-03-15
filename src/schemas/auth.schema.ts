@@ -2,14 +2,9 @@ import { z } from "zod";
 
 export const registerSchema = z
   .object({
-    firstName: z
+    name: z
       .string()
-      .nonempty({ error: "firstName required" })
-      .max(100, { error: "max length must be 100 characters." }),
-    lastName: z
-      .string()
-      .nonempty({ error: "lastName required" })
-      .nonempty({ error: "lastName required" })
+      .nonempty({ error: "FullName required" })
       .max(100, { error: "max length must be 100 characters." }),
     email: z
       .string()
