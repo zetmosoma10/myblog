@@ -1,9 +1,11 @@
 import InputPassword from "#/components/InputPassword";
 import InputText from "#/components/InputText";
+import toast from "react-hot-toast";
 import { Button } from "#/components/ui/button";
+import { authClient } from "#/lib/authClient.client";
 import { registerSchema } from "#/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -21,8 +23,25 @@ function RouteComponent() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(registerSchema) });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: FormData) => {
+    await authClient.signUp.email(
+      {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      },
+      {
+        onSuccess: () => {
+          toast.success("User registered successfully.");
+          navigate({ to: "/", replace: true });
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      },
+    );
   };
 
   return (
