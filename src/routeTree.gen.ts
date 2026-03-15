@@ -16,6 +16,7 @@ import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as PostsNewRouteImport } from './routes/posts/new'
 import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
 import { Route as PostsSlugEditRouteImport } from './routes/posts/$slug_.edit'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -52,6 +53,11 @@ const PostsSlugEditRoute = PostsSlugEditRouteImport.update({
   path: '/posts/$slug/edit',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/posts/$slug': typeof PostsSlugRoute
   '/posts/new': typeof PostsNewRoute
   '/posts/': typeof PostsIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/posts/$slug/edit': typeof PostsSlugEditRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/posts/$slug': typeof PostsSlugRoute
   '/posts/new': typeof PostsNewRoute
   '/posts': typeof PostsIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/posts/$slug/edit': typeof PostsSlugEditRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/posts/$slug': typeof PostsSlugRoute
   '/posts/new': typeof PostsNewRoute
   '/posts/': typeof PostsIndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/posts/$slug_/edit': typeof PostsSlugEditRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/posts/$slug'
     | '/posts/new'
     | '/posts/'
+    | '/api/auth/$'
     | '/posts/$slug/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/posts/$slug'
     | '/posts/new'
     | '/posts'
+    | '/api/auth/$'
     | '/posts/$slug/edit'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/posts/$slug'
     | '/posts/new'
     | '/posts/'
+    | '/api/auth/$'
     | '/posts/$slug_/edit'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   PostsSlugRoute: typeof PostsSlugRoute
   PostsNewRoute: typeof PostsNewRoute
   PostsIndexRoute: typeof PostsIndexRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   PostsSlugEditRoute: typeof PostsSlugEditRoute
 }
 
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostsSlugEditRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   PostsSlugRoute: PostsSlugRoute,
   PostsNewRoute: PostsNewRoute,
   PostsIndexRoute: PostsIndexRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
   PostsSlugEditRoute: PostsSlugEditRoute,
 }
 export const routeTree = rootRouteImport
