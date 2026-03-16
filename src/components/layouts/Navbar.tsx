@@ -1,13 +1,10 @@
 import { Link } from "@tanstack/react-router";
+import AvatarIcon from "../AvatarIcon";
 
 const links = [
   {
     label: "Posts",
     to: "/posts",
-  },
-  {
-    label: "Login",
-    to: "/login",
   },
 ];
 
@@ -18,24 +15,36 @@ const Navbar = () => {
         <Link to="/" className="font-bold text-2xl">
           Dev<span className="text-primary">blog</span>
         </Link>
-        <ul className="flex gap-6 ">
-          {links.map((link) => (
-            <li
-              key={link.to}
-              className="text-accent-foreground hover:text-primary  group"
-            >
-              <Link
-                className="focus:outline-0 focus:underline"
-                activeProps={{
-                  className: "font-semibold  text-primary",
-                }}
-                to={link.to}
+        <div className="flex items-center gap-6">
+          <ul className="flex gap-6 ">
+            {links.map((link) => (
+              <li
+                key={link.to}
+                className="text-accent-foreground hover:text-primary  group"
               >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+                <Link
+                  className="focus:outline-0 focus:underline"
+                  activeProps={{
+                    className: "font-semibold  text-primary",
+                  }}
+                  to={link.to}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <AvatarIcon />
+          <Link
+            className="focus:outline-0 focus:underline text-accent-foreground hover:text-primary"
+            activeProps={{
+              className: "font-semibold  text-primary",
+            }}
+            to="/login"
+          >
+            Login
+          </Link>
+        </div>
       </nav>
     </header>
   );

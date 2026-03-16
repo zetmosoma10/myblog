@@ -1,4 +1,4 @@
-import { authClient } from "#/lib/authClient.client";
+import { authClient } from "#/lib/authClient";
 import type { LoginCredentials } from "#/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
