@@ -5,3 +5,4 @@ TODO: Admin should be able to add Categories, to its collection
 TODO: Add Forgot password API
 TODO: Save theme on localStorage
 TODO: Add shadow on navbar, footer and cards
+TODO: Email news letter Subcription - get notified when posting articles
