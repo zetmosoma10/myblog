@@ -35,15 +35,6 @@ const Navbar = () => {
             ))}
           </ul>
           <AvatarIcon />
-          <Link
-            className="focus:outline-0 focus:underline text-accent-foreground hover:text-primary"
-            activeProps={{
-              className: "font-semibold  text-primary",
-            }}
-            to="/login"
-          >
-            Login
-          </Link>
         </div>
       </nav>
     </header>
