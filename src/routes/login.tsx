@@ -62,12 +62,21 @@ function RouteComponent() {
               />
             </div>
 
-            <InputPassword
-              id="password"
-              label="Password"
-              register={register("password")}
-              error={errors.password?.message}
-            />
+            <div>
+              <InputPassword
+                id="password"
+                label="Password"
+                register={register("password")}
+                error={errors.password?.message}
+              />
+
+              <Link
+                to="/forgot-password"
+                className="block text-sm text-end text-primary hover:underline mt-2 "
+              >
+                Forgot Password
+              </Link>
+            </div>
           </div>
 
           <Button
