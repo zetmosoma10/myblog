@@ -1,14 +1,13 @@
 import InputPassword from "#/components/InputPassword";
 import InputText from "#/components/InputText";
-import toast from "react-hot-toast";
 import { Button } from "#/components/ui/button";
-import { authClient } from "#/lib/authClient.client";
 import { registerSchema } from "#/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useState } from "react";
+import useRegister from "#/hooks/useRegister";
+import { Spinner } from "#/components/ui/spinner";
 
 export const Route = createFileRoute("/register")({
   ssr: false,
@@ -24,33 +23,14 @@ function RouteComponent() {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(registerSchema) });
 
-  const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
+  const { mutateAsync, isPending, error } = useRegister();
 
-  const onSubmit = async (data: FormData) => {
-    setError(null);
-
-    await authClient.signUp.email(
-      {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      },
-      {
-        onSuccess: () => {
-          toast.success("User registered successfully.");
-          navigate({ to: "/", replace: true });
-        },
-        onError: (error) => {
-          console.log(error);
-          if (error.response.status === 422) {
-            setError(error.error.message);
-          } else {
-            toast.error(error.error.message);
-          }
-        },
-      },
-    );
+  const onSubmit = async (credentials: FormData) => {
+    await mutateAsync({
+      name: credentials.name,
+      email: credentials.email,
+      password: credentials.password,
+    });
   };
 
   return (
@@ -69,7 +49,7 @@ function RouteComponent() {
         >
           {error && (
             <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive mb-4">
-              {error}
+              {error.message}
             </div>
           )}
 
@@ -110,9 +90,10 @@ function RouteComponent() {
           <Button
             type="submit"
             size="lg"
+            disabled={isPending}
             className="w-full cursor-pointer hover:bg-primary/90"
           >
-            Sign In
+            {isPending ? <Spinner /> : "Sign In"}
           </Button>
         </form>
 
