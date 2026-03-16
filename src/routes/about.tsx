@@ -2,24 +2,14 @@ import { Badge } from "#/components/ui/badge";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowLeft,
-  Briefcase,
-  Calendar,
   Code2,
   Download,
   ExternalLink,
   Github,
-  GraduationCap,
   MapPin,
 } from "lucide-react";
 import img from "#/assets/IMG_2622.jpg";
-import {
-  skills,
-  experience,
-  projects,
-  education,
-  certifications,
-  contacts,
-} from "#/constance";
+import { skills, projects, contacts } from "#/constance";
 
 export const Route = createFileRoute("/about")({
   component: RouteComponent,

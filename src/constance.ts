@@ -1,4 +1,10 @@
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+import apartlyImg from "#/assets/apartly-io.png";
+import kanbanImg from "#/assets/kanban-io.png";
+import movieImg from "#/assets/movie-io.png";
+import gameImg from "#/assets/gamehub-io.png";
+import audiophileImg from "#/assets/audiophile-io.png";
+import payapiImg from "#/assets/paypai-io.png";
 
 export const skills = {
   Languages: ["TypeScript", "JavaScript"],
@@ -48,34 +54,57 @@ export const experience = [
 
 export const projects = [
   {
-    title: "DevToolkit",
+    title: "Apartly",
     description:
-      "An open-source CLI toolkit for scaffolding modern web projects with best practices baked in.",
-    tech: ["TypeScript", "Node.js", "CLI"],
-    github: "https://github.com",
-    live: "https://example.com",
-    image:
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=340&fit=crop",
+      "An Apartment application were landlord add their properties and tenant can view them.",
+    tech: ["TypeScript", "React", "Express.js", "MongoDB"],
+    github: "https://github.com/zetmosoma10/apartly-client",
+    live: "https://apartly.netlify.app/",
+    image: apartlyImg,
   },
   {
-    title: "CloudDash",
+    title: "Kanban",
     description:
-      "Real-time cloud infrastructure monitoring dashboard with alerting and cost optimization insights.",
-    tech: ["React", "Go", "WebSocket"],
-    github: "https://github.com",
-    live: "https://example.com",
-    image:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=340&fit=crop",
+      "A Task management app that allows user to manage tasks, boards and columns.",
+    tech: ["React", "Typescript", "Express", "MongoDB"],
+    github: "https://github.com/zetmosoma10/kanbantask-client",
+    live: "https://kanbantask-client.netlify.app/",
+    image: kanbanImg,
   },
   {
-    title: "MarkdownPro",
+    title: "Movie Explore",
     description:
-      "A beautiful markdown editor with live preview, syntax highlighting, and export to PDF/HTML.",
-    tech: ["React", "TypeScript", "MDX"],
-    github: "https://github.com",
-    live: "https://example.com",
-    image:
-      "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&h=340&fit=crop",
+      "A beautiful Movie Explore were user can view movie rating and movie trailers.",
+    tech: ["React", "TMDB API", "Typescript"],
+    github: "https://github.com/zetmosoma10/promovies",
+    live: "https://promovies.netlify.app/",
+    image: movieImg,
+  },
+  {
+    title: "Gamehub",
+    description:
+      "A beautiful Game explore were user can search for game and view their trailer.",
+    tech: ["React", "Rawg API", "Typescript"],
+    github: "https://github.com/zetmosoma10/games-hub",
+    live: "https://games-pro.netlify.app/",
+    image: gameImg,
+  },
+  {
+    title: "Audiophile",
+    description:
+      "An E-commerce website were user can browser headphones, earphone and can add items to cart and place orders .",
+    tech: ["React", "Javascript", "Express", "MongoDB"],
+    github: "https://github.com/zetmosoma10/audiophile-client",
+    live: "https://audiophile-client.netlify.app/",
+    image: audiophileImg,
+  },
+  {
+    title: "Payapi",
+    description: "A static website that showcase payment apis.",
+    tech: ["React", "Javascript"],
+    github: "https://github.com/zetmosoma10/payapi",
+    live: "https://payapi-client.netlify.app/",
+    image: payapiImg,
   },
 ];
 
