@@ -9,10 +9,7 @@ import {
   ExternalLink,
   Github,
   GraduationCap,
-  Linkedin,
-  Mail,
   MapPin,
-  Twitter,
 } from "lucide-react";
 import img from "#/assets/IMG_2622.jpg";
 import {
@@ -21,6 +18,7 @@ import {
   projects,
   education,
   certifications,
+  contacts,
 } from "#/constance";
 
 export const Route = createFileRoute("/about")({
@@ -30,7 +28,7 @@ export const Route = createFileRoute("/about")({
 function RouteComponent() {
   return (
     <section className="max-container">
-      <main className="container py-12 md:py-20 max-w-[900px]">
+      <main className="container py-12 md:py-20 max-w-225">
         {/* Back link */}
         <Link
           to="/"
@@ -49,49 +47,31 @@ function RouteComponent() {
           />
           <div>
             <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground mb-2">
-              Alex Chen
+              Zet Mosoma
             </h1>
             <p className="text-muted-foreground flex items-center gap-2 mb-3 text-sm">
               <MapPin className="h-3.5 w-3.5" />
-              San Francisco, CA
+              Johannesburg, South Africa
             </p>
             <p className="text-base text-muted-foreground leading-relaxed mb-5 max-w-xl">
-              Fullstack developer with 6+ years of experience building web
-              applications. I'm passionate about clean code, developer tooling,
-              and creating delightful user experiences. Currently focused on
-              React, TypeScript, and cloud-native architectures.
+              Self taught Full-stack web developer, i build scalable, fast and
+              responsive web applications that users love. I use cutting edge
+              technologies like Tanstack Start, Next.js, Typescript, Express.js
+              and many more. If you want collaboration on your project or
+              website for your company, feel free to contact me.
             </p>
             <div className="flex items-center gap-3">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Github className="h-4.5 w-4.5" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Twitter className="h-4.5 w-4.5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Linkedin className="h-4.5 w-4.5" />
-              </a>
-              <a
-                href="mailto:alex@example.com"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Mail className="h-4.5 w-4.5" />
-              </a>
+              {contacts.map((contact) => (
+                <a
+                  key={contact.href}
+                  href={contact.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors "
+                >
+                  <contact.icon className="h-5.5 w-5.5" />
+                </a>
+              ))}
               <a
                 href="/resume.pdf"
                 download
@@ -114,66 +94,19 @@ function RouteComponent() {
             {Object.entries(skills).map(([category, items]) => (
               <div
                 key={category}
-                className="flex flex-col sm:flex-row sm:items-start gap-2"
+                className="flex flex-col sm:flex-row sm:items-center gap-2"
               >
-                <span className="text-sm font-medium text-muted-foreground w-24 shrink-0 pt-0.5">
+                <span className="text-base font-medium text-muted-foreground w-24 shrink-0 pt-0.5">
                   {category}
                 </span>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex  flex-wrap gap-1.5">
                   {items.map((skill) => (
                     <Badge
                       key={skill}
                       variant="secondary"
-                      className="bg-accent text-accent-foreground border-0 font-normal text-xs"
+                      className="bg-accent text-accent-foreground border-0 font-normal text-sm"
                     >
                       {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Experience */}
-        <section className="mb-16">
-          <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-            <Briefcase className="h-5 w-5 text-primary" />
-            Experience
-          </h2>
-          <div className="space-y-8">
-            {experience.map((exp, i) => (
-              <div key={i} className="relative pl-6 border-l-2 border-border">
-                <div className="absolute -left-[7px] top-1.5 w-3 h-3 rounded-full bg-primary" />
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-1">
-                  <h3 className="font-semibold text-foreground">{exp.role}</h3>
-                  <span className="text-muted-foreground text-sm">
-                    at{" "}
-                    <a
-                      href={exp.companyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
-                      {exp.company}
-                    </a>
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground flex items-center gap-1 mb-2">
-                  <Calendar className="h-3 w-3" />
-                  {exp.period}
-                </p>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                  {exp.description}
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {exp.tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="outline"
-                      className="text-xs font-normal"
-                    >
-                      {tag}
                     </Badge>
                   ))}
                 </div>
@@ -239,48 +172,6 @@ function RouteComponent() {
                 </div>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* Education & Certifications */}
-        <section className="mb-16">
-          <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-            <GraduationCap className="h-5 w-5 text-primary" />
-            Education & Certifications
-          </h2>
-          <div className="space-y-4">
-            {education.map((edu, i) => (
-              <div
-                key={i}
-                className="rounded-xl border border-border bg-card p-5"
-              >
-                <h3 className="font-semibold text-foreground">{edu.degree}</h3>
-                <p className="text-sm text-muted-foreground">{edu.school}</p>
-                <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1 mb-2">
-                  <Calendar className="h-3 w-3" />
-                  {edu.period}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  {edu.description}
-                </p>
-              </div>
-            ))}
-            <div className="rounded-xl border border-border bg-card p-5">
-              <h3 className="font-semibold text-foreground mb-2">
-                Certifications
-              </h3>
-              <ul className="space-y-1">
-                {certifications.map((cert) => (
-                  <li
-                    key={cert}
-                    className="text-sm text-muted-foreground flex items-center gap-2"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                    {cert}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </section>
       </main>

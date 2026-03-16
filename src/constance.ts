@@ -1,9 +1,19 @@
+import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+
 export const skills = {
-  Languages: ["TypeScript", "JavaScript", "Python", "Go", "SQL"],
-  Frontend: ["React", "Next.js", "Tailwind CSS", "Framer Motion", "HTML/CSS"],
-  Backend: ["Node.js", "Express", "PostgreSQL", "Redis", "GraphQL"],
-  DevOps: ["Docker", "AWS", "CI/CD", "Terraform", "Kubernetes"],
-  Tools: ["Git", "VS Code", "Figma", "Postman", "Jira"],
+  Languages: ["TypeScript", "JavaScript"],
+  Frontend: [
+    "React",
+    "Tanstack Start",
+    "Next.js",
+    "Tailwind CSS",
+    "Framer Motion",
+    "HTML/CSS",
+    "Zustand",
+    "Shadcn",
+  ],
+  Backend: ["Node.js", "Express", "MongoDB", "Mongoose", "REST API"],
+  Tools: ["Git", "VS Code", "Figma", "Postman"],
 };
 
 export const experience = [
@@ -82,4 +92,23 @@ export const education = [
 export const certifications = [
   "AWS Solutions Architect – Associate",
   "Google Professional Cloud Developer",
+];
+
+export const contacts = [
+  {
+    href: "https://github.com/zetmosoma10",
+    icon: Github,
+  },
+  {
+    href: "https://x.com/zetmosoma10",
+    icon: Twitter,
+  },
+  {
+    href: "https://www.linkedin.com/in/zetmosoma/",
+    icon: Linkedin,
+  },
+  {
+    href: "mailto:zet10mokone@gmail.com",
+    icon: Mail,
+  },
 ];
