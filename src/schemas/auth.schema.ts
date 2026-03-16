@@ -5,21 +5,21 @@ export const registerSchema = z
     name: z
       .string()
       .nonempty({ error: "FullName required" })
-      .max(100, { error: "max length must be 100 characters." }),
+      .max(100, { error: "max length must be 100" }),
     email: z
       .string()
       .nonempty({ error: "email required" })
       .email()
-      .max(100, { error: "max length must be 100 characters" }),
+      .max(100, { error: "max length must be 100" }),
     password: z
       .string()
       .nonempty({ error: "password required" })
-      .min(4, { error: "min password must be 4" })
+      .min(8, { error: "min password must be 8" })
       .max(255, { error: "max length must be 255" }),
     confirmPassword: z
       .string()
       .nonempty({ error: "ConfirmPassword required" })
-      .min(4, { error: "min confirmPassword must be 4" })
+      .min(8, { error: "min confirmPassword must be 8" })
       .max(255, { error: "max length must be 255" }),
   })
   .superRefine((data, ctx) => {
@@ -41,6 +41,6 @@ export const loginSchema = z.object({
   password: z
     .string()
     .nonempty({ error: "password required" })
-    .min(4, { error: "min password must be 4" })
+    .min(8, { error: "min password must be 8" })
     .max(255, { error: "max length must be 255" }),
 });

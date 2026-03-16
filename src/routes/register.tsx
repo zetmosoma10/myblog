@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useState } from "react";
 
 export const Route = createFileRoute("/register")({
   ssr: false,
@@ -24,8 +25,11 @@ function RouteComponent() {
   } = useForm<FormData>({ resolver: zodResolver(registerSchema) });
 
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async (data: FormData) => {
+    setError(null);
+
     await authClient.signUp.email(
       {
         name: data.name,
@@ -39,6 +43,11 @@ function RouteComponent() {
         },
         onError: (error) => {
           console.log(error);
+          if (error.response.status === 422) {
+            setError(error.error.message);
+          } else {
+            toast.error(error.error.message);
+          }
         },
       },
     );
@@ -58,11 +67,11 @@ function RouteComponent() {
           onSubmit={handleSubmit(onSubmit)}
           className="rounded-xl border border-border bg-card p-6"
         >
-          {/* {error && (
-            <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          {error && (
+            <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive mb-4">
               {error}
             </div>
-          )} */}
+          )}
 
           <div className="space-y-5 mb-7">
             <InputText
