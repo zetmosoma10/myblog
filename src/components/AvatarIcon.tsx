@@ -5,7 +5,6 @@ import { LogOut } from "lucide-react";
 import { authClient } from "#/lib/authClient";
 import getInitials from "#/utils/getInitials";
 import useLogout from "#/hooks/useLogout";
-import { Card } from "./ui/card";
 
 const AvatarIcon = () => {
   const { data: session } = authClient.useSession();
