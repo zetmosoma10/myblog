@@ -1,54 +1,33 @@
 import InputPassword from "#/components/InputPassword";
 import InputText from "#/components/InputText";
 import { Button } from "#/components/ui/button";
-import { authClient } from "#/lib/authClient.client";
+import { Spinner } from "#/components/ui/spinner";
+import useLogin from "#/hooks/useLogin";
 import { loginSchema } from "#/schemas/auth.schema";
+import type { LoginCredentials } from "#/types/auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { z } from "zod";
 
 export const Route = createFileRoute("/login")({
   ssr: false,
   component: RouteComponent,
 });
 
-type FormData = z.infer<typeof loginSchema>;
-
 function RouteComponent() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(loginSchema) });
+  } = useForm<LoginCredentials>({ resolver: zodResolver(loginSchema) });
 
-  const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
+  const { mutateAsync, isPending, error } = useLogin();
 
-  const onSubmit = async (data: FormData) => {
-    setError(null);
-
-    await authClient.signIn.email(
-      {
-        email: data.email,
-        password: data.password,
-      },
-      {
-        onSuccess: () => {
-          navigate({ to: "/", replace: true });
-        },
-        onError: (error) => {
-          console.log(error);
-          if (error.response.status === 401) {
-            setError(error.error.message);
-          } else {
-            toast.error(error.error.message);
-          }
-        },
-      },
-    );
+  const onSubmit = async (data: LoginCredentials) => {
+    await mutateAsync({
+      email: data.email,
+      password: data.password,
+    });
   };
 
   return (
@@ -67,7 +46,7 @@ function RouteComponent() {
         >
           {error && (
             <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive mb-4">
-              {error}
+              {error.message}
             </div>
           )}
 
@@ -94,9 +73,10 @@ function RouteComponent() {
           <Button
             type="submit"
             size="lg"
+            disabled={isPending}
             className="w-full cursor-pointer hover:bg-primary/90"
           >
-            Sign In
+            {isPending ? <Spinner /> : "Sign In"}
           </Button>
         </form>
 
