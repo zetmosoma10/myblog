@@ -70,27 +70,15 @@ const PostCard = ({
         </CardContent>
 
         {/* Footer */}
-        <CardFooter className="flex items-center justify-between border-t border-border px-5 py-3">
-          <div className="flex items-center gap-5 text-xs text-muted-foreground">
-            <div className="flex items-center gap-x-1">
-              <Calendar size={13} />
-              <span>{dayjs(createdAt).format("MMM D, YYYY")}</span>
-            </div>
-            <div className="flex items-center gap-x-1">
-              <Clock4 size={13} />
-              <span>{readingTime} min read</span>
-            </div>
+        <CardFooter className="flex items-center justify-between border-t border-border px-5 py-3 gap-5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-x-1">
+            <Calendar size={13} />
+            <span>{dayjs(createdAt).format("MMM D, YYYY")}</span>
           </div>
-          <Link
-            to="/posts/$slug"
-            params={{ slug: slug as string }}
-            className="flex items-center  gap-1  text-xs lg:hidden tracking-wide text-primary transition-all group-hover:gap-2 focus:font-bold focus:outline-0"
-          >
-            read post{" "}
-            <span className="transition-transform group-hover:translate-x-1">
-              →
-            </span>
-          </Link>
+          <div className="flex items-center gap-x-1">
+            <Clock4 size={13} />
+            <span>{readingTime} min read</span>
+          </div>
         </CardFooter>
       </Card>
     </Link>
