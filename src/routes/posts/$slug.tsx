@@ -24,7 +24,7 @@ function RouteComponent() {
 
   return (
     <section className="max-container">
-      <article className="py-12 ">
+      <article className="py-12 md:py-20">
         <BackLink />
 
         <div className="grow prose dark:prose-invert max-w-none">

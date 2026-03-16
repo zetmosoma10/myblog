@@ -18,7 +18,7 @@ export const Route = createFileRoute("/about")({
 function RouteComponent() {
   return (
     <section className="max-container">
-      <main className="container py-12 md:py-20 max-w-225">
+      <main className="container py-12 md:py-20">
         {/* Back link */}
         <Link
           to="/"
@@ -111,7 +111,7 @@ function RouteComponent() {
             <ExternalLink className="h-5 w-5 text-primary" />
             Projects
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-5">
             {projects.map((project) => (
               <div
                 key={project.title}

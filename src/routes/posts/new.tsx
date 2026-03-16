@@ -12,7 +12,7 @@ export const Route = createFileRoute("/posts/new")({
 function RouteComponent() {
   return (
     <section>
-      <div className="max-container py-12">
+      <div className="max-container py-12 md:py-20">
         <BackLink />
         <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-foreground">
           Create Post
