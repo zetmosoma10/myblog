@@ -4,12 +4,15 @@ import { Button } from "./ui/button";
 import { LogOut } from "lucide-react";
 import { authClient } from "#/lib/authClient";
 import getInitials from "#/utils/getInitials";
+import useLogout from "#/hooks/useLogout";
+import { Card } from "./ui/card";
 
 const AvatarIcon = () => {
   const { data: session } = authClient.useSession();
+  const { mutateAsync } = useLogout();
 
   return (
-    <div className="flex items-center gap-4 p-2 rounded-md bg-accent">
+    <div className="flex items-center gap-4 border-border bg-accent p-1 rounded-md">
       {session?.session.id && (
         <Link to="/posts">
           <Avatar>
@@ -28,18 +31,17 @@ const AvatarIcon = () => {
         </Link>
       )}
       {!session?.session.id && (
-        <Link
-          className="focus:outline-0 focus:underline text-accent-foreground hover:text-primary"
-          activeProps={{
-            className: "font-semibold  text-primary",
-          }}
-          to="/login"
-        >
-          Login
-        </Link>
+        <Button asChild variant="ghost" size="sm">
+          <Link to="/login">Login</Link>
+        </Button>
       )}
       {session?.session.id && (
-        <Button size="sm" variant="outline" className="cursor-pointer">
+        <Button
+          size="sm"
+          variant="outline"
+          className="cursor-pointer"
+          onClick={async () => await mutateAsync()}
+        >
           <LogOut />
         </Button>
       )}
