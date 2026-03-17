@@ -24,7 +24,7 @@ const useResetPassword = () => {
     },
     onSuccess: () => {
       toast.success("Password reset successfully");
-      navigate({ to: "/", replace: true });
+      navigate({ to: "/login", replace: true });
     },
     onError: (error) => toast.error(error.message),
   });

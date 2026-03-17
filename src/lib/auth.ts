@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "@better-auth/mongo-adapter";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { emailOTP } from "better-auth/plugins";
-import resend from "#/emails/resend";
+import resend from "#/lib/resend";
 
 const client = new MongoClient(process.env.LOCAL_DATABASE_URI!);
 const db = client.db();

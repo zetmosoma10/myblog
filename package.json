@@ -9,13 +9,15 @@
     "dev": "vite dev --port 3000",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "email": "email dev --dir src/emails --port 3001"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
     "@better-auth/mongo-adapter": "^1.5.5",
     "@fontsource-variable/inter": "^5.2.8",
     "@hookform/resolvers": "^5.2.2",
+    "@react-email/components": "^1.0.9",
     "@tailwindcss/vite": "^4.2.1",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-query": "latest",
@@ -39,6 +41,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-dropzone": "^15.0.0",
+    "react-email": "^5.2.9",
     "react-hook-form": "^7.71.2",
     "react-hot-toast": "^2.6.0",
     "react-markdown": "^10.1.0",
@@ -54,6 +57,7 @@
   },
   "devDependencies": {
     "@netlify/vite-plugin-tanstack-start": "^1.2.15",
+    "@react-email/preview-server": "^5.2.9",
     "@tailwindcss/typography": "^0.5.19",
     "@tanstack/devtools-vite": "latest",
     "@testing-library/dom": "^10.4.1",
