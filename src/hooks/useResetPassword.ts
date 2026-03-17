@@ -14,9 +14,9 @@ const useResetPassword = () => {
 
   return useMutation({
     mutationFn: async (data: Payload) => {
-      const { error } = await authClient.emailOtp.checkVerificationOtp({
+      const { error } = await authClient.emailOtp.resetPassword({
         otp: data.resetCode,
-        type: "forget-password",
+        password: data.newPassword,
         email: data.email,
       });
 

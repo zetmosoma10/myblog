@@ -27,7 +27,6 @@ function RouteComponent() {
   const [step, setStep] = useState<"email" | "otp">("email");
   const forgotMutation = useForgotPassword();
   const resetMutation = useResetPassword();
-  console.log(resetMutation.error);
 
   const onSubmitForgotForm = async (data: { email: string }) => {
     setStep("otp");
@@ -41,7 +40,7 @@ function RouteComponent() {
       email: forgotForm.getValues("email"),
     };
 
-    resetMutation.mutateAsync(payload);
+    await resetMutation.mutateAsync(payload);
   };
 
   return (
