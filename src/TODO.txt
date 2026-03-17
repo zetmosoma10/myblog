@@ -9,3 +9,4 @@ TODO: Email news letter Subcription - get notified when posting articles
 TODO: Change hero content
 TODO: change backlink, hero text on white theme
 TODO: The post grid cards must be of equal hights
+TODO: in production remove the "await" keyword when sending emails
