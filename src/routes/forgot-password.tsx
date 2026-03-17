@@ -3,9 +3,14 @@ import InputText from "#/components/InputText";
 import { Button } from "#/components/ui/button";
 import { Label } from "#/components/ui/label";
 import useForgotPassword from "#/hooks/useForgotPassword";
-import { loginSchema } from "#/schemas/auth.schema";
+import {
+  forgotPasswordSchema,
+  resetPasswordSchema,
+} from "#/schemas/auth.schema";
+import type { ResetPasswordCredentials } from "#/types/auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -13,23 +18,22 @@ export const Route = createFileRoute("/forgot-password")({
   component: RouteComponent,
 });
 
-const forgotPasswordSchema = loginSchema.pick({ email: true });
-
 function RouteComponent() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<{ email: string }>({
+  const forgotForm = useForm<{ email: string }>({
     resolver: zodResolver(forgotPasswordSchema),
   });
+  const resetForm = useForm({ resolver: zodResolver(resetPasswordSchema) });
 
   const [step, setStep] = useState<"email" | "otp">("email");
-  const { mutateAsync, isPending } = useForgotPassword();
+  // const { mutateAsync, isPending } = useForgotPassword();
 
-  const onSubmit = async (data: { email: string }) => {
+  const onSubmitForgotForm = async (data: { email: string }) => {
     setStep("otp");
+    // reset();
+    // await mutateAsync(data.email);
+  };
+
+  const onSubmitResetForm = async (data: ResetPasswordCredentials) => {
     // reset();
     // await mutateAsync(data.email);
   };
@@ -51,10 +55,11 @@ function RouteComponent() {
           />
         </div>
 
+        {/* ── STEP 1 — Enter email ── */}
         {step === "email" && (
           <div>
             <div className="text-center mb-8">
-              <p className="mb-5">// Step 1</p>
+              <p className="mb-5">// Step 01</p>
               <h1 className="text-2xl font-bold text-foreground">
                 Forgot Password
               </h1>
@@ -64,22 +69,22 @@ function RouteComponent() {
             </div>
 
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={forgotForm.handleSubmit(onSubmitForgotForm)}
               className="rounded-xl border border-border bg-card p-6 space-y-5"
             >
               <InputText
                 id="email"
                 label="Email"
                 type="email"
-                register={register("email")}
-                error={errors.email?.message}
+                register={forgotForm.register("email")}
+                error={forgotForm.formState.errors.email?.message}
                 placeholder="admin@example.com"
               />
 
               <Button
                 type="submit"
                 size="lg"
-                disabled={isPending}
+                // disabled={isPending}
                 className="w-full cursor-pointer hover:bg-primary/90"
               >
                 Send reset code
@@ -92,6 +97,72 @@ function RouteComponent() {
                 Sign in
               </Link>{" "}
             </p>
+          </div>
+        )}
+
+        {/* ── STEP 2 — Enter OTP + new password ── */}
+        {step === "otp" && (
+          <div>
+            <div className="text-center mb-8">
+              <p className="mb-5">// Step 02</p>
+              <h1 className="text-2xl font-bold text-foreground">
+                Reset Password
+              </h1>
+              <p className="text-muted-foreground text-sm mt-1">
+                Enter the code sent to //{" "}
+                <span className="text-primary">
+                  {forgotForm.getValues("email")}
+                </span>
+              </p>
+            </div>
+
+            <form
+              onSubmit={resetForm.handleSubmit(onSubmitResetForm)}
+              className="rounded-xl border border-border bg-card p-6 space-y-5"
+            >
+              <div className="space-y-4">
+                <InputText
+                  id="resetCode"
+                  label="Reset Code"
+                  type="text"
+                  register={resetForm.register("resetCode")}
+                  error={resetForm.formState.errors.resetCode?.message}
+                  placeholder="6-digit-code"
+                />
+                <InputPassword
+                  id="newPassword"
+                  label="New Password"
+                  register={resetForm.register("newPassword")}
+                  error={resetForm.formState.errors.newPassword?.message}
+                />
+                <InputPassword
+                  id="confirmPassword"
+                  label="Confirm Password"
+                  register={resetForm.register("confirmPassword")}
+                  error={resetForm.formState.errors.confirmPassword?.message}
+                />
+              </div>
+
+              <Button
+                type="submit"
+                size="lg"
+                // disabled={isPending}
+                className="w-full cursor-pointer hover:bg-primary/90"
+              >
+                Reset password
+              </Button>
+
+              {/* Back Button */}
+              <div className="flex items-center justify-center">
+                <button
+                  onClick={() => setStep("email")}
+                  className="flex items-center gap-2 cursor-pointer text-center text-muted-foreground hover:text-primary"
+                >
+                  <ArrowLeft className="h-3.5 w-3.5" />
+                  <span>resend code</span>
+                </button>
+              </div>
+            </form>
           </div>
         )}
       </div>

@@ -44,3 +44,21 @@ export const loginSchema = z.object({
     .min(8, { error: "min password must be 8" })
     .max(255, { error: "max length must be 255" }),
 });
+
+export const forgotPasswordSchema = loginSchema.pick({ email: true });
+export const resetPasswordSchema = z.object({
+  resetCode: z
+    .string()
+    .nonempty()
+    .length(6, { error: "reset code must be 6 digits" }),
+  newPassword: z
+    .string()
+    .nonempty({ error: "password required" })
+    .min(8, { error: "min password must be 8" })
+    .max(255, { error: "max length must be 255" }),
+  confirmPassword: z
+    .string()
+    .nonempty({ error: "ConfirmPassword required" })
+    .min(8, { error: "min confirmPassword must be 8" })
+    .max(255, { error: "max length must be 255" }),
+});
