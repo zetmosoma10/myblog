@@ -7,3 +7,5 @@ TODO: Save theme on localStorage
 TODO: Add shadow on navbar, footer and cards
 TODO: Email news letter Subcription - get notified when posting articles
 TODO: Change hero content
+TODO: change backlink, hero text on white theme
+TODO: The post grid cards must be of equal hights
