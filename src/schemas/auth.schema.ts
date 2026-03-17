@@ -46,11 +46,12 @@ export const loginSchema = z.object({
 });
 
 export const forgotPasswordSchema = loginSchema.pick({ email: true });
+
 export const resetPasswordSchema = z.object({
-  resetCode: z
+  otp: z
     .string()
-    .nonempty()
-    .length(6, { error: "reset code must be 6 digits" }),
+    .nonempty({ error: "otp required" })
+    .length(6, { error: "otp must be 6 digits" }),
   newPassword: z
     .string()
     .nonempty({ error: "password required" })

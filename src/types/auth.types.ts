@@ -12,7 +12,7 @@ export type RegisterCredentials = {
 
 export type LoginCredentials = Pick<RegisterCredentials, "email" | "password">;
 export type ResetPasswordCredentials = {
-  resetCode: string;
+  otp: string;
   newPassword: string;
   confirmPassword: string;
 };
