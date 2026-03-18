@@ -11,14 +11,14 @@ import {
   Hr,
   Section,
 } from "@react-email/components";
+import { render } from "@react-email/render";
 
-const ForgotPasswordTemplate = ({
-  name,
-  otp,
-}: {
-  name: string;
+type Props = {
+  email: string;
   otp: string;
-}) => {
+};
+
+const ForgotPasswordTemplate = ({ otp, email }: Props) => {
   return (
     <Tailwind
       config={{
@@ -66,13 +66,13 @@ const ForgotPasswordTemplate = ({
               </Heading>
 
               <Text className="text-primary text-sm leading-relaxed m-0 mb-3">
-                Hi {name},
+                Hi Zet,
               </Text>
               <Text className="text-primary text-sm leading-relaxed m-0 mb-3">
-                We received a request to reset the password. Enter the code
-                below to reset your password:
+                We received a request to reset the password for the following
+                emal: {email}
               </Text>
-
+              <Text>Enter the code below to reset your password:</Text>
               {/* OTP */}
               <Section className="bg-border rounded-md py-5 px-8 text-center mb-6">
                 <Text className="text-foreground text-4xl font-bold tracking-[0.3em] m-0">
@@ -96,6 +96,10 @@ const ForgotPasswordTemplate = ({
       </Html>
     </Tailwind>
   );
+};
+
+export const htmlEmail = async ({ email, otp }: Props) => {
+  return await render(<ForgotPasswordTemplate email={email} otp={otp} />);
 };
 
 export default ForgotPasswordTemplate;
