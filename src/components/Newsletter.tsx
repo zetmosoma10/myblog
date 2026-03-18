@@ -2,43 +2,56 @@ import { useForm } from "react-hook-form";
 import InputText from "./InputText";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+  email: z.string().email().nonempty({ error: "email required" }),
+});
 
 const Newsletter = () => {
   const {
     register,
+    handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: zodResolver(schema) });
+
   return (
     <section className="flex items-center justify-center">
       <Card className="max-w-150 p-8 bg-primary/10 border border-primary/40">
-        <p className="text-primary">newsletter</p>
-        <h2 className="text-card-foreground font-semibold text-2xl">
-          Stay in the <span className="text-primary">loop</span>
-        </h2>
+        <div>
+          <p className="text-primary">newsletter</p>
+          <h2 className="text-card-foreground font-semibold text-2xl mt-1">
+            Stay in the <span className="text-primary">loop</span>
+          </h2>
 
-        <p className="text-muted-foreground">
-          Weekly articles on React, TypeScript, TanStack, and the modern web. No
-          spam just things I actually find useful and worth sharing.
-        </p>
+          <p className="text-muted-foreground mt-3">
+            Weekly articles on React, TypeScript, TanStack, and the modern web.
+            No spam just things I actually find useful and worth sharing.
+          </p>
 
-        <form className="flex flex-col gap-3 sm:flex-row sm:items-end">
-          <InputText
-            id="email"
-            type="email"
-            placeholder="your@email.com"
-            className="bg-white shadow"
-            register={register("email")}
-            error=""
-          />
-          <Button size="lg" className="cursor-pointer py-5">
-            Subscribe →
-          </Button>
-        </form>
+          <form
+            onSubmit={handleSubmit((data) => console.log(data.email))}
+            className="flex flex-col gap-3 mt-3"
+          >
+            <InputText
+              id="email"
+              type="email"
+              placeholder="your@email.com"
+              className="bg-white shadow"
+              register={register("email")}
+              error={errors.email?.message}
+            />
+            <Button type="submit" size="lg" className="cursor-pointer py-5">
+              Subscribe →
+            </Button>
+          </form>
 
-        <div className="text-xs text-primary/80 mt-4 flex items-center gap-2">
-          <p>weekly posts</p>
-          <p>no spam</p>
-          <p>unsubscribe anytime</p>
+          <div className="text-xs text-primary/80 flex items-center gap-2 mt-2">
+            <p>weekly posts</p>
+            <p>no spam</p>
+            <p>unsubscribe anytime</p>
+          </div>
         </div>
       </Card>
     </section>
