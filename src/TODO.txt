@@ -2,13 +2,9 @@ TODO: markdown editor text are white in light mode
 TODO: add selete box for published/draft
 TODO: Add Comments to the application
 TODO: Admin should be able to add Categories, to its collection
-TODO: Add Forgot password API
-TODO: Save theme on localStorage
 TODO: Add shadow on navbar, footer and cards
 TODO: Email news letter Subcription - get notified when posting articles
-TODO: Change hero content
-TODO: change backlink, hero text on white theme
-TODO: The post grid cards must be of equal hights
 TODO: in production remove the "await" keyword when sending emails
 TODO: add search, filters
 TODO: add Pagination
+TODO: add mobile navbar

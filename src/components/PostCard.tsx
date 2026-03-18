@@ -30,7 +30,7 @@ const PostCard = ({
       params={{ slug: slug as string }}
       className="block focus:outline-0 focus:scale-105"
     >
-      <Card className="group overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg pt-0">
+      <Card className="group justify-between overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg pt-0 h-full">
         {/* Cover image */}
         {coverImage ? (
           <img
