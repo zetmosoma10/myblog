@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import AvatarIcon from "../AvatarIcon";
+import { ThemeToggler } from "../ThemeToggler";
 
 const links = [
   {
@@ -38,7 +39,10 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
+        </div>
+        <div className="flex items-center gap-2">
           <AvatarIcon />
+          <ThemeToggler />
         </div>
       </nav>
     </header>

@@ -17,6 +17,7 @@ import Navbar from "#/components/layouts/Navbar";
 import Footer from "#/components/layouts/Footer";
 import { Toaster } from "react-hot-toast";
 import NotFound from "#/components/NotFound";
+import ThemeProvider from "#/context/ThemeProvider";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -58,10 +59,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="bg-background">
         <TanStackQueryProvider>
-          <Navbar />
-          <Toaster />
-          <div>{children}</div>
-          <Footer />
+          <ThemeProvider defaultTheme="dark" storageKey="blog-theme">
+            <Navbar />
+            <Toaster />
+            <div>{children}</div>
+            <Footer />
+          </ThemeProvider>
           <TanStackDevtools
             config={{
               position: "bottom-right",
