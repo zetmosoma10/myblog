@@ -72,7 +72,9 @@ const ForgotPasswordTemplate = ({ otp, email }: Props) => {
                 We received a request to reset the password for the following
                 emal: {email}
               </Text>
-              <Text>Enter the code below to reset your password:</Text>
+              <Text className="text-primary text-sm leading-relaxed m-0 mb-3">
+                Enter the code below to reset your password:
+              </Text>
               {/* OTP */}
               <Section className="bg-border rounded-md py-5 px-8 text-center mb-6">
                 <Text className="text-foreground text-4xl font-bold tracking-[0.3em] m-0">
@@ -80,13 +82,13 @@ const ForgotPasswordTemplate = ({ otp, email }: Props) => {
                 </Text>
               </Section>
 
-              <Text className="text-muted text-xs m-0 mb-6">
+              <Text className="text-primary text-xs m-0 mb-6">
                 This code expires in <strong>5 minutes</strong>.
               </Text>
 
               <Hr className="border-border my-5" />
 
-              <Text className="text-muted text-xs leading-relaxed m-0">
+              <Text className="text-primary text-xs leading-relaxed m-0">
                 If you didn't request this, you can safely ignore this email.
                 Your password will not be changed.
               </Text>
