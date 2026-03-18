@@ -6,9 +6,10 @@ import clsx from "clsx";
 
 type Props = {
   id: string;
-  label: string;
+  label?: string;
   register: UseFormRegisterReturn;
   type: "text" | "email" | "textarea";
+  className?: string;
   error?: string;
   autoFocus?: boolean;
   placeholder: string;
@@ -21,6 +22,7 @@ const InputText = ({
   register,
   error,
   autoFocus,
+  className,
   placeholder,
 }: Props) => {
   return (
@@ -40,6 +42,7 @@ const InputText = ({
             "py-5 focus-visible:ring-primary/50 focus-visible:border-primary",
             error &&
               "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
+            className,
           )}
           {...register}
           autoFocus={autoFocus}
@@ -53,6 +56,7 @@ const InputText = ({
             id === "excerpt" ? "min-h-20" : "min-h-80",
             error &&
               "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
+            className,
           )}
           {...register}
         />
