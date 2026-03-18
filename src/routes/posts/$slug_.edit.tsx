@@ -23,7 +23,7 @@ function RouteComponent() {
   return (
     <section className="max-container">
       <div className="py-12 md:py-20">
-        <BackLink />
+        <BackLink>Back to Posts</BackLink>
         <div>
           <h2 className="text-4xl font-bold text-foreground leading-tight mb-6">
             Edit Post

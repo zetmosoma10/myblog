@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import img from "#/assets/IMG_2622.jpg";
 import { skills, projects, contacts } from "#/constance";
+import BackLink from "#/components/BackLink";
 
 export const Route = createFileRoute("/about")({
   component: RouteComponent,
@@ -20,13 +21,7 @@ function RouteComponent() {
     <section className="max-container">
       <main className="container py-12 md:py-20">
         {/* Back link */}
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-10"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Home
-        </Link>
+        <BackLink>Home</BackLink>
 
         {/* Bio Section */}
         <section className="flex flex-col sm:flex-row gap-8 items-start mb-16">

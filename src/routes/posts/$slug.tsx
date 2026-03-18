@@ -25,7 +25,7 @@ function RouteComponent() {
   return (
     <section className="max-container">
       <article className="py-12 md:py-20">
-        <BackLink />
+        <BackLink>Back</BackLink>
 
         <div className="grow prose dark:prose-invert max-w-none">
           <header className="flex flex-col gap-5 md:flex-row md:justify-between md:gap-15">

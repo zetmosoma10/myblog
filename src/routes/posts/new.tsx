@@ -13,7 +13,7 @@ function RouteComponent() {
   return (
     <section>
       <div className="max-container py-12 md:py-20">
-        <BackLink />
+        <BackLink>Back to Posts</BackLink>
         <h2 className="text-3xl md:text-4xl font-extrabold mb-6 text-foreground">
           Create Post
         </h2>

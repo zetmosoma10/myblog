@@ -1,14 +1,16 @@
 import { Link } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
+import type { ReactNode } from "react";
 
-const BackLink = () => {
+const BackLink = ({ children }: { children: ReactNode }) => {
   return (
     <div className="mb-6">
       <Link
         to=".."
-        className=" text-muted-foreground  hover:text-white transition-all duration-75 w text-base focus:underline focus:outline-0"
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-10"
       >
-        {"<- "}
-        Back to post{" "}
+        <ArrowLeft className="h-3.5 w-3.5" />
+        {children}
       </Link>
     </div>
   );
