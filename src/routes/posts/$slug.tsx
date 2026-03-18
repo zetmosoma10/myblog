@@ -9,7 +9,6 @@ import rehypeSlug from "rehype-slug";
 import dayjs from "dayjs";
 import BackLink from "#/components/BackLink";
 import PostModal from "#/components/PostModal";
-import { Button } from "#/components/ui/button";
 
 export const Route = createFileRoute("/posts/$slug")({
   component: RouteComponent,
