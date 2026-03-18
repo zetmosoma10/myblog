@@ -88,8 +88,8 @@ function RouteComponent() {
                   {items.map((skill) => (
                     <Badge
                       key={skill}
-                      // variant="secondary"
-                      className="bg-primary/40 border-0 font-normal text-sm"
+                      variant="outline"
+                      className="bg-primary/10 text-primary/80 border border-primary/20  text-sm"
                     >
                       {skill}
                     </Badge>

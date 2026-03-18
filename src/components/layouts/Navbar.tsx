@@ -41,8 +41,8 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="flex items-center gap-2">
-          <AvatarIcon />
           <ThemeToggler />
+          <AvatarIcon />
         </div>
       </nav>
     </header>

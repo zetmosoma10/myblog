@@ -11,7 +11,7 @@ const AvatarIcon = () => {
   const { mutateAsync } = useLogout();
 
   return (
-    <div className="flex items-center gap-4 border-border bg-accent p-1 rounded-md">
+    <div className="flex items-center gap-4 border-border bg-accent p-0.5 rounded-md">
       {session?.session.id && (
         <Link to="/posts">
           <Avatar>

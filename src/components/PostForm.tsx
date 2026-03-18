@@ -117,8 +117,11 @@ const PostForm = ({ type, post }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Card className="flex flex-col  gap-8  p-6 rounded-xl">
+    <Card className="shadow-lg">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col  gap-8  p-6"
+      >
         <InputText
           id="title"
           label="Title"
@@ -259,8 +262,8 @@ const PostForm = ({ type, post }: Props) => {
         >
           {isPending || isUpdatePending ? <Spinner /> : "Submit"}
         </Button>
-      </Card>
-    </form>
+      </form>
+    </Card>
   );
 };
 
