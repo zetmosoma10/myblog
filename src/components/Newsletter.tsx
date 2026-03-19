@@ -15,6 +15,7 @@ const schema = z.object({
 const Newsletter = () => {
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
@@ -24,6 +25,7 @@ const Newsletter = () => {
   const onSubmit = async (data: { email: string }) => {
     try {
       await mutateAsync(data);
+      reset();
     } catch (error: any) {
       console.log(error);
       if (error.status === 409) {

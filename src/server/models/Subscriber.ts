@@ -1,6 +1,6 @@
 import mongoose, { Model, Schema } from "mongoose";
 
-const newsLetterSchema = new Schema(
+const subscriberSchema = new Schema(
   {
     email: {
       type: String,
@@ -12,6 +12,6 @@ const newsLetterSchema = new Schema(
   { timestamps: true },
 );
 
-export const NewsLetter: Model<{ email: string }> =
+export const Subscriber: Model<{ email: string }> =
   mongoose.models.NewsLetter ||
-  mongoose.model<{ email: string }>("NewsLetter", newsLetterSchema);
+  mongoose.model<{ email: string }>("NewsLetter", subscriberSchema);
