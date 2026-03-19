@@ -11,10 +11,8 @@ export const subscribeToNewsletter = createServerFn({ method: "POST" })
 
     try {
       const existingNewsLetter = await Subscriber.findOne({ email });
-      console.log("Exist", existingNewsLetter);
 
       if (existingNewsLetter) {
-        console.log("RUN!");
         setResponseStatus(409);
         throw new Error("email already exist");
       }
@@ -23,7 +21,6 @@ export const subscribeToNewsletter = createServerFn({ method: "POST" })
       setResponseStatus(201);
       return { success: true };
     } catch (error: any) {
-      console.error("SERVER", error);
       throw new Error(error);
     }
   });

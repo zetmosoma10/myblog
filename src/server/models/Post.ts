@@ -52,6 +52,10 @@ const postSchema = new Schema<PostDocument>(
   { timestamps: true },
 );
 
+postSchema.index({ slug: 1 }, { unique: true });
+postSchema.index({ tags: 1 });
+postSchema.index({ title: "text", content: "text" });
+
 // * Check if the model already exist before creating it
 export const Post: Model<PostDocument> =
   mongoose.models.Post || model<PostDocument>("Post", postSchema);
