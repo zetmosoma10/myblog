@@ -17,6 +17,16 @@ export const addPost = createServerFn({ method: "POST" })
     await connectDB();
 
     try {
+      const existingSlugPost = await Post.findOne({
+        slug: generateSlug(data.title),
+      });
+      if (existingSlugPost) {
+        setResponseStatus(409);
+        throw new Error(
+          "Post with that Title already exist. Please use another Title",
+        );
+      }
+
       const { coverImage, coverImagePublicId } = await uploadImage(
         data.imageBase64,
         "myblog/posts",
@@ -37,14 +47,7 @@ export const addPost = createServerFn({ method: "POST" })
       return JSON.parse(JSON.stringify(post));
     } catch (error: any) {
       console.error(error);
-
-      if (error.code === 11000) {
-        setResponseStatus(409);
-        throw new Error("Post with this title already exist");
-      }
-
-      setResponseStatus(500);
-      throw new Error("Server error");
+      throw new Error(error);
     }
   });
 

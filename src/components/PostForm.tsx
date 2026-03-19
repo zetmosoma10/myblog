@@ -100,6 +100,7 @@ const PostForm = ({ type, post }: Props) => {
         reset();
         toast.success("Post added successfully");
         queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
+        queryClient.invalidateQueries({ queryKey: ["posts"] }); //* re-fetch posts
         navigate({ to: "/posts" });
         //
       } else if (type === "Edit") {
