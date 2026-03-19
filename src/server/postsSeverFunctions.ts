@@ -10,6 +10,8 @@ import cloudinary from "#/lib/cloudinaryConfigs.server";
 import isObjectId from "#/lib/isObjectId.server";
 import uploadImage from "#/lib/uploadImage.server";
 import getWordCount from "#/utils/getWordCount";
+import { Subscriber } from "./models/Subscriber";
+import resend from "#/lib/resend";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
@@ -17,6 +19,7 @@ export const addPost = createServerFn({ method: "POST" })
     await connectDB();
 
     try {
+      // * Throw error to avoid same slug urls
       const existingSlugPost = await Post.findOne({
         slug: generateSlug(data.title),
       });
@@ -42,6 +45,18 @@ export const addPost = createServerFn({ method: "POST" })
         coverImage,
         coverImagePublicId,
       });
+
+      // * Send Email to subscribers
+      const subscribers = await Subscriber.find().lean();
+
+      const { error } = await resend.emails.send({
+        from: process.env.EMAIL_FROM!,
+        to: subscribers.map((s) => s.email),
+        subject: "New Post added!",
+        html: `<p>Hi, New Post Created visit this link to check it</p>`,
+      });
+
+      if (error) console.log("EMAIL ERROR: ", error);
 
       setResponseStatus(201);
       return JSON.parse(JSON.stringify(post));
