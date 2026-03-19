@@ -16,6 +16,10 @@ const Newsletter = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
 
+  const onSubmit = (data: { email: string }) => {
+    console.log(data);
+  };
+
   return (
     <section className="flex items-center justify-center">
       <Card className="max-w-150 p-8 bg-primary/10 border border-primary/40">
@@ -31,7 +35,7 @@ const Newsletter = () => {
           </p>
 
           <form
-            onSubmit={handleSubmit((data) => console.log(data.email))}
+            onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-3 mt-3"
           >
             <InputText

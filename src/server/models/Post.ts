@@ -13,41 +13,44 @@ export interface PostDocument extends Document {
   updatedAt: Date;
 }
 
-const postSchema = new Schema<PostDocument>({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-    maxLength: [255, "Title must be less than 255 characters"],
+const postSchema = new Schema<PostDocument>(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      maxLength: [255, "Title must be less than 255 characters"],
+    },
+    slug: {
+      type: String,
+      required: true,
+      trim: true,
+      maxLength: [255, "Slug must be less than 255 characters"],
+    },
+    excerpt: {
+      type: String,
+      required: true,
+      trim: true,
+      maxLength: [500, "Excerpt must be less than 500 characters"],
+    },
+    tags: {
+      type: [String],
+      required: true,
+      default: [],
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    readingTime: {
+      type: Number,
+      required: true,
+    },
+    coverImage: String,
+    coverImagePublicId: String,
   },
-  slug: {
-    type: String,
-    required: true,
-    trim: true,
-    maxLength: [255, "Slug must be less than 255 characters"],
-  },
-  excerpt: {
-    type: String,
-    required: true,
-    trim: true,
-    maxLength: [500, "Excerpt must be less than 500 characters"],
-  },
-  tags: {
-    type: [String],
-    required: true,
-    default: [],
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  readingTime: {
-    type: Number,
-    required: true,
-  },
-  coverImage: String,
-  coverImagePublicId: String,
-});
+  { timestamps: true },
+);
 
 // * Check if the model already exist before creating it
 export const Post: Model<PostDocument> =
