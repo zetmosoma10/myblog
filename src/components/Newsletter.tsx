@@ -4,6 +4,9 @@ import { Button } from "./ui/button";
 import { Card } from "./ui/card";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useAddNewsletter from "#/hooks/useAddNewsletter";
+import { Spinner } from "./ui/spinner";
+import toast from "react-hot-toast";
 
 const schema = z.object({
   email: z.string().email().nonempty({ error: "email required" }),
@@ -16,8 +19,19 @@ const Newsletter = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
 
-  const onSubmit = (data: { email: string }) => {
-    console.log(data);
+  const { mutateAsync, isPending } = useAddNewsletter();
+
+  const onSubmit = async (data: { email: string }) => {
+    try {
+      await mutateAsync(data);
+    } catch (error: any) {
+      console.log(error);
+      if (error.status === 409) {
+        toast.error(error.message);
+      } else {
+        toast.error(error.message);
+      }
+    }
   };
 
   return (
@@ -46,8 +60,13 @@ const Newsletter = () => {
               register={register("email")}
               error={errors.email?.message}
             />
-            <Button type="submit" size="lg" className="cursor-pointer py-5">
-              Subscribe →
+            <Button
+              type="submit"
+              size="lg"
+              disabled={isPending}
+              className="cursor-pointer py-5"
+            >
+              {isPending ? <Spinner /> : "Subscribe →"}
             </Button>
           </form>
 

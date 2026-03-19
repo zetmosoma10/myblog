@@ -1,13 +1,16 @@
 import mongoose, { Model, Schema } from "mongoose";
 
-const newsLetterSchema = new Schema({
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true,
+const newsLetterSchema = new Schema(
+  {
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true,
+    },
   },
-});
+  { timestamps: true },
+);
 
 export const NewsLetter: Model<{ email: string }> =
   mongoose.models.NewsLetter ||
