@@ -12,6 +12,7 @@ import uploadImage from "#/lib/uploadImage.server";
 import getWordCount from "#/utils/getWordCount";
 import { Subscriber } from "./models/Subscriber";
 import resend from "#/lib/resend";
+import { NewPostEmailHtml } from "#/emails/NewPostEmail";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
@@ -49,14 +50,27 @@ export const addPost = createServerFn({ method: "POST" })
       // * Send Email to subscribers
       const subscribers = await Subscriber.find().lean();
 
-      const { error } = await resend.emails.send({
-        from: process.env.EMAIL_FROM!,
-        to: subscribers.map((s) => s.email),
-        subject: "New Post added!",
-        html: `<p>Hi, New Post Created visit this link to check it</p>`,
+      const postUrl = `${process.env.VITE_APP_URL}/posts/${post.slug}`;
+
+      const html = await NewPostEmailHtml({
+        postTitle: post.title,
+        postExcerpt: post.excerpt,
+        postUrl: postUrl,
+        tags: post.tags,
       });
 
-      if (error) console.log("EMAIL ERROR: ", error);
+      const emails = subscribers.map((sub) => ({
+        from: process.env.EMAIL_FROM!,
+        to: sub.email,
+        subject: `New Post: ${post.title}`,
+        html,
+      }));
+
+      const chuckSize = 100;
+      for (let i = 0; i < emails.length; i += chuckSize) {
+        const chuck = emails.slice(i, i + chuckSize);
+        await resend.batch.send(chuck);
+      }
 
       setResponseStatus(201);
       return JSON.parse(JSON.stringify(post));

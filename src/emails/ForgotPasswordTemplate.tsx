@@ -100,7 +100,7 @@ const ForgotPasswordTemplate = ({ otp, email }: Props) => {
   );
 };
 
-export const htmlEmail = async ({ email, otp }: Props) => {
+export const ForgotPasswordEmailHtml = async ({ email, otp }: Props) => {
   return await render(<ForgotPasswordTemplate email={email} otp={otp} />);
 };
 

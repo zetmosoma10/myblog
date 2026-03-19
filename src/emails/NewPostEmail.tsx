@@ -11,20 +11,16 @@ import {
   Hr,
   Tailwind,
 } from "@react-email/components";
+import { render } from "@react-email/render";
 
-type NewPostEmailProps = {
+type Props = {
   postTitle: string;
   postExcerpt: string;
   postUrl: string;
   tags: string[];
 };
 
-const NewPostEmail = ({
-  postTitle,
-  postExcerpt,
-  postUrl,
-  tags,
-}: NewPostEmailProps) => {
+const NewPostEmail = ({ postTitle, postExcerpt, postUrl, tags }: Props) => {
   return (
     <Tailwind
       config={{
@@ -65,7 +61,7 @@ const NewPostEmail = ({
               </Heading>
 
               {/* Tags */}
-              <Section className="mb-4">
+              <Section className="mb-4 flex items-center gap-2">
                 {tags.map((tag) => (
                   <Text
                     key={tag}
@@ -92,15 +88,34 @@ const NewPostEmail = ({
               <Text className="text-muted text-xs m-0">
                 You're receiving this because you subscribed to myblog.
                 <br />
-                <a href="{unsubscribeUrl}" className="text-primary">
-                  Unsubscribe
-                </a>
               </Text>
+              <Button
+                href="http://localhost:3000/Unsubscribe"
+                className="text-primary"
+              >
+                Unsubscribe
+              </Button>
             </Section>
           </Container>
         </Body>
       </Html>
     </Tailwind>
+  );
+};
+
+export const NewPostEmailHtml = async ({
+  postTitle,
+  postExcerpt,
+  postUrl,
+  tags,
+}: Props) => {
+  return await render(
+    <NewPostEmail
+      postTitle={postTitle}
+      postExcerpt={postExcerpt}
+      postUrl={postUrl}
+      tags={tags}
+    />,
   );
 };
 

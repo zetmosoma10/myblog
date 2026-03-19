@@ -4,7 +4,7 @@ import { mongodbAdapter } from "@better-auth/mongo-adapter";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { emailOTP } from "better-auth/plugins";
 import resend from "#/lib/resend";
-import { htmlEmail } from "#/emails/ForgotPasswordTemplate";
+import { ForgotPasswordEmailHtml } from "#/emails/ForgotPasswordTemplate";
 
 const client = new MongoClient(process.env.LOCAL_DATABASE_URI!);
 const db = client.db();
@@ -27,7 +27,7 @@ export const auth = betterAuth({
             from: process.env.EMAIL_FROM!,
             to: email,
             subject: "Reset your password",
-            html: await htmlEmail({ email, otp }),
+            html: await ForgotPasswordEmailHtml({ email, otp }),
           });
         }
       },
