@@ -78,7 +78,7 @@ const PostForm = ({ type, post }: Props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const anchor = useComboboxAnchor();
-  const { mutateAsync, isPending } = useAddPost();
+  const { mutateAsync: addMutationAsync, isPending } = useAddPost();
   const { mutateAsync: updateMutateAsync, isPending: isUpdatePending } =
     useUpdatePost();
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
@@ -105,7 +105,7 @@ const PostForm = ({ type, post }: Props) => {
       }
 
       if (type === "Post") {
-        await mutateAsync({ ...data, imageBase64 });
+        await addMutationAsync({ ...data, imageBase64 });
         reset();
         toast.success("Post added successfully");
         queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data

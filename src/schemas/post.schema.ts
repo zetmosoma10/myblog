@@ -20,7 +20,7 @@ export const postSchema = z.object({
   content: z.string().min(1, { error: "Content is required" }),
   coverImage: z.string().optional(),
   imageBase64: z.string().optional(),
-  status: z.enum(["draft", "published"]),
+  status: z.enum(["draft", "published"]).optional(),
 });
 
 export const updatePostSchema = postSchema.partial().extend({
