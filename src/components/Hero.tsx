@@ -31,7 +31,7 @@ const Hero = () => {
           developers.
         </p>
         <Button asChild size="lg" className="py-6 px-4 text-base">
-          <Link to="/posts">
+          <Link to="/posts" search={{ page: 1 }}>
             Read the Posts <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>

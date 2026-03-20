@@ -7,13 +7,13 @@ import Newsletter from "#/components/Newsletter";
 export const Route = createFileRoute("/")({
   component: App,
   loader: async () => {
-    return await getPosts();
+    return await getPosts({ data: { page: 1 } });
   },
   staleTime: 1000 * 60 * 10,
 });
 
 function App() {
-  const posts = Route.useLoaderData();
+  const { data: posts } = Route.useLoaderData();
   const features = posts.slice(0, 4);
 
   return (
