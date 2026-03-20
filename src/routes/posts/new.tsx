@@ -1,11 +1,23 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import BackLink from "#/components/BackLink";
 import PostForm from "#/components/PostForm";
+import { getSession } from "#/server/authServerFunctions";
 
 export const Route = createFileRoute("/posts/new")({
   ssr: false,
+  beforeLoad: async () => {
+    const { user } = await getSession();
+    if (!user) {
+      throw redirect({
+        to: "/login",
+        search: {
+          message: "Please login first",
+        },
+      });
+    }
+  },
   component: RouteComponent,
 });
 

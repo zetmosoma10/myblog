@@ -1,11 +1,23 @@
 import BackLink from "#/components/BackLink";
 import PostForm from "#/components/PostForm";
 import { postQueryOptions } from "#/hooks/useGetPost";
+import { getSession } from "#/server/authServerFunctions";
 import type { PostType } from "#/types/post.type";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/posts/$slug_/edit")({
   ssr: false,
+  beforeLoad: async () => {
+    const { user } = await getSession();
+    if (!user) {
+      throw redirect({
+        to: "/login",
+        search: {
+          message: "Please login first",
+        },
+      });
+    }
+  },
   component: RouteComponent,
   loader: async ({ context, params }) => {
     const { slug } = params;
