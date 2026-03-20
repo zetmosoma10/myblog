@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import heroImg from "#/assets/code-1.png";
 import { Button } from "./ui/button";
+import { ArrowRight } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -18,14 +19,21 @@ const Hero = () => {
 
       <div className="max-container z-10  text-center md:text-left ">
         <h1 className="font-extrabold text-5xl md:text-6xl tracking-tight text-white">
-          Hi, I'm Zet Mosoma
+          Insights for modern <br></br>{" "}
+          <span className="bg-primary bg-clip-text text-transparent bg-linear-to-r from-primary to-blue-500">
+            Developers
+          </span>
         </h1>
         <p className="text-muted-foreground mt-4 mb-8 text-lg max-w-180">
-          Fullstack developer writing about React, TypeScript, and building
-          better software. I share practical insights from real-world projects.
+          Explore the latest in web development, software architecture, and
+          coding best practices. Written by{" "}
+          <span className="font-medium text-primary">Zet Mosoma</span>, for
+          developers.
         </p>
-        <Button asChild size="lg">
-          <Link to="/posts">Read the Posts</Link>
+        <Button asChild size="lg" className="py-6 px-4 text-base">
+          <Link to="/posts">
+            Read the Posts <ArrowRight className="h-4 w-4" />
+          </Link>
         </Button>
       </div>
     </section>
