@@ -42,6 +42,7 @@ export const addPost = createServerFn({ method: "POST" })
         excerpt: data.excerpt,
         tags: data.tags,
         content: data.content,
+        status: data.status,
         readingTime: getWordCount(data.content),
         coverImage,
         coverImagePublicId,
@@ -50,26 +51,28 @@ export const addPost = createServerFn({ method: "POST" })
       // * Send Email to subscribers
       const subscribers = await Subscriber.find().lean();
 
-      const postUrl = `${process.env.VITE_APP_URL}/posts/${post.slug}`;
+      if (post.status === "published" && subscribers.length > 0) {
+        const postUrl = `${process.env.VITE_APP_URL}/posts/${post.slug}`;
 
-      const html = await NewPostEmailHtml({
-        postTitle: post.title,
-        postExcerpt: post.excerpt,
-        postUrl: postUrl,
-        tags: post.tags,
-      });
+        const html = await NewPostEmailHtml({
+          postTitle: post.title,
+          postExcerpt: post.excerpt,
+          postUrl: postUrl,
+          tags: post.tags,
+        });
 
-      const emails = subscribers.map((sub) => ({
-        from: process.env.EMAIL_FROM!,
-        to: sub.email,
-        subject: `New Post: ${post.title}`,
-        html,
-      }));
+        const emails = subscribers.map((sub) => ({
+          from: process.env.EMAIL_FROM!,
+          to: sub.email,
+          subject: `New Post: ${post.title}`,
+          html,
+        }));
 
-      const chuckSize = 100;
-      for (let i = 0; i < emails.length; i += chuckSize) {
-        const chuck = emails.slice(i, i + chuckSize);
-        await resend.batch.send(chuck);
+        const chuckSize = 100;
+        for (let i = 0; i < emails.length; i += chuckSize) {
+          const chuck = emails.slice(i, i + chuckSize);
+          await resend.batch.send(chuck);
+        }
       }
 
       setResponseStatus(201);

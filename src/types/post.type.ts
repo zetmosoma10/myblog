@@ -11,7 +11,7 @@ export type PostType = {
   imageBase64?: string;
   content: string;
   readingTime: number;
-  status: "draft" | "published";
+  status?: "draft" | "published";
   createdAt: Date;
   updatedAt: Date;
 };

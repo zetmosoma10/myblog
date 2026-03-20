@@ -5,6 +5,7 @@ export interface PostDocument extends Document {
   slug: string;
   excerpt: string;
   tags: string[];
+  status?: "draft" | "published";
   content: string;
   readingTime: number;
   coverImage?: string;
@@ -13,7 +14,7 @@ export interface PostDocument extends Document {
   updatedAt: Date;
 }
 
-const postSchema = new Schema<PostDocument>(
+const postSchemaDocument = new Schema<PostDocument>(
   {
     title: {
       type: String,
@@ -38,6 +39,11 @@ const postSchema = new Schema<PostDocument>(
       required: true,
       default: [],
     },
+    status: {
+      type: String,
+      enum: ["draft", "published"],
+      required: true,
+    },
     content: {
       type: String,
       required: true,
@@ -52,10 +58,13 @@ const postSchema = new Schema<PostDocument>(
   { timestamps: true },
 );
 
-postSchema.index({ slug: 1 }, { unique: true });
-postSchema.index({ tags: 1 });
-postSchema.index({ title: "text", content: "text" });
+postSchemaDocument.index({ slug: 1 }, { unique: true });
+postSchemaDocument.index({ tags: 1 });
+postSchemaDocument.index({ title: "text", content: "text" });
+
+// ✅ Fix — delete cache, force recompile
+// delete (mongoose.models as any).Post; // * Uncomment this in development when you add new field to the collection
 
 // * Check if the model already exist before creating it
 export const Post: Model<PostDocument> =
-  mongoose.models.Post || model<PostDocument>("Post", postSchema);
+  mongoose.models.Post || model<PostDocument>("Post", postSchemaDocument);
