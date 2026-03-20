@@ -8,11 +8,15 @@ import {
 } from "#/components/ui/input-group";
 import { SearchIcon } from "lucide-react";
 import { Button } from "#/components/ui/button";
+import { getSession } from "#/server/authServerFunctions";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
   loader: async ({ context: { queryClient } }) => {
+    const { user } = await getSession();
     await queryClient.ensureQueryData(postsQueryOptions);
+
+    return { user };
   },
 });
 
@@ -26,6 +30,7 @@ const queries = [
 ] as const;
 
 function RouteComponent() {
+  const { user } = Route.useLoaderData();
   const { data: posts } = useGetPosts();
 
   return (
@@ -47,12 +52,14 @@ function RouteComponent() {
             </InputGroup>
           </div>
 
-          <Link
-            to="/posts/new"
-            className="bg-primary px-3 text-nowrap text-primary-foreground py-1 rounded-md text-base text-center no-underline hover:bg-primary/90 focus:outline-0 focus:ring-2 focus:ring-primary/50"
-          >
-            New Post
-          </Link>
+          {user && (
+            <Link
+              to="/posts/new"
+              className="bg-primary px-3 text-nowrap text-primary-foreground py-1 rounded-md text-base text-center no-underline hover:bg-primary/90 focus:outline-0 focus:ring-2 focus:ring-primary/50"
+            >
+              New Post
+            </Link>
+          )}
         </div>
 
         <div className="flex items-center pt-4 mb-8 gap-4 flex-wrap">

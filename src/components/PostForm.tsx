@@ -86,47 +86,46 @@ const PostForm = ({ type, post }: Props) => {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
   const onSubmit = async (data: FormData) => {
-    console.log(data);
-    // let imageBase64: string | undefined;
+    let imageBase64: string | undefined;
 
-    // try {
-    //   // * If Image Exist Compress it
-    //   if (uploadedImage) {
-    //     const compressedImage = await imageCompression(uploadedImage, {
-    //       maxSizeMB: 0.5, // * Compress to 500KB
-    //       maxWidthOrHeight: 1200, // * resize to max 1200px
-    //       useWebWorker: true, // * Non-blocking
-    //     });
+    try {
+      // * If Image Exist Compress it
+      if (uploadedImage) {
+        const compressedImage = await imageCompression(uploadedImage, {
+          maxSizeMB: 0.5, // * Compress to 500KB
+          maxWidthOrHeight: 1200, // * resize to max 1200px
+          useWebWorker: true, // * Non-blocking
+        });
 
-    //     // * Convert it to Base64
-    //     imageBase64 = await new Promise<string>((resolve, reject) => {
-    //       const reader = new FileReader(); // * Read the image file
-    //       reader.onload = () => resolve(reader.result as string);
-    //       reader.onerror = reject;
-    //       reader.readAsDataURL(compressedImage);
-    //     });
-    //   }
+        // * Convert it to Base64
+        imageBase64 = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader(); // * Read the image file
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(compressedImage);
+        });
+      }
 
-    //   if (type === "Post") {
-    //     await mutateAsync({ ...data, imageBase64 });
-    //     reset();
-    //     toast.success("Post added successfully");
-    //     queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
-    //     queryClient.invalidateQueries({ queryKey: ["posts"] }); //* re-fetch posts
-    //     navigate({ to: "/posts" });
-    //     //
-    //   } else if (type === "Edit") {
-    //     //
-    //     await updateMutateAsync({ _id: post?._id!, imageBase64, ...data });
-    //     toast.success("Post updated successfully");
-    //     queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
-    //     queryClient.invalidateQueries({ queryKey: ["post"] }); //* re-fetch post data
-    //     navigate({ to: "/posts/$slug", params: { slug: post?.slug! } });
-    //   }
-    // } catch (error: any) {
-    //   console.log(error);
-    //   toast.error(error.message);
-    // }
+      if (type === "Post") {
+        await mutateAsync({ ...data, imageBase64 });
+        reset();
+        toast.success("Post added successfully");
+        queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
+        queryClient.invalidateQueries({ queryKey: ["posts"] }); //* re-fetch posts
+        navigate({ to: "/posts" });
+        //
+      } else if (type === "Edit") {
+        //
+        await updateMutateAsync({ _id: post?._id!, imageBase64, ...data });
+        toast.success("Post updated successfully");
+        queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
+        queryClient.invalidateQueries({ queryKey: ["post"] }); //* re-fetch post data
+        navigate({ to: "/posts/$slug", params: { slug: post?.slug! } });
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   return (

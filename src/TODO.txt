@@ -1,9 +1,7 @@
 TODO: markdown editor text are white in light mode
-TODO: add selete box for published/draft
 TODO: Add Comments to the application
 TODO: Admin should be able to add Categories, to its collection
 TODO: Add shadow on navbar, footer and cards
-TODO: Email news letter Subcription - get notified when posting articles
 TODO: in production remove the "await" keyword when sending emails
 TODO: add search, filters
 TODO: add Pagination

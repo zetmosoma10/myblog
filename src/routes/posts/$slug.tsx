@@ -9,16 +9,21 @@ import rehypeSlug from "rehype-slug";
 import dayjs from "dayjs";
 import BackLink from "#/components/BackLink";
 import PostModal from "#/components/PostModal";
+import { getSession } from "#/server/authServerFunctions";
 
 export const Route = createFileRoute("/posts/$slug")({
   component: RouteComponent,
   loader: async ({ context, params: { slug } }) => {
+    const { user } = await getSession();
     await context.queryClient.ensureQueryData(postQueryOptions(slug));
+
+    return { user };
   },
 });
 
 function RouteComponent() {
   const { slug } = Route.useParams();
+  const { user } = Route.useLoaderData();
   const { data: post } = useGetPost(slug);
 
   return (
@@ -28,8 +33,8 @@ function RouteComponent() {
 
         <div className="grow prose dark:prose-invert max-w-none">
           <header className="flex flex-col gap-5 md:flex-row md:justify-between md:gap-15">
-            {/* Tags */}
             <div>
+              {/* Tags */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {post?.tags.map((tag) => (
                   <Badge
@@ -61,18 +66,20 @@ function RouteComponent() {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex md:flex-col gap-3">
-              <PostModal post={post} />
-              {/* <Button size="lg" className="cursor-pointer md:w-30"> */}
-              <Link
-                to="/posts/$slug/edit"
-                params={{ slug: post?.slug! }}
-                className="w-full bg-primary text-primary-foreground py-1 rounded-md text-base text-center no-underline hover:bg-primary/90 focus:outline-0 focus:ring-2 focus:ring-primary/50"
-              >
-                Edit
-              </Link>
-              {/* </Button> */}
-            </div>
+            {user && (
+              <div className="flex md:flex-col gap-3">
+                <PostModal post={post} />
+                {/* <Button size="lg" className="cursor-pointer md:w-30"> */}
+                <Link
+                  to="/posts/$slug/edit"
+                  params={{ slug: post?.slug! }}
+                  className="w-full bg-primary text-primary-foreground py-1 rounded-md text-base text-center no-underline hover:bg-primary/90 focus:outline-0 focus:ring-2 focus:ring-primary/50"
+                >
+                  Edit
+                </Link>
+                {/* </Button> */}
+              </div>
+            )}
           </header>
 
           {/* Cover image */}
