@@ -13,7 +13,7 @@ const AvatarIcon = () => {
   return (
     <div className="flex items-center gap-4 border-border bg-accent p-0.5 rounded-md">
       {session?.session.id && (
-        <Link to="/posts">
+        <Link to="/about">
           <Avatar>
             {session?.user.image ? (
               <AvatarImage

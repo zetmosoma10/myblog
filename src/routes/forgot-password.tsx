@@ -5,7 +5,7 @@ import useResetPassword from "#/hooks/useResetPassword";
 import { Button } from "#/components/ui/button";
 import type { ResetPasswordCredentials } from "#/types/auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,8 +13,13 @@ import {
   forgotPasswordSchema,
   resetPasswordSchema,
 } from "#/schemas/auth.schema";
+import { getSession } from "#/server/authServerFunctions";
 
 export const Route = createFileRoute("/forgot-password")({
+  beforeLoad: async () => {
+    const { user } = await getSession();
+    if (user) throw redirect({ to: "/" });
+  },
   component: RouteComponent,
 });
 

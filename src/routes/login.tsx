@@ -4,13 +4,18 @@ import { Button } from "#/components/ui/button";
 import { Spinner } from "#/components/ui/spinner";
 import useLogin from "#/hooks/useLogin";
 import { loginSchema } from "#/schemas/auth.schema";
+import { getSession } from "#/server/authServerFunctions";
 import type { LoginCredentials } from "#/types/auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 
 export const Route = createFileRoute("/login")({
   ssr: false,
+  beforeLoad: async () => {
+    const { user } = await getSession();
+    if (user) throw redirect({ to: "/" });
+  },
   component: RouteComponent,
 });
 

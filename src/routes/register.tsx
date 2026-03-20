@@ -3,14 +3,19 @@ import InputText from "#/components/InputText";
 import { Button } from "#/components/ui/button";
 import { registerSchema } from "#/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useRegister from "#/hooks/useRegister";
 import { Spinner } from "#/components/ui/spinner";
+import { getSession } from "#/server/authServerFunctions";
 
 export const Route = createFileRoute("/register")({
   ssr: false,
+  beforeLoad: async () => {
+    const { user } = await getSession();
+    if (user) throw redirect({ to: "/" });
+  },
   component: RouteComponent,
 });
 
