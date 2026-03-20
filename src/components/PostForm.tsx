@@ -29,6 +29,15 @@ import clsx from "clsx";
 import toast from "react-hot-toast";
 import SimpleMDE from "@uiw/react-md-editor";
 import { useNavigate } from "@tanstack/react-router";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const frameworks = [
   "Next.js",
@@ -49,6 +58,7 @@ type Props = {
 };
 
 const PostForm = ({ type, post }: Props) => {
+  // * Manage Form data with React-hook-form
   const {
     register,
     handleSubmit,
@@ -63,6 +73,7 @@ const PostForm = ({ type, post }: Props) => {
       tags: type === "Edit" ? post?.tags : [],
       coverImage: type === "Edit" ? post?.coverImage : "",
       content: type === "Edit" ? post?.content : "",
+      status: type === "Edit" ? post?.status : "draft",
     },
   });
 
@@ -75,46 +86,47 @@ const PostForm = ({ type, post }: Props) => {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
   const onSubmit = async (data: FormData) => {
-    let imageBase64: string | undefined;
+    console.log(data);
+    // let imageBase64: string | undefined;
 
-    try {
-      if (uploadedImage) {
-        // * Compress the image
-        const compressedImage = await imageCompression(uploadedImage, {
-          maxSizeMB: 0.5, // * Compress to 500KB
-          maxWidthOrHeight: 1200, // * resize to max 1200px
-          useWebWorker: true, // * Non-blocking
-        });
+    // try {
+    //   // * If Image Exist Compress it
+    //   if (uploadedImage) {
+    //     const compressedImage = await imageCompression(uploadedImage, {
+    //       maxSizeMB: 0.5, // * Compress to 500KB
+    //       maxWidthOrHeight: 1200, // * resize to max 1200px
+    //       useWebWorker: true, // * Non-blocking
+    //     });
 
-        // * Convert it to Base64
-        imageBase64 = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader(); // * Read the image file
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(compressedImage);
-        });
-      }
+    //     // * Convert it to Base64
+    //     imageBase64 = await new Promise<string>((resolve, reject) => {
+    //       const reader = new FileReader(); // * Read the image file
+    //       reader.onload = () => resolve(reader.result as string);
+    //       reader.onerror = reject;
+    //       reader.readAsDataURL(compressedImage);
+    //     });
+    //   }
 
-      if (type === "Post") {
-        await mutateAsync({ ...data, imageBase64 });
-        reset();
-        toast.success("Post added successfully");
-        queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
-        queryClient.invalidateQueries({ queryKey: ["posts"] }); //* re-fetch posts
-        navigate({ to: "/posts" });
-        //
-      } else if (type === "Edit") {
-        //
-        await updateMutateAsync({ _id: post?._id!, imageBase64, ...data });
-        toast.success("Post updated successfully");
-        queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
-        queryClient.invalidateQueries({ queryKey: ["post"] }); //* re-fetch post data
-        navigate({ to: "/posts/$slug", params: { slug: post?.slug! } });
-      }
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error.message);
-    }
+    //   if (type === "Post") {
+    //     await mutateAsync({ ...data, imageBase64 });
+    //     reset();
+    //     toast.success("Post added successfully");
+    //     queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
+    //     queryClient.invalidateQueries({ queryKey: ["posts"] }); //* re-fetch posts
+    //     navigate({ to: "/posts" });
+    //     //
+    //   } else if (type === "Edit") {
+    //     //
+    //     await updateMutateAsync({ _id: post?._id!, imageBase64, ...data });
+    //     toast.success("Post updated successfully");
+    //     queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
+    //     queryClient.invalidateQueries({ queryKey: ["post"] }); //* re-fetch post data
+    //     navigate({ to: "/posts/$slug", params: { slug: post?.slug! } });
+    //   }
+    // } catch (error: any) {
+    //   console.log(error);
+    //   toast.error(error.message);
+    // }
   };
 
   return (
@@ -141,67 +153,90 @@ const PostForm = ({ type, post }: Props) => {
           error={errors.excerpt?.message}
         />
 
-        {/* Tags */}
-        <Field>
-          <FieldLabel
-            htmlFor="tags"
-            className={clsx("text-base", errors.tags && "text-destructive")}
-          >
-            Tags
-          </FieldLabel>
+        <div className="flex flex-col gap-y-8 md:flex-row md:gap-y-0 sm:justify-between md: gap-5">
+          {/* Tags */}
+          <Field>
+            <FieldLabel
+              htmlFor="tags"
+              className={clsx("text-base", errors.tags && "text-destructive")}
+            >
+              Tags
+            </FieldLabel>
 
-          <Controller
-            name="tags"
-            defaultValue={[]}
-            control={control}
-            render={({ field }) => (
-              <Combobox
-                multiple
-                autoHighlight
-                items={frameworks}
-                value={field.value}
-                onValueChange={field.onChange}
-              >
-                <ComboboxChips
-                  ref={anchor}
-                  className={clsx(
-                    "group w-full max-w-xs focus-within:ring-primary/50 focus-within:border-primary",
-                    errors.tags &&
-                      "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
-                  )}
+            <Controller
+              name="tags"
+              defaultValue={[]}
+              control={control}
+              render={({ field }) => (
+                <Combobox
+                  multiple
+                  autoHighlight
+                  items={frameworks}
+                  value={field.value}
+                  onValueChange={field.onChange}
                 >
-                  <ComboboxValue>
-                    {(values) => (
-                      <React.Fragment>
-                        {values.map((value: string) => (
-                          <ComboboxChip key={value}>{value}</ComboboxChip>
-                        ))}
+                  <ComboboxChips
+                    ref={anchor}
+                    className={clsx(
+                      "group w-full  focus-within:ring-primary/50 focus-within:border-primary",
+                      errors.tags &&
+                        "border-destructive focus-visible:ring-destructive/50 focus-visible:border-destructive",
+                    )}
+                  >
+                    <ComboboxValue>
+                      {(values) => (
+                        <React.Fragment>
+                          {values.map((value: string) => (
+                            <ComboboxChip key={value}>{value}</ComboboxChip>
+                          ))}
 
-                        <ComboboxChipsInput className="py-1" />
-                      </React.Fragment>
-                    )}
-                  </ComboboxValue>
-                </ComboboxChips>
-                <ComboboxContent anchor={anchor}>
-                  <ComboboxEmpty>No items found.</ComboboxEmpty>
-                  <ComboboxList>
-                    {(item) => (
-                      <ComboboxItem key={item} value={item}>
-                        {item}
-                      </ComboboxItem>
-                    )}
-                  </ComboboxList>
-                </ComboboxContent>
-              </Combobox>
+                          <ComboboxChipsInput className="py-1" />
+                        </React.Fragment>
+                      )}
+                    </ComboboxValue>
+                  </ComboboxChips>
+                  <ComboboxContent anchor={anchor}>
+                    <ComboboxEmpty>No items found.</ComboboxEmpty>
+                    <ComboboxList>
+                      {(item) => (
+                        <ComboboxItem key={item} value={item}>
+                          {item}
+                        </ComboboxItem>
+                      )}
+                    </ComboboxList>
+                  </ComboboxContent>
+                </Combobox>
+              )}
+            />
+
+            {errors.tags && (
+              <FieldDescription className="text-destructive">
+                {errors.tags.message}
+              </FieldDescription>
             )}
-          />
+          </Field>
 
-          {errors.tags && (
-            <FieldDescription className="text-destructive">
-              {errors.tags.message}
-            </FieldDescription>
-          )}
-        </Field>
+          {/* Select Box*/}
+          <Field>
+            <FieldLabel className="text-base">Status</FieldLabel>
+            <Controller
+              name="status"
+              control={control}
+              defaultValue="draft"
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full py-5!">
+                    <SelectValue placeholder="Select a fruit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="published">Published</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
+            />
+          </Field>
+        </div>
 
         {/* Cover Image */}
         <Field>
