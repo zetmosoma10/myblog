@@ -27,8 +27,8 @@ export const updatePostSchema = postSchema.partial().extend({
   _id: z.string().min(1, { error: "_id is required" }),
 });
 
-export const postQuery = z.object({
-  page: z.number().optional(),
-  tags: z.string().optional(),
-  search: z.string().optional(),
+export const postSearchQuerySchema = z.object({
+  page: z.number().int().min(1).catch(1),
+  tags: z.string().optional().catch("all"),
+  search: z.string().optional().catch(""),
 });

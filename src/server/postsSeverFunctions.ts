@@ -1,5 +1,9 @@
 import { isNotFound, notFound } from "@tanstack/react-router";
-import { postQuery, postSchema, updatePostSchema } from "#/schemas/post.schema";
+import {
+  postSchema,
+  postSearchQuerySchema,
+  updatePostSchema,
+} from "#/schemas/post.schema";
 import { createServerFn } from "@tanstack/react-start";
 import { connectDB } from "./db.server";
 import { Post } from "./models/Post";
@@ -85,7 +89,7 @@ export const addPost = createServerFn({ method: "POST" })
   });
 
 export const getPosts = createServerFn()
-  .inputValidator(postQuery)
+  .inputValidator(postSearchQuerySchema)
   .handler(
     async ({
       data,
@@ -98,7 +102,7 @@ export const getPosts = createServerFn()
     }> => {
       await connectDB();
       const { user } = await getSession();
-
+      console.log("FILTERS: ", data);
       const { page = 1, tags, search } = data;
 
       try {
@@ -120,6 +124,8 @@ export const getPosts = createServerFn()
         const limit = 9;
         const skip = (page - 1) * limit;
 
+        console.log("FILTER OBJ", filter);
+
         // * RUN COUNT & FETCH POST IN PARALLEL
         const [posts, documentCounts] = await Promise.all([
           Post.find(filter)
@@ -131,6 +137,8 @@ export const getPosts = createServerFn()
             .lean(),
           Post.countDocuments(filter),
         ]);
+
+        console.log("POST: ", posts);
 
         setResponseStatus(200);
 

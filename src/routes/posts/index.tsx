@@ -9,12 +9,25 @@ import {
 import { SearchIcon } from "lucide-react";
 import { Button } from "#/components/ui/button";
 import { getSession } from "#/server/authServerFunctions";
+import { postSearchQuerySchema } from "#/schemas/post.schema";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
-  loader: async ({ context: { queryClient } }) => {
+  validateSearch: postSearchQuerySchema,
+
+  // * Re-run loader when search params change
+  loaderDeps: ({ search: { page, tag, search } }) => ({ page, tag, search }),
+
+  loader: async ({ context: { queryClient }, deps }) => {
     const { user } = await getSession();
-    await queryClient.ensureQueryData(postsQueryOptions);
+
+    await queryClient.ensureQueryData(
+      postsQueryOptions({
+        page: deps.page,
+        tag: deps.tag,
+        search: deps.search,
+      }),
+    );
 
     return { user };
   },
@@ -31,7 +44,8 @@ const queries = [
 
 function RouteComponent() {
   const { user } = Route.useLoaderData();
-  const { data: posts } = useGetPosts();
+  const search = Route.useSearch();
+  const { data: results } = useGetPosts(search);
 
   return (
     <div>
@@ -74,7 +88,7 @@ function RouteComponent() {
         </div>
 
         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
-          {posts?.map((post) => (
+          {results?.data?.map((post) => (
             <PostCard key={post._id} {...post} />
           ))}
         </div>

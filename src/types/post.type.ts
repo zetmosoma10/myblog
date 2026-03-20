@@ -1,4 +1,7 @@
-import type { updatePostSchema } from "#/schemas/post.schema";
+import type {
+  postSearchQuerySchema,
+  updatePostSchema,
+} from "#/schemas/post.schema";
 import { z } from "zod";
 
 export type PostType = {
@@ -17,3 +20,5 @@ export type PostType = {
 };
 
 export type UpdatePostType = z.infer<typeof updatePostSchema>;
+
+export type PostSearchQuery = z.infer<typeof postSearchQuerySchema>;
