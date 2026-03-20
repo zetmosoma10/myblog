@@ -1,38 +1,78 @@
+import type { Response } from "#/types/response.type";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useNavigate } from "@tanstack/react-router";
+import _ from "lodash";
 
-const PaginationComponent = () => {
+const PaginationComponent = ({
+  results,
+  page,
+}: {
+  results?: Response;
+  page?: number;
+}) => {
+  const navigate = useNavigate();
+  const numberOfPages = _.range(1, (results?.totalPages ?? 1) + 1);
+
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" />
+          <PaginationPrevious
+            onClick={() => {
+              if (page === 1) return;
+
+              navigate({
+                to: "/posts",
+                search: (prev) => ({
+                  ...prev,
+                  page: (page ?? 1) - 1,
+                }),
+              });
+            }}
+            className={page === 1 ? "pointer-events-none opacity-50" : ""}
+          />
         </PaginationItem>
 
-        <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" isActive>
-            2
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">3</PaginationLink>
-        </PaginationItem>
+        {numberOfPages.map((item) => (
+          <PaginationItem key={item}>
+            <PaginationLink
+              isActive={item === results?.currentPage}
+              onClick={() =>
+                navigate({
+                  to: "/posts",
+                  search: (prev) => ({ ...prev, page: item }),
+                })
+              }
+            >
+              {item}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
 
         <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext href="#" />
+          <PaginationNext
+            onClick={() => {
+              if (!results?.hasNextPage) return;
+
+              navigate({
+                to: "/posts",
+                search: (prev) => ({
+                  ...prev,
+                  page: (page ?? 1) + 1,
+                }),
+              });
+            }}
+            className={
+              !results?.hasNextPage ? "pointer-events-none opacity-50" : ""
+            }
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

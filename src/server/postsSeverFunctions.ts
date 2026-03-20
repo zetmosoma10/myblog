@@ -18,6 +18,7 @@ import isObjectId from "#/lib/isObjectId.server";
 import uploadImage from "#/lib/uploadImage.server";
 import getWordCount from "#/utils/getWordCount";
 import resend from "#/lib/resend";
+import type { Response } from "#/types/response.type";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
@@ -90,74 +91,60 @@ export const addPost = createServerFn({ method: "POST" })
 
 export const getPosts = createServerFn()
   .inputValidator(postSearchQuerySchema)
-  .handler(
-    async ({
-      data,
-    }): Promise<{
-      totalPages: number;
-      currentPage: number;
-      hasNextPage: boolean;
-      totalDocuments: number;
-      data: PostType[];
-    }> => {
-      await connectDB();
-      const { user } = await getSession();
-      console.log("FILTERS: ", data);
-      const { page = 1, tags, search } = data;
+  .handler(async ({ data }): Promise<Response> => {
+    await connectDB();
+    const { user } = await getSession();
+    console.log("FILTERS: ", data);
+    const { page = 1, tags, search } = data;
 
-      try {
-        // ! BASE FILTER
-        // * Authenticated → can view drafts
-        // * Unauthenticated → published only
-        const filter: Record<string, any> = user ? {} : { status: "published" };
+    try {
+      // ! BASE FILTER
+      // * Authenticated → can view drafts
+      // * Unauthenticated → published only
+      const filter: Record<string, any> = user ? {} : { status: "published" };
 
-        // ! TAGS FILTER
-        if (tags) {
-          filter.tags = tags;
-        }
-
-        // ! SEARCH FILTER
-        if (search) {
-          filter.$text = { $search: search };
-        }
-
-        const limit = 9;
-        const skip = (page - 1) * limit;
-
-        console.log("FILTER OBJ", filter);
-
-        // * RUN COUNT & FETCH POST IN PARALLEL
-        const [posts, documentCounts] = await Promise.all([
-          Post.find(filter)
-            .sort(
-              search ? { score: { $meta: "textScore" } } : { createdAt: -1 },
-            )
-            .skip(skip)
-            .limit(limit)
-            .lean(),
-          Post.countDocuments(filter),
-        ]);
-
-        console.log("POST: ", posts);
-
-        setResponseStatus(200);
-
-        return JSON.parse(
-          JSON.stringify({
-            totalPages: Math.ceil(documentCounts / limit),
-            currentPage: page,
-            hasNextPage: page < Math.ceil(documentCounts / limit),
-            totalDocuments: documentCounts,
-            data: posts,
-          }),
-        );
-      } catch (error) {
-        console.log(error);
-        setResponseStatus(500);
-        throw new Error("Unexpected error occurred.");
+      // ! TAGS FILTER
+      if (tags) {
+        filter.tags = tags;
       }
-    },
-  );
+
+      // ! SEARCH FILTER
+      if (search) {
+        filter.$text = { $search: search };
+      }
+
+      const limit = 9;
+      const skip = (page - 1) * limit;
+
+      console.log("FILTER OBJ", filter);
+
+      // * RUN COUNT & FETCH POST IN PARALLEL
+      const [posts, documentCounts] = await Promise.all([
+        Post.find(filter)
+          .sort(search ? { score: { $meta: "textScore" } } : { createdAt: -1 })
+          .skip(skip)
+          .limit(limit)
+          .lean(),
+        Post.countDocuments(filter),
+      ]);
+
+      setResponseStatus(200);
+
+      return JSON.parse(
+        JSON.stringify({
+          totalPages: Math.ceil(documentCounts / limit),
+          currentPage: page,
+          hasNextPage: page < Math.ceil(documentCounts / limit),
+          totalDocuments: documentCounts,
+          data: posts,
+        }),
+      );
+    } catch (error) {
+      console.log(error);
+      setResponseStatus(500);
+      throw new Error("Unexpected error occurred.");
+    }
+  });
 
 export const getPost = createServerFn()
   .inputValidator((slug: string) => slug)

@@ -95,7 +95,7 @@ function RouteComponent() {
         </div>
 
         <div className="mt-15">
-          <PaginationComponent />
+          <PaginationComponent results={results} page={search.page} />
         </div>
       </section>
     </div>
