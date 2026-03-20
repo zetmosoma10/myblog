@@ -1,5 +1,5 @@
 import { isNotFound, notFound } from "@tanstack/react-router";
-import { postSchema, updatePostSchema } from "#/schemas/post.schema";
+import { postQuery, postSchema, updatePostSchema } from "#/schemas/post.schema";
 import { createServerFn } from "@tanstack/react-start";
 import { connectDB } from "./db.server";
 import { Post } from "./models/Post";
@@ -13,6 +13,7 @@ import getWordCount from "#/utils/getWordCount";
 import { Subscriber } from "./models/Subscriber";
 import resend from "#/lib/resend";
 import { NewPostEmailHtml } from "#/emails/NewPostEmail";
+import { getSession } from "./authServerFunctions";
 
 export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
@@ -83,30 +84,86 @@ export const addPost = createServerFn({ method: "POST" })
     }
   });
 
-export const getPosts = createServerFn().handler(
-  async (): Promise<PostType[]> => {
-    await connectDB();
+export const getPosts = createServerFn()
+  .inputValidator(postQuery)
+  .handler(
+    async ({
+      data,
+    }): Promise<{
+      totalPages: number;
+      currentPage: number;
+      hasNextPage: boolean;
+      totalDocuments: number;
+      data: PostType[];
+    }> => {
+      await connectDB();
+      const { user } = await getSession();
 
-    try {
-      const post = await Post.find().lean();
+      const { page = 1, tags, search } = data;
 
-      setResponseStatus(200);
-      return JSON.parse(JSON.stringify(post));
-    } catch (error) {
-      console.log(error);
-      setResponseStatus(500);
-      throw new Error("Unexpected error occurred.");
-    }
-  },
-);
+      try {
+        // ! BASE FILTER
+        // * Authenticated → can view drafts
+        // * Unauthenticated → published only
+        const filter: Record<string, any> = user ? {} : { status: "published" };
+
+        // ! TAGS FILTER
+        if (tags) {
+          filter.tags = tags;
+        }
+
+        // ! SEARCH FILTER
+        if (search) {
+          filter.$text = { $search: search };
+        }
+
+        const limit = 9;
+        const skip = (page - 1) * limit;
+
+        // * RUN COUNT & FETCH POST IN PARALLEL
+        const [posts, documentCounts] = await Promise.all([
+          Post.find(filter)
+            .sort(
+              search ? { score: { $meta: "textScore" } } : { createdAt: -1 },
+            )
+            .skip(skip)
+            .limit(limit)
+            .lean(),
+          Post.countDocuments(filter),
+        ]);
+
+        setResponseStatus(200);
+
+        return JSON.parse(
+          JSON.stringify({
+            totalPages: Math.ceil(documentCounts / limit),
+            currentPage: page,
+            hasNextPage: page < Math.ceil(documentCounts / limit),
+            totalDocuments: documentCounts,
+            data: posts,
+          }),
+        );
+      } catch (error) {
+        console.log(error);
+        setResponseStatus(500);
+        throw new Error("Unexpected error occurred.");
+      }
+    },
+  );
 
 export const getPost = createServerFn()
   .inputValidator((slug: string) => slug)
   .handler(async ({ data: slug }): Promise<PostType> => {
     await connectDB();
 
+    const { user } = await getSession();
+
     try {
-      const post = await Post.findOne({ slug }).lean();
+      // * Authenticated → can view drafts
+      // * Unauthenticated → published only
+      const filter = user ? { slug } : { slug, status: "published" };
+
+      const post = await Post.findOne(filter).lean();
 
       if (!post) {
         setResponseStatus(404);
