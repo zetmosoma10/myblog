@@ -10,13 +10,14 @@ import { SearchIcon } from "lucide-react";
 import { Button } from "#/components/ui/button";
 import { getSession } from "#/server/authServerFunctions";
 import { postSearchQuerySchema } from "#/schemas/post.schema";
+import PaginationComponent from "#/components/PaginationComponent";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
   validateSearch: postSearchQuerySchema,
 
   // * Re-run loader when search params change
-  loaderDeps: ({ search: { page, tag, search } }) => ({ page, tag, search }),
+  loaderDeps: ({ search: { page, tags, search } }) => ({ page, tags, search }),
 
   loader: async ({ context: { queryClient }, deps }) => {
     const { user } = await getSession();
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/posts/")({
     await queryClient.ensureQueryData(
       postsQueryOptions({
         page: deps.page,
-        tag: deps.tag,
+        tags: deps.tags,
         search: deps.search,
       }),
     );
@@ -91,6 +92,10 @@ function RouteComponent() {
           {results?.data?.map((post) => (
             <PostCard key={post._id} {...post} />
           ))}
+        </div>
+
+        <div className="mt-15">
+          <PaginationComponent />
         </div>
       </section>
     </div>

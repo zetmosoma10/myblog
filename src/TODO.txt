@@ -7,3 +7,4 @@ TODO: add search, filters
 TODO: add Pagination
 TODO: add mobile navbar
 TODO: Why create Post Form button dont show loading indicator when submitting error post 
+TODO: Fix Search problem
