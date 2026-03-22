@@ -8,17 +8,17 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useNavigate } from "@tanstack/react-router";
-import _ from "lodash";
 
 const PaginationComponent = ({
   results,
   page,
+  numberOfPages,
 }: {
   results?: Response;
   page?: number;
+  numberOfPages: number[];
 }) => {
   const navigate = useNavigate();
-  const numberOfPages = _.range(1, (results?.totalPages ?? 1) + 1);
 
   return (
     <Pagination>

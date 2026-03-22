@@ -12,6 +12,7 @@ import { getSession } from "#/server/authServerFunctions";
 import { postSearchQuerySchema } from "#/schemas/post.schema";
 import PaginationComponent from "#/components/PaginationComponent";
 import clsx from "clsx";
+import _ from "lodash";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
@@ -49,6 +50,8 @@ function RouteComponent() {
   const { user } = Route.useLoaderData();
   const search = Route.useSearch();
   const { data: results } = useGetPosts(search);
+
+  const numberOfPages = _.range(1, (results?.totalPages ?? 1) + 1);
 
   return (
     <div>
@@ -108,9 +111,15 @@ function RouteComponent() {
           ))}
         </div>
 
-        <div className="mt-15">
-          <PaginationComponent results={results} page={search.page} />
-        </div>
+        {numberOfPages.length === 1 && (
+          <div className="mt-15">
+            <PaginationComponent
+              results={results}
+              page={search.page}
+              numberOfPages={numberOfPages}
+            />
+          </div>
+        )}
       </section>
     </div>
   );
