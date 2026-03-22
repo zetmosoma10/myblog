@@ -8,3 +8,6 @@ TODO: add Pagination
 TODO: add mobile navbar
 TODO: Why create Post Form button dont show loading indicator when submitting error post 
 TODO: Fix Search problem
+TODO: Create sever Fn for latest posts and cache it
+TODO: Remove pagination is only have one page
+TODO: back button should also have search queires on posts page

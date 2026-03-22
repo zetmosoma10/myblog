@@ -11,6 +11,7 @@ import { Button } from "#/components/ui/button";
 import { getSession } from "#/server/authServerFunctions";
 import { postSearchQuerySchema } from "#/schemas/post.schema";
 import PaginationComponent from "#/components/PaginationComponent";
+import clsx from "clsx";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
@@ -44,6 +45,7 @@ const queries = [
 ] as const;
 
 function RouteComponent() {
+  const navigate = Route.useNavigate();
   const { user } = Route.useLoaderData();
   const search = Route.useSearch();
   const { data: results } = useGetPosts(search);
@@ -59,6 +61,8 @@ function RouteComponent() {
             <p className="text-muted-foreground">
               Explore the latest thoughts on technology, design and programming.
             </p>
+
+            {/* Search Input */}
             <InputGroup className="mt-6 py-5 mb-8 w-full md:w-[70%]  focus-within:border-primary! focus-within:ring-primary/50!">
               <InputGroupInput placeholder="Search..." />
               <InputGroupAddon align="inline-start">
@@ -81,7 +85,17 @@ function RouteComponent() {
           {queries.map((item) => (
             <Button
               key={item}
-              className="cursor-pointer bg-primary/10 border border-primary/50 text-primary hover:text-primary hover:bg-primary/20 focus:ring-primary/50! focus:border-primary! focus:bg-primary/20"
+              onClick={() =>
+                navigate({
+                  to: "/posts",
+                  search: (prev) => ({ ...prev, page: 1, tags: item }),
+                })
+              }
+              className={clsx(
+                "cursor-pointer bg-primary/10 border border-primary/50 text-primary hover:text-primary hover:bg-primary/20 ",
+                search.tags === item &&
+                  "ring-primary/50! border-primary! bg-primary/20",
+              )}
             >
               {item}
             </Button>
