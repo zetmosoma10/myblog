@@ -75,12 +75,14 @@ function RouteComponent() {
           </div>
 
           {user && (
-            <Link
-              to="/posts/new"
-              className="bg-primary px-3 text-nowrap text-primary-foreground py-1 rounded-md text-base text-center no-underline hover:bg-primary/90 focus:outline-0 focus:ring-2 focus:ring-primary/50"
-            >
-              New Post
-            </Link>
+            <div className="grid gap-2">
+              <Button asChild size="lg">
+                <Link to="/posts/new">New Post</Link>
+              </Button>
+              <Button asChild variant="secondary" size="lg">
+                <Link to="/tags">Add Tag</Link>
+              </Button>
+            </div>
           )}
         </div>
 

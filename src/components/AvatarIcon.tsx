@@ -37,7 +37,7 @@ const AvatarIcon = () => {
       {session?.session.id && (
         <Button
           size="sm"
-          variant="outline"
+          variant="destructive"
           className="cursor-pointer"
           onClick={async () => await mutateAsync()}
         >

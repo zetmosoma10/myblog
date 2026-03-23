@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TagsRouteImport } from './routes/tags'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
@@ -20,6 +21,11 @@ import { Route as PostsSlugRouteImport } from './routes/posts/$slug'
 import { Route as PostsSlugEditRouteImport } from './routes/posts/$slug_.edit'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const TagsRoute = TagsRouteImport.update({
+  id: '/tags',
+  path: '/tags',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -77,6 +83,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/tags': typeof TagsRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/posts/new': typeof PostsNewRoute
   '/posts/': typeof PostsIndexRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/tags': typeof TagsRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/posts/new': typeof PostsNewRoute
   '/posts': typeof PostsIndexRoute
@@ -102,6 +110,7 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/tags': typeof TagsRoute
   '/posts/$slug': typeof PostsSlugRoute
   '/posts/new': typeof PostsNewRoute
   '/posts/': typeof PostsIndexRoute
@@ -116,6 +125,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/tags'
     | '/posts/$slug'
     | '/posts/new'
     | '/posts/'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/tags'
     | '/posts/$slug'
     | '/posts/new'
     | '/posts'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/tags'
     | '/posts/$slug'
     | '/posts/new'
     | '/posts/'
@@ -153,6 +165,7 @@ export interface RootRouteChildren {
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  TagsRoute: typeof TagsRoute
   PostsSlugRoute: typeof PostsSlugRoute
   PostsNewRoute: typeof PostsNewRoute
   PostsIndexRoute: typeof PostsIndexRoute
@@ -162,6 +175,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tags': {
+      id: '/tags'
+      path: '/tags'
+      fullPath: '/tags'
+      preLoaderRoute: typeof TagsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -241,6 +261,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  TagsRoute: TagsRoute,
   PostsSlugRoute: PostsSlugRoute,
   PostsNewRoute: PostsNewRoute,
   PostsIndexRoute: PostsIndexRoute,
