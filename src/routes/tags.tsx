@@ -20,7 +20,7 @@ function RouteComponent() {
     formState: { errors },
   } = useForm<Tag>({ resolver: zodResolver(tagSchema) });
 
-  const onSubmit = (data: { tag: string }) => {
+  const onSubmit = (data: Tag) => {
     console.log(data);
     reset();
   };
@@ -32,12 +32,12 @@ function RouteComponent() {
         <h2 className="text-center font-semibold text-xl mb-5">Create Tag</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="grid gap-3">
           <InputText
-            id="tag"
+            id="name"
             label="Add Tag"
             placeholder="e.g react"
             type="text"
-            register={register("tag")}
-            error={errors.tag?.message}
+            register={register("name")}
+            error={errors.name?.message}
           />
           <Button size="lg" className="cursor-pointer">
             Submit

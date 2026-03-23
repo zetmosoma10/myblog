@@ -23,4 +23,4 @@ export type UpdatePostType = z.infer<typeof updatePostSchema>;
 
 export type PostSearchQuery = z.infer<typeof postSearchQuerySchema>;
 
-export type Tag = { tag: string };
+export type Tag = { name: string; slug?: string };
