@@ -13,6 +13,7 @@ import { postSearchQuerySchema } from "#/schemas/post.schema";
 import PaginationComponent from "#/components/PaginationComponent";
 import clsx from "clsx";
 import _ from "lodash";
+import useGetTags, { tagsQueryOptions } from "#/hooks/useGetTags";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
@@ -23,6 +24,8 @@ export const Route = createFileRoute("/posts/")({
 
   loader: async ({ context: { queryClient }, deps }) => {
     const { user } = await getSession();
+
+    await queryClient.ensureQueryData(tagsQueryOptions);
 
     await queryClient.ensureQueryData(
       postsQueryOptions({
@@ -36,20 +39,12 @@ export const Route = createFileRoute("/posts/")({
   },
 });
 
-const queries = [
-  "All",
-  "Next.js",
-  "SvelteKit",
-  "Nuxt.js",
-  "Remix",
-  "Astro",
-] as const;
-
 function RouteComponent() {
   const navigate = Route.useNavigate();
   const { user } = Route.useLoaderData();
   const search = Route.useSearch();
   const { data: results } = useGetPosts(search);
+  const { data: tags } = useGetTags();
 
   const numberOfPages = _.range(1, (results?.totalPages ?? 1) + 1);
 
@@ -87,22 +82,22 @@ function RouteComponent() {
         </div>
 
         <div className="flex items-center pt-4 mb-8 gap-4 flex-wrap">
-          {queries.map((item) => (
+          {tags?.map((tag) => (
             <Button
-              key={item}
+              key={tag._id}
               onClick={() =>
                 navigate({
                   to: "/posts",
-                  search: (prev) => ({ ...prev, page: 1, tags: item }),
+                  search: (prev) => ({ ...prev, page: 1, tags: tag.slug }),
                 })
               }
               className={clsx(
                 "cursor-pointer bg-primary/10 border border-primary/50 text-primary hover:text-primary hover:bg-primary/20 ",
-                search.tags === item &&
+                search.tags === tag.slug &&
                   "ring-primary/50! border-primary! bg-primary/20",
               )}
             >
-              {item}
+              {tag.name}
             </Button>
           ))}
         </div>

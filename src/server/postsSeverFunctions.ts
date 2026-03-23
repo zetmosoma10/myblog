@@ -117,8 +117,6 @@ export const getPosts = createServerFn()
       const limit = 9;
       const skip = (page - 1) * limit;
 
-      console.log("FILTER OBJ", filter);
-
       // * RUN COUNT & FETCH POST IN PARALLEL
       const [posts, documentCounts] = await Promise.all([
         Post.find(filter)

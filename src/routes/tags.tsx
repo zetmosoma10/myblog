@@ -4,7 +4,7 @@ import { Button } from "#/components/ui/button";
 import { Spinner } from "#/components/ui/spinner";
 import useAddTag from "#/hooks/useAddTag";
 import { tagSchema } from "#/schemas/post.schema";
-import type { Tag } from "#/types/post.type";
+import type { TagType } from "#/types/post.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
@@ -15,17 +15,19 @@ export const Route = createFileRoute("/tags")({
   component: RouteComponent,
 });
 
+type FormData = Omit<TagType, "_id">;
+
 function RouteComponent() {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Tag>({ resolver: zodResolver(tagSchema) });
+  } = useForm<FormData>({ resolver: zodResolver(tagSchema) });
 
   const { mutateAsync, isPending } = useAddTag();
 
-  const onSubmit = async (data: Tag) => {
+  const onSubmit = async (data: FormData) => {
     try {
       await mutateAsync(data);
       reset();
