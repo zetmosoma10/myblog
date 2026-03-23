@@ -32,3 +32,10 @@ export const postSearchQuerySchema = z.object({
   tags: z.string().optional().catch("all"),
   search: z.string().optional().catch(""),
 });
+
+export const tagSchema = z.object({
+  tag: z
+    .string()
+    .nonempty({ error: "tag is required" })
+    .max(50, { error: "max length is 50 characters" }),
+});
