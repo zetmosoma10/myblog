@@ -108,7 +108,7 @@ function RouteComponent() {
           ))}
         </div>
 
-        {numberOfPages.length === 1 && (
+        {numberOfPages.length > 1 && (
           <div className="mt-15">
             <PaginationComponent
               results={results}
