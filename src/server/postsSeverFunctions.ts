@@ -96,7 +96,6 @@ export const getPosts = createServerFn()
   .handler(async ({ data }): Promise<Response> => {
     await connectDB();
     const { user } = await getSession();
-    console.log("FILTERS: ", data);
     const { page = 1, tags, search } = data;
 
     try {

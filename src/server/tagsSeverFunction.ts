@@ -30,3 +30,16 @@ export const addTag = createServerFn({ method: "POST" })
       throw new Error(error);
     }
   });
+
+export const getTags = createServerFn().handler(async () => {
+  await connectDB();
+
+  try {
+    const tags = await Tag.find().lean();
+
+    setResponseStatus(200);
+    return JSON.parse(JSON.stringify(tags));
+  } catch (error: any) {
+    throw new Error(error);
+  }
+});
