@@ -11,7 +11,7 @@ type PostOmit = Omit<
 
 const useAddPost = () => {
   return useMutation({
-    mutationFn: (post: PostOmit) => addPost({ data: post }),
+    mutationFn: async (post: PostOmit) => await addPost({ data: post }),
   });
 };
 

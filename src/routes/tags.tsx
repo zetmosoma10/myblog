@@ -1,11 +1,14 @@
 import BackLink from "#/components/BackLink";
 import InputText from "#/components/InputText";
 import { Button } from "#/components/ui/button";
+import { Spinner } from "#/components/ui/spinner";
+import useAddTag from "#/hooks/useAddTag";
 import { tagSchema } from "#/schemas/post.schema";
 import type { Tag } from "#/types/post.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/tags")({
   ssr: false,
@@ -20,9 +23,15 @@ function RouteComponent() {
     formState: { errors },
   } = useForm<Tag>({ resolver: zodResolver(tagSchema) });
 
-  const onSubmit = (data: Tag) => {
-    console.log(data);
-    reset();
+  const { mutateAsync, isPending } = useAddTag();
+
+  const onSubmit = async (data: Tag) => {
+    try {
+      await mutateAsync(data);
+      reset();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -39,8 +48,8 @@ function RouteComponent() {
             register={register("name")}
             error={errors.name?.message}
           />
-          <Button size="lg" className="cursor-pointer">
-            Submit
+          <Button size="lg" className="cursor-pointer" disabled={isPending}>
+            {isPending ? <Spinner /> : "Submit"}
           </Button>
         </form>
       </div>

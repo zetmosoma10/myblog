@@ -13,6 +13,12 @@ export const addTag = createServerFn({ method: "POST" })
     await connectDB();
 
     try {
+      const existingTag = await Tag.findOne({ slug: generateSlug(tag.name) });
+      if (existingTag) {
+        setResponseStatus(409);
+        throw new Error("Tag already exist, please use another name tag");
+      }
+
       const createdTag = await Tag.create({
         name: tag.name,
         slug: generateSlug(tag.name),
@@ -20,8 +26,7 @@ export const addTag = createServerFn({ method: "POST" })
 
       setResponseStatus(201);
       return JSON.parse(JSON.stringify(createdTag));
-    } catch (error) {
-      setResponseStatus(500);
-      throw new Error("Unexpected error");
+    } catch (error: any) {
+      throw new Error(error);
     }
   });
