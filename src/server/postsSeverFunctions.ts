@@ -12,15 +12,17 @@ import type { PostType } from "#/types/post.type";
 import { Subscriber } from "./models/Subscriber";
 import { NewPostEmailHtml } from "#/emails/NewPostEmail";
 import { getSession } from "./authServerFunctions";
+import type { Response } from "#/types/response.type";
+import { authMiddleware } from "./middleware/authMiddlware";
 import generateSlug from "#/utils/generateSlug";
 import cloudinary from "#/lib/cloudinaryConfigs.server";
 import isObjectId from "#/lib/isObjectId.server";
 import uploadImage from "#/lib/uploadImage.server";
 import getWordCount from "#/utils/getWordCount";
 import resend from "#/lib/resend";
-import type { Response } from "#/types/response.type";
 
 export const addPost = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
   .inputValidator(postSchema)
   .handler(async ({ data }) => {
     await connectDB();
@@ -178,6 +180,7 @@ export const getPost = createServerFn()
   });
 
 export const deletePost = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
   .inputValidator((id: string) => isObjectId(id))
   .handler(async ({ data: id }) => {
     await connectDB();
@@ -206,6 +209,7 @@ export const deletePost = createServerFn({ method: "POST" })
   });
 
 export const updatePost = createServerFn({ method: "POST" })
+  .middleware([authMiddleware])
   .inputValidator(updatePostSchema)
   .handler(async ({ data: post }) => {
     await connectDB();
