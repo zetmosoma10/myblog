@@ -15,7 +15,8 @@ const tagMongoSchema = new Schema({
   },
 });
 
-delete (mongoose.models as any).Tag;
+// delete (mongoose.models as any).Tag;
+
 const Tag: Model<TagDocument> =
   mongoose.models.Tag || mongoose.model("Tag", tagMongoSchema);
 

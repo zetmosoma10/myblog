@@ -36,25 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-const frameworks = [
-  {
-    _id: "1",
-    name: "Next.js",
-  },
-  {
-    _id: "2",
-    name: "SvelteKit",
-  },
-  {
-    _id: "3",
-    name: "Nuxt.js",
-  },
-  {
-    _id: "4",
-    name: "Remix",
-  },
-] as const;
+import useGetTags from "#/hooks/useGetTags";
 
 type Props = {
   type: "Edit" | "Post";
@@ -88,49 +70,51 @@ const PostForm = ({ type, post }: Props) => {
   const { mutateAsync: updateMutateAsync, isPending: isUpdatePending } =
     useUpdatePost();
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const { data: tags } = useGetTags();
+  const tagsNames = tags?.map((t) => t.name);
 
   const onSubmit = async (data: CreatePostType) => {
-    console.log(data);
-    // let imageBase64: string | undefined;
+    console.log("FormData: ", data);
+    let imageBase64: string | undefined;
 
-    // try {
-    //   // * If Image Exist Compress it
-    //   if (uploadedImage) {
-    //     const compressedImage = await imageCompression(uploadedImage, {
-    //       maxSizeMB: 0.5, // * Compress to 500KB
-    //       maxWidthOrHeight: 1200, // * resize to max 1200px
-    //       useWebWorker: true, // * Non-blocking
-    //     });
+    try {
+      // * If Image Exist Compress it
+      if (uploadedImage) {
+        const compressedImage = await imageCompression(uploadedImage, {
+          maxSizeMB: 0.5, // * Compress to 500KB
+          maxWidthOrHeight: 1200, // * resize to max 1200px
+          useWebWorker: true, // * Non-blocking
+        });
 
-    //     // * Convert it to Base64
-    //     imageBase64 = await new Promise<string>((resolve, reject) => {
-    //       const reader = new FileReader(); // * Read the image file
-    //       reader.onload = () => resolve(reader.result as string);
-    //       reader.onerror = reject;
-    //       reader.readAsDataURL(compressedImage);
-    //     });
-    //   }
+        // * Convert it to Base64
+        imageBase64 = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader(); // * Read the image file
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(compressedImage);
+        });
+      }
 
-    //   if (type === "Post") {
-    //     await addMutationAsync({ ...data, imageBase64 });
-    //     reset();
-    //     toast.success("Post added successfully");
-    //     queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
-    //     queryClient.invalidateQueries({ queryKey: ["posts"] }); //* re-fetch posts
-    //     navigate({ to: "/posts", search: { page: 1 } });
-    //     //
-    //   } else if (type === "Edit") {
-    //     //
-    //     await updateMutateAsync({ _id: post?._id!, imageBase64, ...data });
-    //     toast.success("Post updated successfully");
-    //     queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
-    //     queryClient.invalidateQueries({ queryKey: ["post"] }); //* re-fetch post data
-    //     navigate({ to: "/posts/$slug", params: { slug: post?.slug! } });
-    //   }
-    // } catch (error: any) {
-    //   console.log(error);
-    //   toast.error(error.message);
-    // }
+      if (type === "Post") {
+        await addMutationAsync({ ...data, imageBase64 });
+        reset();
+        toast.success("Post added successfully");
+        queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
+        queryClient.invalidateQueries({ queryKey: ["posts"] }); //* re-fetch posts
+        navigate({ to: "/posts", search: { page: 1 } });
+        //
+      } else if (type === "Edit") {
+        //
+        await updateMutateAsync({ _id: post?._id!, imageBase64, ...data });
+        toast.success("Post updated successfully");
+        queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
+        queryClient.invalidateQueries({ queryKey: ["post"] }); //* re-fetch post data
+        navigate({ to: "/posts/$slug", params: { slug: post?.slug! } });
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -175,7 +159,7 @@ const PostForm = ({ type, post }: Props) => {
                 <Combobox
                   multiple
                   autoHighlight
-                  items={frameworks.map((i) => i.name)}
+                  items={tagsNames}
                   value={field.value}
                   onValueChange={field.onChange}
                 >
@@ -188,19 +172,15 @@ const PostForm = ({ type, post }: Props) => {
                     )}
                   >
                     <ComboboxValue>
-                      {(values) => {
-                        console.log("ComboboxValue :", values);
+                      {(values) => (
+                        <React.Fragment>
+                          {values.map((value: string) => (
+                            <ComboboxChip key={value}>{value}</ComboboxChip>
+                          ))}
 
-                        return (
-                          <React.Fragment>
-                            {values.map((value: string) => (
-                              <ComboboxChip key={value}>{value}</ComboboxChip>
-                            ))}
-
-                            <ComboboxChipsInput className="py-1" />
-                          </React.Fragment>
-                        );
-                      }}
+                          <ComboboxChipsInput className="py-1" />
+                        </React.Fragment>
+                      )}
                     </ComboboxValue>
                   </ComboboxChips>
                   <ComboboxContent anchor={anchor}>

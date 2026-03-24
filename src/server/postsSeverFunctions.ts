@@ -27,6 +27,7 @@ export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
   .handler(async ({ data }) => {
     await connectDB();
+    console.log("Recieved FormData: ", data);
 
     try {
       // * Throw error to avoid same slug urls
@@ -45,10 +46,10 @@ export const addPost = createServerFn({ method: "POST" })
         "myblog/posts",
       );
 
-      const [tagsIds] = await Promise.all(
-        data.tags.map((tag) => Tag.find({ name: tag })),
-      );
-      console.log(tagsIds);
+      const tags = await Tag.find({ name: { $in: data.tags } });
+      console.log("Tags: ", tags);
+      const tagsIds = tags.map((t) => t.id);
+      console.log("Tags Ids: ", tagsIds);
 
       const post = await Post.create({
         title: data.title,
