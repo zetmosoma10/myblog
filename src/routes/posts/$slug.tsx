@@ -39,10 +39,10 @@ function RouteComponent() {
                 {post?.tags.map((tag) => (
                   <Badge
                     variant="outline"
-                    key={tag}
+                    key={tag._id}
                     className="text-xs tracking-wide bg-primary/10 text-primary border border-primary/20"
                   >
-                    {tag}
+                    {tag.name}
                   </Badge>
                 ))}
               </div>

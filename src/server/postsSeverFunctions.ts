@@ -180,7 +180,7 @@ export const getPost = createServerFn()
       // * Unauthenticated → published only
       const filter = user ? { slug } : { slug, status: "published" };
 
-      const post = await Post.findOne(filter).lean();
+      const post = await Post.findOne(filter).populate("tags", "name").lean();
 
       if (!post) {
         setResponseStatus(404);
