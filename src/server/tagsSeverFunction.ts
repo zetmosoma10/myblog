@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { authMiddleware } from "./middleware/authMiddlware";
+import { authMiddleware } from "./middleware/authMiddleware";
 import { tagSchema } from "#/schemas/post.schema";
 import { connectDB } from "./db.server";
 import { setResponseStatus } from "@tanstack/react-start/server";

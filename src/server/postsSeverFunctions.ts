@@ -13,7 +13,7 @@ import { Subscriber } from "./models/Subscriber";
 import { NewPostEmailHtml } from "#/emails/NewPostEmail";
 import { getSession } from "./authServerFunctions";
 import type { Response } from "#/types/response.type";
-import { authMiddleware } from "./middleware/authMiddlware";
+import { authMiddleware } from "./middleware/authMiddleware";
 import generateSlug from "#/utils/generateSlug";
 import cloudinary from "#/lib/cloudinaryConfigs.server";
 import isObjectId from "#/lib/isObjectId.server";
