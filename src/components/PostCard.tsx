@@ -8,7 +8,7 @@ type Props = {
   title: string;
   slug?: string;
   excerpt: string;
-  tags: string[];
+  tags: { _id: string; name: string }[];
   coverImage?: string;
   createdAt: Date;
   readingTime: number;
@@ -49,11 +49,11 @@ const PostCard = ({
           <div className="mb-3 flex flex-wrap gap-1.5">
             {tags.map((tag) => (
               <Badge
-                key={tag}
+                key={tag._id}
                 variant="outline"
                 className="border-primary/20 bg-primary/10 text-[10px] tracking-wide text-primary"
               >
-                {tag}
+                {tag.name}
               </Badge>
             ))}
           </div>

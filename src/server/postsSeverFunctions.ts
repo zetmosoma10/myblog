@@ -46,10 +46,9 @@ export const addPost = createServerFn({ method: "POST" })
         "myblog/posts",
       );
 
+      // * Get tags Ids from Tag collection to save them on post collection
       const tags = await Tag.find({ name: { $in: data.tags } });
-      console.log("Tags: ", tags);
       const tagsIds = tags.map((t) => t.id);
-      console.log("Tags Ids: ", tagsIds);
 
       const post = await Post.create({
         title: data.title,
@@ -112,8 +111,24 @@ export const getPosts = createServerFn()
       const filter: Record<string, any> = user ? {} : { status: "published" };
 
       // ! TAGS FILTER
-      if (tags) {
-        filter.tags = tags;
+      if (tags && tags !== "all") {
+        // * Get tag with given tag name from Tag collection
+        const foundTag = await Tag.findOne({ name: tags });
+
+        // * Return empty array if tag don't exist
+        if (!foundTag) {
+          return JSON.parse(
+            JSON.stringify({
+              totalPages: 0,
+              currentPage: 1,
+              hasNextPage: false,
+              totalDocuments: 0,
+              data: [],
+            }),
+          );
+        }
+
+        filter.tags = foundTag._id;
       }
 
       // ! SEARCH FILTER
@@ -127,6 +142,7 @@ export const getPosts = createServerFn()
       // * RUN COUNT & FETCH POST IN PARALLEL
       const [posts, documentCounts] = await Promise.all([
         Post.find(filter)
+          .populate("tags", "name")
           .sort(search ? { score: { $meta: "textScore" } } : { createdAt: -1 })
           .skip(skip)
           .limit(limit)

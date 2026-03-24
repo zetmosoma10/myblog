@@ -19,7 +19,7 @@ export type ResponsePostType = {
   title: string;
   slug?: string;
   excerpt: string;
-  tags: string[];
+  tags: { _id: string; name: string }[];
   coverImage?: string;
   imageBase64?: string;
   content: string;

@@ -81,33 +81,55 @@ function RouteComponent() {
           )}
         </div>
 
+        {/* FILTERS BTN */}
         <div className="flex items-center pt-4 mb-8 gap-4 flex-wrap">
           {tags?.map((tag) => (
             <Button
-              key={tag._id}
+              key={tag.name}
               onClick={() =>
                 navigate({
                   to: "/posts",
-                  search: (prev) => ({ ...prev, page: 1, tags: tag.slug }),
+                  search: (prev) => ({ ...prev, page: 1, tags: tag.name }),
                 })
               }
               className={clsx(
-                "cursor-pointer bg-primary/10 border border-primary/50 text-primary hover:text-primary hover:bg-primary/20 ",
-                search.tags === tag.slug &&
+                "cursor-pointer bg-primary/10 border border-primary/50 text-primary hover:text-primary hover:bg-primary/20 capitalize",
+                search.tags === tag.name &&
                   "ring-primary/50! border-primary! bg-primary/20",
               )}
             >
               {tag.name}
             </Button>
           ))}
+
+          {/* Clear filter button */}
+          {(search.search || search.tags) && (
+            <Button
+              onClick={() =>
+                navigate({
+                  to: "/posts",
+                  search: () => ({ page: 1 }),
+                })
+              }
+              className={clsx(
+                "cursor-pointer bg-destructive/10 border border-destructive/50 text-destructive hover:text-destructive hover:bg-destructive/20 capitalize",
+                search.tags === "" &&
+                  "ring-primary/50! border-primary! bg-primary/20",
+              )}
+            >
+              Clear Filters
+            </Button>
+          )}
         </div>
 
+        {/* Cards */}
         <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
           {results?.data?.map((post) => (
             <PostCard key={post._id} {...post} />
           ))}
         </div>
 
+        {/* PAGINATION */}
         {numberOfPages.length > 1 && (
           <div className="mt-15">
             <PaginationComponent
