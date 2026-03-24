@@ -27,7 +27,6 @@ export const addPost = createServerFn({ method: "POST" })
   .inputValidator(postSchema)
   .handler(async ({ data }) => {
     await connectDB();
-    console.log("Recieved FormData: ", data);
 
     try {
       // * Throw error to avoid same slug urls
@@ -72,7 +71,7 @@ export const addPost = createServerFn({ method: "POST" })
           postTitle: post.title,
           postExcerpt: post.excerpt,
           postUrl: postUrl,
-          tags: post.tags,
+          tags: data.tags,
         });
 
         const emails = subscribers.map((sub) => ({

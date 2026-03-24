@@ -74,7 +74,6 @@ const PostForm = ({ type, post }: Props) => {
   const tagsNames = tags?.map((t) => t.name);
 
   const onSubmit = async (data: CreatePostType) => {
-    console.log("FormData: ", data);
     let imageBase64: string | undefined;
 
     try {
