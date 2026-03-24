@@ -4,6 +4,15 @@ import type {
 } from "#/schemas/post.schema";
 import { z } from "zod";
 
+export type CreatePostType = {
+  title: string;
+  excerpt: string;
+  tags: string[];
+  coverImage?: string;
+  content: string;
+  status?: "draft" | "published";
+};
+
 export type PostType = {
   _id: string;
   title: string;

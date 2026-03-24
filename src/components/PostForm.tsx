@@ -17,7 +17,7 @@ import {
 import { Field, FieldDescription, FieldLabel } from "./ui/field";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import type { PostType } from "#/types/post.type";
+import type { CreatePostType, PostType } from "#/types/post.type";
 import { Spinner } from "./ui/spinner";
 import { useQueryClient } from "@tanstack/react-query";
 import InputText from "./InputText";
@@ -45,11 +45,6 @@ const frameworks = [
   "Astro",
 ] as const;
 
-type FormData = Omit<
-  PostType,
-  "_id" | "createdAt" | "updatedAt" | "readingTime"
->;
-
 type Props = {
   type: "Edit" | "Post";
   post?: PostType;
@@ -63,7 +58,7 @@ const PostForm = ({ type, post }: Props) => {
     control,
     reset,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<CreatePostType>({
     resolver: zodResolver(postSchema),
     defaultValues: {
       title: type === "Edit" ? post?.title : "",
@@ -71,7 +66,7 @@ const PostForm = ({ type, post }: Props) => {
       tags: type === "Edit" ? post?.tags : [],
       coverImage: type === "Edit" ? post?.coverImage : "",
       content: type === "Edit" ? post?.content : "",
-      status: type === "Edit" ? post?.status : "draft",
+      status: type === "Edit" ? post?.status! : "draft",
     },
   });
 
@@ -83,7 +78,7 @@ const PostForm = ({ type, post }: Props) => {
     useUpdatePost();
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: CreatePostType) => {
     let imageBase64: string | undefined;
 
     try {
@@ -110,7 +105,7 @@ const PostForm = ({ type, post }: Props) => {
         toast.success("Post added successfully");
         queryClient.invalidateQueries({ queryKey: ["post", post?._id] }); //* re-fetch post/id data
         queryClient.invalidateQueries({ queryKey: ["posts"] }); //* re-fetch posts
-        navigate({ to: "/posts" });
+        navigate({ to: "/posts", search: { page: 1 } });
         //
       } else if (type === "Edit") {
         //
