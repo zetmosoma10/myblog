@@ -14,9 +14,9 @@ import { Button } from "./ui/button";
 import { Trash2Icon } from "lucide-react";
 import useDeletePost from "#/hooks/useDeletePost";
 import { Spinner } from "./ui/spinner";
-import type { PostType } from "#/types/post.type";
+import type { ResponsePostType } from "#/types/post.type";
 
-const PostModal = ({ post }: { post?: PostType }) => {
+const PostModal = ({ post }: { post?: ResponsePostType }) => {
   const { mutateAsync, isPending } = useDeletePost();
 
   return (

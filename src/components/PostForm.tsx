@@ -17,7 +17,7 @@ import {
 import { Field, FieldDescription, FieldLabel } from "./ui/field";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import type { CreatePostType, PostType } from "#/types/post.type";
+import type { CreatePostType, ResponsePostType } from "#/types/post.type";
 import { Spinner } from "./ui/spinner";
 import { useQueryClient } from "@tanstack/react-query";
 import InputText from "./InputText";
@@ -47,7 +47,7 @@ const frameworks = [
 
 type Props = {
   type: "Edit" | "Post";
-  post?: PostType;
+  post?: ResponsePostType;
 };
 
 const PostForm = ({ type, post }: Props) => {

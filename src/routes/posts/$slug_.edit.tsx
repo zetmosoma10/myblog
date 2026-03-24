@@ -2,7 +2,7 @@ import BackLink from "#/components/BackLink";
 import PostForm from "#/components/PostForm";
 import { postQueryOptions } from "#/hooks/useGetPost";
 import { getSession } from "#/server/authServerFunctions";
-import type { PostType } from "#/types/post.type";
+import type { ResponsePostType } from "#/types/post.type";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/posts/$slug_/edit")({
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/posts/$slug_/edit")({
 function RouteComponent() {
   const { slug } = Route.useParams();
   const { queryClient } = Route.useRouteContext();
-  const post = queryClient.getQueryData<PostType>(["post", slug]);
+  const post = queryClient.getQueryData<ResponsePostType>(["post", slug]);
 
   return (
     <section className="max-container">

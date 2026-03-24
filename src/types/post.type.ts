@@ -9,11 +9,12 @@ export type CreatePostType = {
   excerpt: string;
   tags: string[];
   coverImage?: string;
+  imageBase64?: string;
   content: string;
   status?: "draft" | "published";
 };
 
-export type PostType = {
+export type ResponsePostType = {
   _id: string;
   title: string;
   slug?: string;

@@ -8,7 +8,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { connectDB } from "./db.server";
 import { Post } from "./models/Post";
 import { setResponseStatus } from "@tanstack/react-start/server";
-import type { PostType } from "#/types/post.type";
+import type { ResponsePostType } from "#/types/post.type";
 import { Subscriber } from "./models/Subscriber";
 import { NewPostEmailHtml } from "#/emails/NewPostEmail";
 import { getSession } from "./authServerFunctions";
@@ -147,7 +147,7 @@ export const getPosts = createServerFn()
 
 export const getPost = createServerFn()
   .inputValidator((slug: string) => slug)
-  .handler(async ({ data: slug }): Promise<PostType> => {
+  .handler(async ({ data: slug }): Promise<ResponsePostType> => {
     await connectDB();
 
     const { user } = await getSession();
