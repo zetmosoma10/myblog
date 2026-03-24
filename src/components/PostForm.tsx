@@ -56,7 +56,7 @@ const PostForm = ({ type, post }: Props) => {
     defaultValues: {
       title: type === "Edit" ? post?.title : "",
       excerpt: type === "Edit" ? post?.excerpt : "",
-      tags: type === "Edit" ? post?.tags : [],
+      tags: type === "Edit" ? post?.tags.map((t) => t.name) : [],
       coverImage: type === "Edit" ? post?.coverImage : "",
       content: type === "Edit" ? post?.content : "",
       status: type === "Edit" ? post?.status! : "draft",
