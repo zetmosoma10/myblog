@@ -49,7 +49,7 @@ function RouteComponent() {
   const numberOfPages = _.range(1, (results?.totalPages ?? 1) + 1);
 
   return (
-    <div>
+    <div className="h-screen">
       <section className="max-container py-12 md:py-20">
         <div className="flex items-start justify-between">
           <div>
@@ -123,11 +123,17 @@ function RouteComponent() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
-          {results?.data?.map((post) => (
-            <PostCard key={post._id} {...post} />
-          ))}
-        </div>
+        {results?.totalDocuments! > 0 ? (
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
+            {results?.data?.map((post) => (
+              <PostCard key={post._id} {...post} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-xl text-foreground font-medium mt-4">
+            No Posts for a given filter
+          </p>
+        )}
 
         {/* PAGINATION */}
         {numberOfPages.length > 1 && (
