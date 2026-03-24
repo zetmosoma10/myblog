@@ -1,20 +1,20 @@
-import mongoose, { Document, Model, model, Schema } from "mongoose";
+import mongoose, { Document, Model, model, Schema, Types } from "mongoose";
 
-export interface PostDocument extends Document {
-  title: string;
-  slug: string;
-  excerpt: string;
-  tags: string[];
-  status?: "draft" | "published";
-  content: string;
-  readingTime: number;
-  coverImage?: string;
-  coverImagePublicId?: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+// export interface PostDocument extends Document {
+//   title: string;
+//   slug: string;
+//   excerpt: string;
+//   tags: string[];
+//   status?: "draft" | "published";
+//   content: string;
+//   readingTime: number;
+//   coverImage?: string;
+//   coverImagePublicId?: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+// }
 
-const postSchemaDocument = new Schema<PostDocument>(
+const postSchemaDocument = new Schema(
   {
     title: {
       type: String,
@@ -35,8 +35,8 @@ const postSchemaDocument = new Schema<PostDocument>(
       maxLength: [500, "Excerpt must be less than 500 characters"],
     },
     tags: {
-      type: [String],
-      required: true,
+      type: [Types.ObjectId],
+      ref: "Tag",
       default: [],
     },
     status: {
@@ -66,5 +66,4 @@ postSchemaDocument.index({ title: "text", content: "text" });
 // delete (mongoose.models as any).Post; // * Uncomment this in development when you add new field to the collection
 
 // * Check if the model already exist before creating it
-export const Post: Model<PostDocument> =
-  mongoose.models.Post || model<PostDocument>("Post", postSchemaDocument);
+export const Post = mongoose.models.Post || model("Post", postSchemaDocument);

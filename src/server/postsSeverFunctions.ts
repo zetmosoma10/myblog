@@ -20,6 +20,7 @@ import isObjectId from "#/lib/isObjectId.server";
 import uploadImage from "#/lib/uploadImage.server";
 import getWordCount from "#/utils/getWordCount";
 import resend from "#/lib/resend";
+import Tag from "./models/Tag";
 
 export const addPost = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
@@ -44,11 +45,16 @@ export const addPost = createServerFn({ method: "POST" })
         "myblog/posts",
       );
 
+      const [tagsIds] = await Promise.all(
+        data.tags.map((tag) => Tag.find({ name: tag })),
+      );
+      console.log(tagsIds);
+
       const post = await Post.create({
         title: data.title,
         slug: generateSlug(data.title),
         excerpt: data.excerpt,
-        tags: data.tags,
+        tags: tagsIds,
         content: data.content,
         status: data.status,
         readingTime: getWordCount(data.content),
