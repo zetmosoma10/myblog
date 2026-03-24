@@ -1,15 +1,11 @@
 TODO: markdown editor text are white in light mode
 TODO: Add Comments to the application
-TODO: Admin should be able to add Categories, to its collection
-TODO: Add shadow on navbar, footer and cards
 TODO: in production remove the "await" keyword when sending emails
-TODO: add search, filters
-TODO: add Pagination
+TODO: add search
 TODO: add mobile navbar
 TODO: Why create Post Form button dont show loading indicator when submitting error post 
 TODO: Fix Search problem
 TODO: Create sever Fn for latest posts and cache it
-TODO: Remove pagination is only have one page
 TODO: back button should also have search queires on posts page
 TODO: create Error handler function on Server, like Express Global error handler
 TODO: ADD Cache

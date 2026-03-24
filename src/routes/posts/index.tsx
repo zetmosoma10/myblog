@@ -14,6 +14,7 @@ import PaginationComponent from "#/components/PaginationComponent";
 import clsx from "clsx";
 import _ from "lodash";
 import useGetTags, { tagsQueryOptions } from "#/hooks/useGetTags";
+import SearchInput from "#/components/SearchInput";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
@@ -49,7 +50,7 @@ function RouteComponent() {
   const numberOfPages = _.range(1, (results?.totalPages ?? 1) + 1);
 
   return (
-    <div className="h-screen">
+    <div>
       <section className="max-container py-12 md:py-20">
         <div className="flex items-start justify-between">
           <div>
@@ -61,12 +62,7 @@ function RouteComponent() {
             </p>
 
             {/* Search Input */}
-            <InputGroup className="mt-6 py-5 mb-8 w-full md:w-[70%]  focus-within:border-primary! focus-within:ring-primary/50!">
-              <InputGroupInput placeholder="Search..." />
-              <InputGroupAddon align="inline-start">
-                <SearchIcon className="text-muted-foreground" />
-              </InputGroupAddon>
-            </InputGroup>
+            <SearchInput />
           </div>
 
           {user && (

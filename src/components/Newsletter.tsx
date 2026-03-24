@@ -46,8 +46,8 @@ const Newsletter = () => {
           </h2>
 
           <p className="text-muted-foreground mt-3">
-            Weekly articles on React, TypeScript, TanStack, and the modern web.
-            No spam just things I actually find useful and worth sharing.
+            Weekly articles on React, Next, TypeScript, TanStack, and the modern
+            web. No spam just things I actually find useful and worth sharing.
           </p>
 
           <form
