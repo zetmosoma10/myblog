@@ -15,6 +15,7 @@ import clsx from "clsx";
 import _ from "lodash";
 import useGetTags, { tagsQueryOptions } from "#/hooks/useGetTags";
 import SearchInput from "#/components/SearchInput";
+import type { ChangeEvent } from "react";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
@@ -47,7 +48,14 @@ function RouteComponent() {
   const { data: results } = useGetPosts(search);
   const { data: tags } = useGetTags();
 
-  const numberOfPages = _.range(1, (results?.totalPages ?? 1) + 1);
+  const numberOfPages = _.range(1, (results?.totalPages ?? 1) + 1); // * Use this variable to conditionally render pagination
+
+  const onSearch = (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
+    navigate({
+      to: "/posts",
+      search: (prev) => ({ ...prev, page: 1, search: event.target.value }),
+    });
+  };
 
   return (
     <div>
@@ -62,7 +70,7 @@ function RouteComponent() {
             </p>
 
             {/* Search Input */}
-            <SearchInput />
+            <SearchInput onChange={onSearch} />
           </div>
 
           {user && (
