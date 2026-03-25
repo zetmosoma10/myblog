@@ -27,7 +27,7 @@ function RouteComponent() {
   const { data: post } = useGetPost(slug);
 
   return (
-    <section className="max-container">
+    <section className="max-container min-h-screen">
       <article className="py-12 md:py-20">
         <BackLink>Back</BackLink>
 

@@ -57,7 +57,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <HeadContent />
       </head>
-      <body className="bg-background">
+      <body className="bg-background min-h-screen">
         <TanStackQueryProvider>
           <ThemeProvider defaultTheme="dark" storageKey="blog-theme">
             <Navbar />

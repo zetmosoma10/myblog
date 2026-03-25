@@ -10,3 +10,4 @@ TODO: back button should also have search queires on posts page
 TODO: create Error handler function on Server, like Express Global error handler
 TODO: ADD Cache
 TODO: add hight to full on all form pages
+TODO: Remeber to change Database URI from local to production

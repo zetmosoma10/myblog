@@ -59,7 +59,7 @@ function RouteComponent() {
 
   return (
     <div>
-      <section className="max-container py-12 md:py-20">
+      <section className="max-container py-12 md:py-20 min-h-screen">
         <div className="flex items-start justify-between">
           <div>
             <h2 className="text-3xl md:text-4xl font-extrabold mb-2 text-foreground">
