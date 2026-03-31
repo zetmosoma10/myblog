@@ -198,6 +198,20 @@ export const getPost = createServerFn()
     }
   });
 
+export const getLatestPosts = createServerFn().handler(async () => {
+  await connectDB();
+
+  try {
+    const posts = await Post.find({ status: "published" })
+      .populate("tags", "name")
+      .lean();
+
+    return JSON.parse(JSON.stringify(posts));
+  } catch (error: any) {
+    throw new Error(error);
+  }
+});
+
 export const deletePost = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
   .inputValidator((id: string) => isObjectId(id))
