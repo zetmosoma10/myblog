@@ -3,7 +3,7 @@ import { useQuery, queryOptions } from "@tanstack/react-query";
 
 // * We use queryOption to reuse it in loader function when ensuring that the already exist in the react-query cached or not. We also reuse it useQuery itself for fetching the data
 
-export const postsQueryOptions = () =>
+export const latestPostsQueryOptions = () =>
   queryOptions({
     queryKey: ["latest-posts"],
     queryFn: () => getLatestPosts(),
@@ -11,7 +11,7 @@ export const postsQueryOptions = () =>
   });
 
 const useGetLatestPosts = () => {
-  return useQuery(postsQueryOptions());
+  return useQuery(latestPostsQueryOptions());
 };
 
 export default useGetLatestPosts;
