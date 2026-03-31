@@ -1,13 +1,10 @@
 TODO: markdown editor text are white in light mode
 TODO: Add Comments to the application
 TODO: in production remove the "await" keyword when sending emails
-TODO: add search
-TODO: add mobile navbar
 TODO: Why create Post Form button dont show loading indicator when submitting error post 
-TODO: Fix Search problem
+TODO: add debouce on Search 
 TODO: Create sever Fn for latest posts and cache it
 TODO: back button should also have search queires on posts page
 TODO: create Error handler function on Server, like Express Global error handler
 TODO: ADD Cache
-TODO: add hight to full on all form pages
 TODO: Remeber to change Database URI from local to production
