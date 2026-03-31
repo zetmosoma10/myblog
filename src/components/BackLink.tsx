@@ -1,17 +1,22 @@
-import { Link } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
+import { Button } from "./ui/button";
 
 const BackLink = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
+
   return (
     <div className="mb-6">
-      <Link
-        to=".."
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-10"
+      <Button
+        variant="outline"
+        size="lg"
+        onClick={() => router.history.back()}
+        className="cursor-pointer"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
         {children}
-      </Link>
+      </Button>
     </div>
   );
 };
