@@ -6,7 +6,7 @@ import { emailOTP } from "better-auth/plugins";
 import resend from "#/lib/resend";
 import { ForgotPasswordEmailHtml } from "#/emails/ForgotPasswordTemplate";
 
-const client = new MongoClient(process.env.LOCAL_DATABASE_URI!);
+const client = new MongoClient(process.env.DATABASE_URI!);
 const db = client.db();
 
 export const auth = betterAuth({

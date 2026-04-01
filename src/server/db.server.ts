@@ -1,9 +1,9 @@
 // app/server/db.ts
 import mongoose from "mongoose";
 
-const LOCAL_DATABASE_URI = process.env.LOCAL_DATABASE_URI as string;
+const DATABASE_URI = process.env.DATABASE_URI as string;
 
-if (!LOCAL_DATABASE_URI) {
+if (!DATABASE_URI) {
   throw new Error("MONGODB_URI is not defined in .env");
 }
 
@@ -27,7 +27,7 @@ export async function connectDB() {
   // * Connection in progress — wait for it
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(LOCAL_DATABASE_URI, {
+      .connect(DATABASE_URI, {
         bufferCommands: false,
       })
       .then((m) => m.connection);
