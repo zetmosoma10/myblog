@@ -116,12 +116,13 @@ function RouteComponent() {
           {/* Clear filter button */}
           {(search.search || search.tags) && (
             <Button
-              onClick={() =>
+              onClick={() => {
+                setInput("");
                 navigate({
                   to: "/posts",
                   search: () => ({ page: 1 }),
-                })
-              }
+                });
+              }}
               className={clsx(
                 "cursor-pointer bg-destructive/10 border border-destructive/50 text-destructive hover:text-destructive hover:bg-destructive/20 capitalize",
                 search.tags === "" &&
