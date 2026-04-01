@@ -1,4 +1,0 @@
-TODO: Add Comments to the application
-TODO: create Error handler function on Server, like Express Global error handler
-TODO: Remeber to change Database URI from local to production
-TODO: Add loading skeleton 
