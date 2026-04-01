@@ -1,4 +1,3 @@
-TODO: markdown editor text are white in light mode
 TODO: Add Comments to the application
 TODO: in production remove the "await" keyword when sending emails
 TODO: Why create Post Form button dont show loading indicator when submitting error post 

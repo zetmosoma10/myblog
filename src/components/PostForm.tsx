@@ -67,18 +67,21 @@ const PostForm = ({ type, post }: Props) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const anchor = useComboboxAnchor();
-  const { mutateAsync: addMutationAsync, isPending } = useAddPost();
-  const { mutateAsync: updateMutateAsync, isPending: isUpdatePending } =
+  const { mutateAsync: addMutationAsync, isPending: isAddingPost } =
+    useAddPost();
+  const { mutateAsync: updateMutateAsync, isPending: isUpdatingPost } =
     useUpdatePost();
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const { data: tags } = useGetTags();
   const tagsNames = tags?.map((t) => t.name);
   const { theme } = useTheme();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const onSubmit = async (data: CreatePostType) => {
     let imageBase64: string | undefined;
 
     try {
+      setIsProcessing(true);
       // * If Image Exist Compress it
       if (uploadedImage) {
         const compressedImage = await imageCompression(uploadedImage, {
@@ -115,6 +118,8 @@ const PostForm = ({ type, post }: Props) => {
     } catch (error: any) {
       console.log(error);
       toast.error(error.message);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -285,10 +290,14 @@ const PostForm = ({ type, post }: Props) => {
         <Button
           variant="default"
           size="lg"
-          disabled={isPending || isUpdatePending}
+          disabled={isProcessing || isAddingPost || isUpdatingPost}
           className="py-4 self-start cursor-pointer hover:bg-primary/90 w-30"
         >
-          {isPending || isUpdatePending ? <Spinner /> : "Submit"}
+          {isProcessing || isAddingPost || isUpdatingPost ? (
+            <Spinner />
+          ) : (
+            "Submit"
+          )}
         </Button>
       </form>
     </Card>
