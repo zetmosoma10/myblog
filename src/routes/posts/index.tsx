@@ -1,12 +1,6 @@
 import PostCard from "#/components/PostCard";
 import useGetPosts, { postsQueryOptions } from "#/hooks/useGetPosts";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "#/components/ui/input-group";
-import { SearchIcon } from "lucide-react";
 import { Button } from "#/components/ui/button";
 import { getSession } from "#/server/authServerFunctions";
 import { postSearchQuerySchema } from "#/schemas/post.schema";
@@ -15,7 +9,8 @@ import clsx from "clsx";
 import _ from "lodash";
 import useGetTags, { tagsQueryOptions } from "#/hooks/useGetTags";
 import SearchInput from "#/components/SearchInput";
-import type { ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
+import { useDebounce } from "use-debounce";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
@@ -45,16 +40,26 @@ function RouteComponent() {
   const navigate = Route.useNavigate();
   const { user } = Route.useLoaderData();
   const search = Route.useSearch();
-  const { data: results } = useGetPosts(search);
+  const [input, setInput] = useState(search.search ?? "");
+  const [debouncedValue] = useDebounce(input ?? "", 350);
+  const { data: results } = useGetPosts({ ...search, search: debouncedValue });
   const { data: tags } = useGetTags();
+
+  useEffect(() => {
+    navigate({
+      to: "/posts",
+      search: (prev) => ({
+        ...prev,
+        page: 1,
+        search: debouncedValue,
+      }),
+    });
+  }, [debouncedValue]);
 
   const numberOfPages = _.range(1, (results?.totalPages ?? 1) + 1); // * Use this variable to conditionally render pagination
 
   const onSearch = (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
-    navigate({
-      to: "/posts",
-      search: (prev) => ({ ...prev, page: 1, search: event.target.value }),
-    });
+    setInput(event.target.value);
   };
 
   return (
@@ -70,7 +75,7 @@ function RouteComponent() {
             </p>
 
             {/* Search Input */}
-            <SearchInput onChange={onSearch} />
+            <SearchInput input={input} onChange={onSearch} />
           </div>
 
           {user && (
