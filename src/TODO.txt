@@ -1,7 +1,4 @@
 TODO: Add Comments to the application
-TODO: in production remove the "await" keyword when sending emails
-TODO: Why create Post Form button dont show loading indicator when submitting error post 
 TODO: create Error handler function on Server, like Express Global error handler
-TODO: ADD Cache
 TODO: Remeber to change Database URI from local to production
 TODO: Add loading skeleton 
