@@ -81,7 +81,9 @@ function RouteComponent() {
           {user && (
             <div className="grid gap-2">
               <Button asChild size="lg">
-                <Link to="/posts/new">New Post</Link>
+                <Link to="/posts/new" preload={false}>
+                  New Post
+                </Link>
               </Button>
               <Button asChild variant="secondary" size="lg">
                 <Link to="/tags">Add Tag</Link>

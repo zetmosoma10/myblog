@@ -37,6 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useGetTags from "#/hooks/useGetTags";
+import { useTheme } from "#/context/ThemeProvider";
 
 type Props = {
   type: "Edit" | "Post";
@@ -72,6 +73,7 @@ const PostForm = ({ type, post }: Props) => {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const { data: tags } = useGetTags();
   const tagsNames = tags?.map((t) => t.name);
+  const { theme } = useTheme();
 
   const onSubmit = async (data: CreatePostType) => {
     let imageBase64: string | undefined;
@@ -257,16 +259,19 @@ const PostForm = ({ type, post }: Props) => {
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <SimpleMDE
-                value={field.value}
-                onChange={field.onChange}
-                height={400}
-                textareaProps={{
-                  id: "content",
-                  placeholder: "Write your post...",
-                  className: "bg-card h-full",
-                }}
-              />
+              <div className="rounded-2xl overflow-hidden border shadow-md">
+                <SimpleMDE
+                  value={field.value}
+                  onChange={field.onChange}
+                  height={400}
+                  data-color-mode={theme === "light" ? "light" : "dark"}
+                  textareaProps={{
+                    id: "content",
+                    placeholder: "Write your post...",
+                    className: "bg-card h-full",
+                  }}
+                />
+              </div>
             )}
           />
 
