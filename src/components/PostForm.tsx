@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { postSchema } from "#/schemas/post.schema";
@@ -27,7 +27,6 @@ import ImageUpload from "./ImageUpload";
 import imageCompression from "browser-image-compression";
 import clsx from "clsx";
 import toast from "react-hot-toast";
-import SimpleMDE from "@uiw/react-md-editor";
 import { useNavigate } from "@tanstack/react-router";
 import {
   Select,
@@ -38,6 +37,8 @@ import {
 } from "@/components/ui/select";
 import useGetTags from "#/hooks/useGetTags";
 import { useTheme } from "#/context/ThemeProvider";
+
+const SimpleMDE = lazy(() => import("@uiw/react-md-editor"));
 
 type Props = {
   type: "Edit" | "Post";
@@ -264,19 +265,21 @@ const PostForm = ({ type, post }: Props) => {
             control={control}
             defaultValue=""
             render={({ field }) => (
-              <div className="rounded-2xl overflow-hidden border shadow-md">
-                <SimpleMDE
-                  value={field.value}
-                  onChange={field.onChange}
-                  height={400}
-                  data-color-mode={theme === "light" ? "light" : "dark"}
-                  textareaProps={{
-                    id: "content",
-                    placeholder: "Write your post...",
-                    className: "bg-card h-full",
-                  }}
-                />
-              </div>
+              <Suspense fallback={<p>Editor loading...</p>}>
+                <div className="rounded-2xl overflow-hidden border shadow-md">
+                  <SimpleMDE
+                    value={field.value}
+                    onChange={field.onChange}
+                    height={400}
+                    data-color-mode={theme === "light" ? "light" : "dark"}
+                    textareaProps={{
+                      id: "content",
+                      placeholder: "Write your post...",
+                      className: "bg-card h-full",
+                    }}
+                  />
+                </div>
+              </Suspense>
             )}
           />
 
