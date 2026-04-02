@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import BackLink from "#/components/BackLink";
 import PostModal from "#/components/PostModal";
 import { getSession } from "#/server/authServerFunctions";
+import { Button } from "#/components/ui/button";
 
 export const Route = createFileRoute("/posts/$slug")({
   component: RouteComponent,
@@ -69,15 +70,15 @@ function RouteComponent() {
             {user && (
               <div className="flex md:flex-col gap-3">
                 <PostModal post={post} />
-                {/* <Button size="lg" className="cursor-pointer md:w-30"> */}
-                <Link
-                  to="/posts/$slug/edit"
-                  params={{ slug: post?.slug! }}
-                  className="w-full bg-primary text-primary-foreground py-1 rounded-md text-base text-center no-underline hover:bg-primary/90 focus:outline-0 focus:ring-2 focus:ring-primary/50"
-                >
-                  Edit
-                </Link>
-                {/* </Button> */}
+                <Button asChild size="lg" className="cursor-pointer">
+                  <Link
+                    to="/posts/$slug/edit"
+                    params={{ slug: post?.slug! }}
+                    className="no-underline"
+                  >
+                    Edit
+                  </Link>
+                </Button>
               </div>
             )}
           </header>
