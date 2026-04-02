@@ -255,12 +255,17 @@ export const updatePost = createServerFn({ method: "POST" })
         "myblog/posts",
       );
 
+      // * Get tags Ids from Tag collection to save them on post collection
+      const tags = await Tag.find({ name: { $in: post.tags } });
+      const tagsIds = tags.map((t) => t.id);
+
       const updatedPost = await Post.findByIdAndUpdate(
         post?._id,
         {
           ...post,
           coverImage,
           coverImagePublicId,
+          tags: tagsIds,
           readingTime: getWordCount(post?.content),
         },
         {
