@@ -23,7 +23,7 @@ export const auth = betterAuth({
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
         if (type === "forget-password") {
-          resend.emails.send({
+          await resend.emails.send({
             from: process.env.EMAIL_FROM!,
             to: email,
             subject: "Reset your password",
