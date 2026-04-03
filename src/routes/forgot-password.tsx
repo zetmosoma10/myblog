@@ -14,6 +14,7 @@ import {
   resetPasswordSchema,
 } from "#/schemas/auth.schema";
 import { getSession } from "#/server/authServerFunctions";
+import { Spinner } from "#/components/ui/spinner";
 
 export const Route = createFileRoute("/forgot-password")({
   beforeLoad: async () => {
@@ -162,15 +163,16 @@ function RouteComponent() {
               <Button
                 type="submit"
                 size="lg"
-                // disabled={isPending}
+                disabled={resetMutation.isPending}
                 className="w-full cursor-pointer hover:bg-primary/90"
               >
-                Reset password
+                {resetMutation.isPending ? <Spinner /> : "Reset password"}
               </Button>
 
               {/* Back Button */}
               <div className="flex items-center justify-center">
                 <button
+                  disabled={resetMutation.isPending}
                   onClick={() => setStep("email")}
                   className="flex items-center gap-2 cursor-pointer text-center text-muted-foreground hover:text-primary"
                 >
