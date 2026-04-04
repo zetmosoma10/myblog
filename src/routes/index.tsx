@@ -12,6 +12,27 @@ export const Route = createFileRoute("/")({
     await queryClient.ensureQueryData(latestPostsQueryOptions());
   },
   staleTime: 1000 * 60 * 10,
+
+  head: () => ({
+    meta: [
+      { title: "DeveloperBlog — Web Dev Articles" },
+      {
+        name: "description",
+        content:
+          "Weekly articles on React, TypeScript, TanStack and the modern web.",
+      },
+      { property: "og:title", content: "DeveloperBlog — Web Dev Articles" },
+      {
+        property: "og:description",
+        content:
+          "Weekly articles on React, TypeScript, TanStack and the modern web.",
+      },
+      {
+        property: "og:url",
+        content: "https://zet-blog.netlify.app/",
+      },
+    ],
+  }),
 });
 
 function App() {

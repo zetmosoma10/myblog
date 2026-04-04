@@ -15,10 +15,8 @@ import { useDebounce } from "use-debounce";
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
   validateSearch: postSearchQuerySchema,
-
   // * Re-run loader when search params change
   loaderDeps: ({ search: { page, tags, search } }) => ({ page, tags, search }),
-
   loader: async ({ context: { queryClient }, deps }) => {
     const { user } = await getSession();
 
@@ -34,6 +32,18 @@ export const Route = createFileRoute("/posts/")({
 
     return { user };
   },
+
+  head: () => ({
+    meta: [
+      { title: "DeveloperBlog — articles" },
+      { name: "description", content: "All articles about web development." },
+      { property: "og:title", content: "DeveloperBlog — articles" },
+      {
+        property: "og:url",
+        content: "https://zet-blog.netlify.app",
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {

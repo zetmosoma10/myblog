@@ -16,10 +16,48 @@ export const Route = createFileRoute("/posts/$slug")({
   component: RouteComponent,
   loader: async ({ context, params: { slug } }) => {
     const { user } = await getSession();
-    await context.queryClient.ensureQueryData(postQueryOptions(slug));
+    const post = await context.queryClient.ensureQueryData(
+      postQueryOptions(slug),
+    );
 
-    return { user };
+    return { user, post };
   },
+
+  head: ({ loaderData }) => ({
+    title: `${loaderData?.post?.title} — DeveloperBlog`,
+
+    meta: [
+      { name: "description", content: loaderData?.post?.excerpt },
+
+      // * Open Graph
+      { property: "og:title", content: loaderData?.post?.title },
+      { property: "og:description", content: loaderData?.post?.excerpt },
+      { property: "og:type", content: "article" },
+      {
+        property: "og:url",
+        content: `https://zet-blog.netlify.app/${loaderData?.post?.slug}`,
+      },
+      {
+        property: "og:image",
+        content: loaderData?.post?.coverImage ?? "",
+      },
+
+      // * Twitter
+      { name: "twitter:title", content: loaderData?.post?.title },
+      { name: "twitter:description", content: loaderData?.post?.excerpt },
+      {
+        name: "twitter:image",
+        content: loaderData?.post?.coverImage ?? "",
+      },
+
+      // * Article specific
+      {
+        property: "article:published_time",
+        content: loaderData?.post?.createdAt.toString(),
+      },
+      { property: "article:tag", content: loaderData?.post?.tags?.join(", ") },
+    ],
+  }),
 });
 
 function RouteComponent() {

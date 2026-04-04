@@ -38,6 +38,15 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       {
         title: "Web Developer Blog - Tips, Tutorials, and Insights",
       },
+      {
+        name: "description",
+        content:
+          "A blog about web development, React, TypeScript and the modern web.",
+      },
+      { property: "og:site_name", content: "DeveloperBlog" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@zetmosoma10" },
     ],
     links: [
       {
