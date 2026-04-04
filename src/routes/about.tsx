@@ -50,14 +50,6 @@ function RouteComponent() {
                   <contact.icon className="h-5.5 w-5.5" />
                 </a>
               ))}
-              <a
-                href="/resume.pdf"
-                download
-                className="ml-2 inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
-              >
-                <Download className="h-3.5 w-3.5" />
-                Resume
-              </a>
             </div>
           </div>
         </section>
