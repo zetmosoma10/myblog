@@ -17,8 +17,12 @@ const config = defineConfig({
       prerender: {
         enabled: true,
         crawlLinks: false,
+        filter: ({ path }) => {
+          const allowedPages = ["/", "/about"];
+
+          return allowedPages.includes(path);
+        },
       },
-      pages: [{ path: "/" }, { path: "/about" }],
     }),
     viteReact(),
   ],
