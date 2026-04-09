@@ -1,12 +1,23 @@
 import { Badge } from "#/components/ui/badge";
 import { createFileRoute } from "@tanstack/react-router";
-import { Code2, Download, ExternalLink, Github, MapPin } from "lucide-react";
+import { Code2, ExternalLink, Github, MapPin } from "lucide-react";
 import img from "#/assets/IMG_2622.jpg";
 import { skills, projects, contacts } from "#/constance";
 import BackLink from "#/components/BackLink";
 
 export const Route = createFileRoute("/about")({
   component: RouteComponent,
+
+  head: () => ({
+    meta: [
+      { title: "DeveloperBlog - About" },
+      {
+        name: "description",
+        content:
+          "All the personal information about Zet Mosoma and all social links and personal projects.",
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {
