@@ -93,13 +93,6 @@ function RouteComponent() {
             {isPending ? <Spinner /> : "Sign In"}
           </Button>
         </form>
-
-        <p className="text-foreground text-center mt-5">
-          Don't have account?{" "}
-          <Link to="/register" className="text-primary hover:underline">
-            Sign up
-          </Link>{" "}
-        </p>
       </div>
     </div>
   );
