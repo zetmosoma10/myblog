@@ -72,11 +72,9 @@ const Newsletter = () => {
             </Button>
           </form>
 
-          <div className="text-xs text-primary/80 flex items-center gap-2 mt-2">
-            <p>weekly posts - </p>
-            <p>no spam - </p>
-            <p>unsubscribe anytime</p>
-          </div>
+          <p className="text-xs text-center text-primary/80 flex items-center gap-2 mt-2">
+            unsubscribe anytime
+          </p>
         </div>
       </Card>
     </section>

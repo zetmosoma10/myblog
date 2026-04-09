@@ -111,6 +111,7 @@ function RouteComponent() {
         <div className="flex items-center pt-4 mb-8 gap-4 flex-wrap">
           {tags?.map((tag) => (
             <Button
+              size="sm"
               key={tag.name}
               onClick={() =>
                 navigate({
@@ -131,6 +132,7 @@ function RouteComponent() {
           {/* Clear filter button */}
           {(search.search || search.tags) && (
             <Button
+              size="sm"
               onClick={() => {
                 setInput("");
                 navigate({

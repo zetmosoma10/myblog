@@ -25,7 +25,7 @@ function RouteComponent() {
     <section className="max-container">
       <main className="container py-12 md:py-20">
         {/* Back link */}
-        <BackLink>Home</BackLink>
+        <BackLink>Back</BackLink>
 
         {/* Bio Section */}
         <section className="flex flex-col sm:flex-row gap-8 items-start mb-16">
