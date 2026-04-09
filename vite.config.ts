@@ -13,7 +13,13 @@ const config = defineConfig({
     netlify(),
     tsconfigPaths({ projects: ["./tsconfig.json"] }),
     tailwindcss(),
-    tanstackStart(),
+    tanstackStart({
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+      },
+      pages: [{ path: "/" }, { path: "/about" }],
+    }),
     viteReact(),
   ],
 });
