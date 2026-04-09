@@ -11,6 +11,7 @@ import useGetTags, { tagsQueryOptions } from "#/hooks/useGetTags";
 import SearchInput from "#/components/SearchInput";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { useDebounce } from "use-debounce";
+import CardSkeleton from "#/components/CardSkeleton";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
@@ -151,7 +152,11 @@ function RouteComponent() {
         {/* Cards */}
 
         {isPending ? (
-          <p>Loading Posts...</p>
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <CardSkeleton key={i} />
+            ))}
+          </div>
         ) : results?.totalDocuments! > 0 ? (
           <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
             {results?.data?.map((post) => (
