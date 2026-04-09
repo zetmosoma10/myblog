@@ -14,7 +14,7 @@ const useDeletePost = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       toast.success("Post deleted successfully.");
-      navigate({ to: "/posts", replace: true });
+      navigate({ to: "/posts", search: { page: 1 }, replace: true });
     },
     onError: (error) => {
       if (isNotFound(error)) {
