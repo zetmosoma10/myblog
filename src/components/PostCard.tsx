@@ -28,6 +28,7 @@ const PostCard = ({
     <Link
       to="/posts/$slug"
       params={{ slug: slug as string }}
+      preload={false}
       className="block focus:outline-0 focus:scale-105"
     >
       <Card className="group justify-between overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg pt-0 h-full">
