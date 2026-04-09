@@ -10,7 +10,7 @@ const BackLink = ({ children }: { children: ReactNode }) => {
     <div className="mb-6">
       <Button
         variant="outline"
-        size="lg"
+        size="sm"
         onClick={() => router.history.back()}
         className="cursor-pointer"
       >

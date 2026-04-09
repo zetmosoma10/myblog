@@ -5,14 +5,13 @@ import Newsletter from "#/components/Newsletter";
 import useGetLatestPosts, {
   latestPostsQueryOptions,
 } from "#/hooks/useGetLatestPosts";
+import CardSkeleton from "#/components/CardSkeleton";
 
 export const Route = createFileRoute("/")({
   component: App,
   loader: async ({ context: { queryClient } }) => {
-    await queryClient.ensureQueryData(latestPostsQueryOptions());
+    queryClient.prefetchQuery(latestPostsQueryOptions());
   },
-  staleTime: 1000 * 60 * 10,
-
   head: () => ({
     meta: [
       { title: "DeveloperBlog — Web Dev Articles" },
@@ -36,7 +35,7 @@ export const Route = createFileRoute("/")({
 });
 
 function App() {
-  const { data: posts } = useGetLatestPosts();
+  const { data: posts, isPending } = useGetLatestPosts();
 
   return (
     <main className="bg-background">
@@ -46,9 +45,11 @@ function App() {
         <div className="space-y-12">
           <h2 className="text-foreground text-3xl md:text-4xl mb-7">Latest</h2>
           <section className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
-            {posts?.map((post) => (
-              <PostCard key={post._id} {...post} />
-            ))}
+            {isPending
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <CardSkeleton key={i} />
+                ))
+              : posts?.map((post) => <PostCard key={post._id} {...post} />)}
           </section>
           <Newsletter />
         </div>
