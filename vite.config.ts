@@ -18,7 +18,7 @@ const config = defineConfig({
         enabled: true,
         crawlLinks: false,
         filter: ({ path }) => {
-          const allowedPages = ["/", "/about"];
+          const allowedPages = ["/about"];
 
           return allowedPages.includes(path);
         },

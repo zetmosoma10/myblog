@@ -4,13 +4,10 @@ import type { auth } from "#/lib/auth";
 export type AuthSession = typeof auth.$Infer.Session;
 export type AuthUser = typeof auth.$Infer.Session.user;
 
-export type RegisterCredentials = {
-  name: string;
+export type LoginCredentials = {
   email: string;
   password: string;
 };
-
-export type LoginCredentials = Pick<RegisterCredentials, "email" | "password">;
 export type ResetPasswordCredentials = {
   otp: string;
   newPassword: string;
