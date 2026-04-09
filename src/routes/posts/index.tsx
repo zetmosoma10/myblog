@@ -14,15 +14,16 @@ import { useDebounce } from "use-debounce";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
+
   validateSearch: postSearchQuerySchema,
   // * Re-run loader when search params change
   loaderDeps: ({ search: { page, tags, search } }) => ({ page, tags, search }),
   loader: async ({ context: { queryClient }, deps }) => {
     const { user } = await getSession();
 
-    await queryClient.ensureQueryData(tagsQueryOptions);
+    queryClient.prefetchQuery(tagsQueryOptions);
 
-    await queryClient.ensureQueryData(
+    queryClient.prefetchQuery(
       postsQueryOptions({
         page: deps.page,
         tags: deps.tags,
@@ -52,7 +53,10 @@ function RouteComponent() {
   const search = Route.useSearch();
   const [input, setInput] = useState(search.search ?? "");
   const [debouncedValue] = useDebounce(input ?? "", 350);
-  const { data: results } = useGetPosts({ ...search, search: debouncedValue });
+  const { data: results, isPending } = useGetPosts({
+    ...search,
+    search: debouncedValue,
+  });
   const { data: tags } = useGetTags();
 
   useEffect(() => {
@@ -145,7 +149,10 @@ function RouteComponent() {
         </div>
 
         {/* Cards */}
-        {results?.totalDocuments! > 0 ? (
+
+        {isPending ? (
+          <p>Loading Posts...</p>
+        ) : results?.totalDocuments! > 0 ? (
           <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-7">
             {results?.data?.map((post) => (
               <PostCard key={post._id} {...post} />
