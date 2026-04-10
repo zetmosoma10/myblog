@@ -21,7 +21,7 @@ const PostModal = ({ post }: { post?: ResponsePostType }) => {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button
           variant="destructive"
           size="lg"
