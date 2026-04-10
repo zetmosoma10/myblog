@@ -3,40 +3,23 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Calendar, Clock4 } from "lucide-react";
 import dayjs from "dayjs";
+import type { ResponsePostType } from "#/types/post.type";
 
-type Props = {
-  title: string;
-  slug?: string;
-  excerpt: string;
-  tags: { _id: string; name: string }[];
-  coverImage?: string;
-  createdAt: Date;
-  readingTime: number;
-};
-
-const PostCard = ({
-  title,
-  slug,
-  coverImage,
-  excerpt,
-  tags,
-  createdAt,
-  readingTime,
-}: Props) => {
+const PostCard = (props: ResponsePostType) => {
   //
   return (
     <Link
       to="/posts/$slug"
-      params={{ slug: slug as string }}
+      params={{ slug: props.slug! }}
       preload={false}
       className="block focus:outline-0 focus:scale-105"
     >
       <Card className="group justify-between overflow-hidden border-border bg-card transition-all duration-200  hover:shadow-lg pt-0 h-full">
         {/* Cover image */}
-        {coverImage ? (
+        {props.coverImage ? (
           <img
-            src={coverImage}
-            alt={title}
+            src={props.coverImage}
+            alt={props.title}
             className="h-45 w-full border-b border-border object-cover group-hover:scale-105 transition-all duration-300"
           />
         ) : (
@@ -47,26 +30,28 @@ const PostCard = ({
 
         <CardContent>
           {/* Tags */}
-          <div className="mb-3 flex flex-wrap gap-1.5">
-            {tags.map((tag) => (
-              <Badge
-                key={tag._id}
-                variant="outline"
-                className="border-primary/20 bg-primary/10 text-[10px] tracking-wide text-primary"
-              >
-                {tag.name}
-              </Badge>
-            ))}
+          <div className="flex items-center justify-between">
+            <div className="mb-3 flex flex-wrap gap-1.5">
+              {props.tags.map((tag) => (
+                <Badge
+                  key={tag._id}
+                  variant="outline"
+                  className="border-primary/20 bg-primary/10 text-[10px] tracking-wide text-primary"
+                >
+                  {tag.name}
+                </Badge>
+              ))}
+            </div>
           </div>
 
           {/* Title */}
           <h2 className="mb-2 text-lg font-semibold leading-snug tracking-tight text-card-foreground transition-colors group-hover:text-primary">
-            {title}
+            {props.title}
           </h2>
 
           {/* Excerpt */}
           <p className="text-sm leading-relaxed text-muted-foreground line-clamp-2">
-            {excerpt}
+            {props.excerpt}
           </p>
         </CardContent>
 
@@ -74,11 +59,11 @@ const PostCard = ({
         <CardFooter className="flex items-center justify-between border-t border-border px-5 py-3 gap-5 text-xs text-muted-foreground">
           <div className="flex items-center gap-x-1">
             <Calendar size={13} />
-            <span>{dayjs(createdAt).format("MMM D, YYYY")}</span>
+            <span>{dayjs(props.createdAt).format("MMM D, YYYY")}</span>
           </div>
           <div className="flex items-center gap-x-1">
             <Clock4 size={13} />
-            <span>{readingTime} min read</span>
+            <span>{props.readingTime} min read</span>
           </div>
         </CardFooter>
       </Card>
