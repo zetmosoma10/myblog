@@ -11,7 +11,7 @@ import useGetTags, { tagsQueryOptions } from "#/hooks/useGetTags";
 import SearchInput from "#/components/SearchInput";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { useDebounce } from "use-debounce";
-import CardSkeleton from "#/components/CardSkeleton";
+import CardSkeleton from "#/components/skeletons/CardSkeleton";
 
 export const Route = createFileRoute("/posts/")({
   component: RouteComponent,
