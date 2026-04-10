@@ -1,7 +1,12 @@
 // app/server/db.ts
 import mongoose from "mongoose";
 
-const DATABASE_URI = process.env.DATABASE_URI as string;
+const dbUri =
+  process.env.NODE_ENV === "development"
+    ? process.env.LOCAL_DATABASE_URI
+    : process.env.DATABASE_URI;
+
+const DATABASE_URI = dbUri as string;
 
 if (!DATABASE_URI) {
   throw new Error("MONGODB_URI is not defined in .env");
