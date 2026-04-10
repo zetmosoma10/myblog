@@ -5,7 +5,7 @@ import Newsletter from "#/components/Newsletter";
 import useGetLatestPosts, {
   latestPostsQueryOptions,
 } from "#/hooks/useGetLatestPosts";
-import CardSkeleton from "#/components/skeletons/CardSkeleton";
+import CardSkeleton from "#/components/CardSkeleton";
 
 export const Route = createFileRoute("/")({
   component: App,
