@@ -18,6 +18,8 @@ import Footer from "#/components/layouts/Footer";
 import { Toaster } from "react-hot-toast";
 import NotFound from "#/components/NotFound";
 import ThemeProvider from "#/context/ThemeProvider";
+import "nprogress/nprogress.css";
+import TopLoader from "#/components/TopLoader";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -70,6 +72,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <TanStackQueryProvider>
           <ThemeProvider defaultTheme="dark" storageKey="blog-theme">
             <Navbar />
+            <TopLoader />
             <Toaster />
             <div>{children}</div>
             <Footer />
