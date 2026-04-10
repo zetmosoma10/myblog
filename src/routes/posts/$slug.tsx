@@ -101,6 +101,7 @@ function RouteComponent() {
                   <Clock4 size={13} />
                   <span>{post?.readingTime} min read</span>
                 </div>
+                <Badge variant="secondary">{post?.status}</Badge>
               </div>
             </div>
 

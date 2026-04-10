@@ -30,8 +30,8 @@ const PostCard = (props: ResponsePostType) => {
 
         <CardContent>
           {/* Tags */}
-          <div className="flex items-center justify-between">
-            <div className="mb-3 flex flex-wrap gap-1.5">
+          <div className="mb-3 flex items-center justify-between">
+            <div className=" flex flex-wrap gap-1.5">
               {props.tags.map((tag) => (
                 <Badge
                   key={tag._id}
@@ -42,6 +42,9 @@ const PostCard = (props: ResponsePostType) => {
                 </Badge>
               ))}
             </div>
+            {props.status === "draft" && (
+              <Badge variant="outline">{props.status}</Badge>
+            )}
           </div>
 
           {/* Title */}
